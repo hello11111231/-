@@ -1,0 +1,1037 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.stat.mapper.StatVehicleMapper">
+    <resultMap id="BaseResultMap" type="com.transnova.foundation.stat.model.StatVehicle">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="vehicleId" jdbcType="BIGINT" property="vehicleId"/>
+        <result column="companyId" jdbcType="BIGINT" property="companyId"/>
+        <result column="driveMileages" jdbcType="INTEGER" property="driveMileages"/>
+        <result column="completeMileages" jdbcType="INTEGER" property="completeMileages"/>
+        <result column="eventCount" jdbcType="INTEGER" property="eventCount"/>
+        <result column="driveTime" jdbcType="INTEGER" property="driveTime"/>
+        <result column="highRiskEventCount" jdbcType="INTEGER" property="highRiskEventCount"/>
+        <result column="mediumRiskEventCount" jdbcType="INTEGER" property="mediumRiskEventCount"/>
+        <result column="lowRiskEventCount" jdbcType="INTEGER" property="lowRiskEventCount"/>
+
+        <result column="highRiskEventDuration" jdbcType="INTEGER" property="highRiskEventDuration"/>
+        <result column="mediumRiskEventDuration" jdbcType="INTEGER" property="mediumRiskEventDuration"/>
+        <result column="lowRiskEventDuration" jdbcType="INTEGER" property="lowRiskEventDuration"/>
+
+        <result column="overspeedCount" jdbcType="INTEGER" property="overspeedCount"/>
+        <result column="vhitchCount" jdbcType="INTEGER" property="vhitchCount"/>
+        <result column="dhitchCount" jdbcType="INTEGER" property="dhitchCount"/>
+        <result column="analyzeDate" jdbcType="INTEGER" property="analyzeDate"/>
+        <result column="startTime" jdbcType="BIGINT" property="startTime" />
+        <result column="startLongitude" jdbcType="DOUBLE" property="startLongitude" />
+        <result column="startLatitude" jdbcType="DOUBLE" property="startLatitude" />
+        <result column="endTime" jdbcType="BIGINT" property="endTime" />
+        <result column="endLongitude" jdbcType="DOUBLE" property="endLongitude" />
+        <result column="endLatitude" jdbcType="DOUBLE" property="endLatitude" />
+
+    </resultMap>
+    <resultMap id="VehicleWorkStatMap" type="com.transnova.foundation.stat.model.VehicleWorkStat">
+        <result column="vehicleId" jdbcType="BIGINT" property="vehicleId"/>
+        <result column="days" jdbcType="INTEGER" property="days"/>
+    </resultMap>
+    <resultMap id="statVehicleCustom" type="com.transnova.foundation.stat.model.StatVehicleCustom">
+        <result column="vehicleId" jdbcType="BIGINT" property="vehicleId"/>
+        <result column="vin" jdbcType="VARCHAR" property="vin"/>
+        <result column="currDriver" jdbcType="VARCHAR" property="currDriver"/>
+        <result column="riskLevel" jdbcType="TINYINT" property="riskLevel"/>
+        <result column="driveTime" jdbcType="INTEGER" property="driveTime"/>
+        <result column="highRiskEventDuration" jdbcType="INTEGER" property="highRiskEventDuration"/>
+        <result column="riskDuration" jdbcType="INTEGER" property="riskDuration"/>
+    </resultMap>
+
+    <resultMap id="StatVehicleExMap" type="com.transnova.foundation.stat.model.StatDriverEx">
+        <result column="seq" jdbcType="INTEGER" property="seq"/>
+        <result column="vehicleId" jdbcType="BIGINT" property="vehicleId"/>
+        <result column="vehicleNumber" jdbcType="VARCHAR" property="vehicleNumber"/>
+        <result column="color" jdbcType="VARCHAR" property="color"/>
+        <result column="operateTypeId" jdbcType="VARCHAR" property="operateTypeId"/>
+        <result column="operateTypeName" jdbcType="VARCHAR" property="operateTypeName"/>
+        <result column="companyId" jdbcType="BIGINT" property="companyId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="driveMileages" jdbcType="VARCHAR" property="driveMileages"/>
+        <result column="driveTime" jdbcType="INTEGER" property="driveTime"/>
+        <result column="analyzeDate" jdbcType="INTEGER" property="analyzeDate"/>
+        <result column="startTime" jdbcType="BIGINT" property="startTime" />
+        <result column="startLongitude" jdbcType="DOUBLE" property="startLongitude" />
+        <result column="startLatitude" jdbcType="DOUBLE" property="startLatitude" />
+        <result column="endTime" jdbcType="BIGINT" property="endTime" />
+        <result column="endLongitude" jdbcType="DOUBLE" property="endLongitude" />
+        <result column="endLatitude" jdbcType="DOUBLE" property="endLatitude" />
+        <result column="days" jdbcType="VARCHAR" property="days"/>
+    </resultMap>
+
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+
+                                <!-- 新的数据权限控制 -->
+                                <when test="criterion.governmentFiltering">
+                                    and exists (select id from company_manage_relevance _x_ where stat_vehicle.companyId
+                                    = _x_.companyId and _x_.govCode like #{criterion.governmentCode})
+                                </when>
+
+                                <when test="criterion.proxyFiltering">
+                                    and vehicleId in (select vehicleId from vehicle_manage_relevance _x_ where _x_.orgCode = #{criterion.userOrganizationCode})
+                                </when>
+
+                                <when test="criterion.companyFiltering">
+                                    and vehicleId in (select vehicleId from vehicle_manage_relevance _x_ where _x_.orgCode = #{criterion.userOrganizationCode})
+                                </when>
+
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, vehicleId, companyId, driveMileages, completeMileages, eventCount, driveTime, 
+    highRiskEventCount, mediumRiskEventCount, lowRiskEventCount, highRiskEventDuration, mediumRiskEventDuration, lowRiskEventDuration, overspeedCount, vhitchCount,
+    dhitchCount, analyzeDate,startTime, startLongitude, startLatitude, endTime, endLongitude, endLatitude
+  </sql>
+    <select id="selectByExample" parameterType="com.transnova.foundation.stat.mapper.StatVehicleExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from stat_vehicle
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from stat_vehicle
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from stat_vehicle
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.transnova.foundation.stat.mapper.StatVehicleExample">
+        delete from stat_vehicle
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.transnova.foundation.stat.model.StatVehicle">
+    insert into stat_vehicle (id, vehicleId, companyId, 
+      driveMileages, completeMileages, eventCount, 
+      driveTime, highRiskEventCount, mediumRiskEventCount, 
+      lowRiskEventCount, highRiskEventDuration, mediumRiskEventDuration, lowRiskEventDuration, overspeedCount, vhitchCount,
+      dhitchCount, analyzeDate,startTime, startLongitude, startLatitude, endTime, endLongitude, endLatitude)
+    values (#{id,jdbcType=BIGINT}, #{vehicleId,jdbcType=BIGINT}, #{companyId,jdbcType=BIGINT}, 
+      #{driveMileages,jdbcType=INTEGER}, #{completeMileages,jdbcType=INTEGER}, #{eventCount,jdbcType=INTEGER}, 
+      #{driveTime,jdbcType=INTEGER}, #{highRiskEventCount,jdbcType=INTEGER}, #{mediumRiskEventCount,jdbcType=INTEGER}, 
+      #{lowRiskEventCount,jdbcType=INTEGER}, #{highRiskEventDuration,jdbcType=INTEGER}, #{mediumRiskEventDuration,jdbcType=INTEGER}, #{lowRiskEventDuration,jdbcType=INTEGER},
+      #{overspeedCount,jdbcType=INTEGER}, #{vhitchCount,jdbcType=INTEGER},
+      #{dhitchCount,jdbcType=INTEGER}, #{analyzeDate,jdbcType=INTEGER},#{startTime,jdbcType=BIGINT}, #{startLongitude,jdbcType=DOUBLE}, #{startLatitude,jdbcType=DOUBLE},
+      #{endTime,jdbcType=BIGINT}, #{endLongitude,jdbcType=DOUBLE}, #{endLatitude,jdbcType=DOUBLE})
+  </insert>
+    <insert id="insertSelective" parameterType="com.transnova.foundation.stat.model.StatVehicle">
+        insert into stat_vehicle
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="vehicleId != null">
+                vehicleId,
+            </if>
+            <if test="companyId != null">
+                companyId,
+            </if>
+            <if test="driveMileages != null">
+                driveMileages,
+            </if>
+            <if test="completeMileages != null">
+                completeMileages,
+            </if>
+            <if test="eventCount != null">
+                eventCount,
+            </if>
+            <if test="driveTime != null">
+                driveTime,
+            </if>
+            <if test="highRiskEventCount != null">
+                highRiskEventCount,
+            </if>
+            <if test="mediumRiskEventCount != null">
+                mediumRiskEventCount,
+            </if>
+            <if test="lowRiskEventCount != null">
+                lowRiskEventCount,
+            </if>
+            <if test="highRiskEventDuration != null">
+                highRiskEventDuration,
+            </if>
+            <if test="mediumRiskEventDuration != null">
+                mediumRiskEventDuration,
+            </if>
+            <if test="lowRiskEventDuration != null">
+                lowRiskEventDuration,
+            </if>
+            <if test="overspeedCount != null">
+                overspeedCount,
+            </if>
+            <if test="vhitchCount != null">
+                vhitchCount,
+            </if>
+            <if test="dhitchCount != null">
+                dhitchCount,
+            </if>
+            <if test="analyzeDate != null">
+                analyzeDate,
+            </if>
+            <if test="startTime != null">
+                startTime,
+            </if>
+            <if test="startLongitude != null">
+                startLongitude,
+            </if>
+            <if test="startLatitude != null">
+                startLatitude,
+            </if>
+            <if test="endTime != null">
+                endTime,
+            </if>
+            <if test="endLongitude != null">
+                endLongitude,
+            </if>
+            <if test="endLatitude != null">
+                endLatitude,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="vehicleId != null">
+                #{vehicleId,jdbcType=BIGINT},
+            </if>
+            <if test="companyId != null">
+                #{companyId,jdbcType=BIGINT},
+            </if>
+            <if test="driveMileages != null">
+                #{driveMileages,jdbcType=INTEGER},
+            </if>
+            <if test="completeMileages != null">
+                #{completeMileages,jdbcType=INTEGER},
+            </if>
+            <if test="eventCount != null">
+                #{eventCount,jdbcType=INTEGER},
+            </if>
+            <if test="driveTime != null">
+                #{driveTime,jdbcType=INTEGER},
+            </if>
+            <if test="highRiskEventCount != null">
+                #{highRiskEventCount,jdbcType=INTEGER},
+            </if>
+            <if test="mediumRiskEventCount != null">
+                #{mediumRiskEventCount,jdbcType=INTEGER},
+            </if>
+            <if test="lowRiskEventCount != null">
+                #{lowRiskEventCount,jdbcType=INTEGER},
+            </if>
+            <if test="highRiskEventDuration != null">
+                #{highRiskEventDuration,jdbcType=INTEGER},
+            </if>
+            <if test="mediumRiskEventDuration != null">
+                #{mediumRiskEventDuration,jdbcType=INTEGER},
+            </if>
+            <if test="lowRiskEventDuration != null">
+                #{lowRiskEventDuration,jdbcType=INTEGER},
+            </if>
+            <if test="overspeedCount != null">
+                #{overspeedCount,jdbcType=INTEGER},
+            </if>
+            <if test="vhitchCount != null">
+                #{vhitchCount,jdbcType=INTEGER},
+            </if>
+            <if test="dhitchCount != null">
+                #{dhitchCount,jdbcType=INTEGER},
+            </if>
+            <if test="analyzeDate != null">
+                #{analyzeDate,jdbcType=INTEGER},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=BIGINT},
+            </if>
+            <if test="startLongitude != null">
+                #{startLongitude,jdbcType=DOUBLE},
+            </if>
+            <if test="startLatitude != null">
+                #{startLatitude,jdbcType=DOUBLE},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=BIGINT},
+            </if>
+            <if test="endLongitude != null">
+                #{endLongitude,jdbcType=DOUBLE},
+            </if>
+            <if test="endLatitude != null">
+                #{endLatitude,jdbcType=DOUBLE},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.transnova.foundation.stat.mapper.StatVehicleExample"
+            resultType="java.lang.Long">
+        select count(*) from stat_vehicle
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update stat_vehicle
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.vehicleId != null">
+                vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+            </if>
+            <if test="record.companyId != null">
+                companyId = #{record.companyId,jdbcType=BIGINT},
+            </if>
+            <if test="record.driveMileages != null and record.driveMileages > 0">
+                driveMileages = #{record.driveMileages,jdbcType=INTEGER},
+            </if>
+            <if test="record.completeMileages != null and record.completeMileages > 0">
+                completeMileages = #{record.completeMileages,jdbcType=INTEGER},
+            </if>
+            <if test="record.eventCount != null and record.eventCount > 0">
+                eventCount = #{record.eventCount,jdbcType=INTEGER},
+            </if>
+            <if test="record.driveTime != null and record.driveTime > 0">
+                driveTime = #{record.driveTime,jdbcType=INTEGER},
+            </if>
+            <if test="record.highRiskEventCount != null and record.highRiskEventCount > 0">
+                highRiskEventCount = #{record.highRiskEventCount,jdbcType=INTEGER},
+            </if>
+            <if test="record.mediumRiskEventCount != null and record.mediumRiskEventCount > 0">
+                mediumRiskEventCount = #{record.mediumRiskEventCount,jdbcType=INTEGER},
+            </if>
+            <if test="record.lowRiskEventCount != null and record.lowRiskEventCount > 0">
+                lowRiskEventCount = #{record.lowRiskEventCount,jdbcType=INTEGER},
+            </if>
+            <if test="record.highRiskEventDuration != null and record.highRiskEventDuration > 0">
+                highRiskEventDuration = #{record.highRiskEventDuration,jdbcType=INTEGER},
+            </if>
+            <if test="record.mediumRiskEventDuration != null and record.mediumRiskEventDuration > 0">
+                mediumRiskEventDuration = #{record.mediumRiskEventDuration,jdbcType=INTEGER},
+            </if>
+            <if test="record.lowRiskEventDuration != null and record.lowRiskEventDuration > 0">
+                lowRiskEventDuration = #{record.lowRiskEventDuration,jdbcType=INTEGER},
+            </if>
+            <if test="record.overspeedCount != null and record.overspeedCount > 0">
+                overspeedCount = #{record.overspeedCount,jdbcType=INTEGER},
+            </if>
+            <if test="record.vhitchCount != null and record.vhitchCount > 0">
+                vhitchCount = #{record.vhitchCount,jdbcType=INTEGER},
+            </if>
+            <if test="record.dhitchCount != null and record.dhitchCount > 0">
+                dhitchCount = #{record.dhitchCount,jdbcType=INTEGER},
+            </if>
+            <if test="record.analyzeDate != null">
+                analyzeDate = #{record.analyzeDate,jdbcType=INTEGER},
+            </if>
+            <if test="record.startTime != null">
+                startTime = #{record.startTime,jdbcType=BIGINT},
+            </if>
+            <if test="record.startLongitude != null">
+                startLongitude = #{record.startLongitude,jdbcType=DOUBLE},
+            </if>
+            <if test="record.startLatitude != null">
+                startLatitude = #{record.startLatitude,jdbcType=DOUBLE},
+            </if>
+            <if test="record.endTime != null">
+                endTime = #{record.endTime,jdbcType=BIGINT},
+            </if>
+            <if test="record.endLongitude != null">
+                endLongitude = #{record.endLongitude,jdbcType=DOUBLE},
+            </if>
+            <if test="record.endLatitude != null">
+                endLatitude = #{record.endLatitude,jdbcType=DOUBLE},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update stat_vehicle
+        set id = #{record.id,jdbcType=BIGINT},
+        vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+        companyId = #{record.companyId,jdbcType=BIGINT},
+        driveMileages = #{record.driveMileages,jdbcType=INTEGER},
+        completeMileages = #{record.completeMileages,jdbcType=INTEGER},
+        eventCount = #{record.eventCount,jdbcType=INTEGER},
+        driveTime = #{record.driveTime,jdbcType=INTEGER},
+        highRiskEventCount = #{record.highRiskEventCount,jdbcType=INTEGER},
+        mediumRiskEventCount = #{record.mediumRiskEventCount,jdbcType=INTEGER},
+        lowRiskEventCount = #{record.lowRiskEventCount,jdbcType=INTEGER},
+        highRiskEventDuration = #{record.highRiskEventDuration,jdbcType=INTEGER},
+        mediumRiskEventDuration = #{record.mediumRiskEventDuration,jdbcType=INTEGER},
+        lowRiskEventDuration = #{record.lowRiskEventDuration,jdbcType=INTEGER},
+        overspeedCount = #{record.overspeedCount,jdbcType=INTEGER},
+        vhitchCount = #{record.vhitchCount,jdbcType=INTEGER},
+        dhitchCount = #{record.dhitchCount,jdbcType=INTEGER},
+        analyzeDate = #{record.analyzeDate,jdbcType=INTEGER},
+        startTime = #{record.startTime,jdbcType=BIGINT},
+        startLongitude = #{record.startLongitude,jdbcType=DOUBLE},
+        startLatitude = #{record.startLatitude,jdbcType=DOUBLE},
+        endTime = #{record.endTime,jdbcType=BIGINT},
+        endLongitude = #{record.endLongitude,jdbcType=DOUBLE},
+        endLatitude = #{record.endLatitude,jdbcType=DOUBLE}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.stat.model.StatVehicle">
+        update stat_vehicle
+        <set>
+            <if test="vehicleId != null">
+                vehicleId = #{vehicleId,jdbcType=BIGINT},
+            </if>
+            <if test="companyId != null">
+                companyId = #{companyId,jdbcType=BIGINT},
+            </if>
+            <if test="driveMileages != null">
+                driveMileages = #{driveMileages,jdbcType=INTEGER},
+            </if>
+            <if test="completeMileages != null">
+                completeMileages = #{completeMileages,jdbcType=INTEGER},
+            </if>
+            <if test="eventCount != null">
+                eventCount = #{eventCount,jdbcType=INTEGER},
+            </if>
+            <if test="driveTime != null">
+                driveTime = #{driveTime,jdbcType=INTEGER},
+            </if>
+            <if test="highRiskEventCount != null">
+                highRiskEventCount = #{highRiskEventCount,jdbcType=INTEGER},
+            </if>
+            <if test="mediumRiskEventCount != null">
+                mediumRiskEventCount = #{mediumRiskEventCount,jdbcType=INTEGER},
+            </if>
+            <if test="lowRiskEventCount != null">
+                lowRiskEventCount = #{lowRiskEventCount,jdbcType=INTEGER},
+            </if>
+            <if test="highRiskEventDuration != null">
+                highRiskEventDuration = #{highRiskEventDuration,jdbcType=INTEGER},
+            </if>
+            <if test="mediumRiskEventDuration != null">
+                mediumRiskEventDuration = #{mediumRiskEventDuration,jdbcType=INTEGER},
+            </if>
+            <if test="lowRiskEventDuration != null">
+                lowRiskEventDuration = #{lowRiskEventDuration,jdbcType=INTEGER},
+            </if>
+            <if test="overspeedCount != null">
+                overspeedCount = #{overspeedCount,jdbcType=INTEGER},
+            </if>
+            <if test="vhitchCount != null">
+                vhitchCount = #{vhitchCount,jdbcType=INTEGER},
+            </if>
+            <if test="dhitchCount != null">
+                dhitchCount = #{dhitchCount,jdbcType=INTEGER},
+            </if>
+            <if test="analyzeDate != null">
+                analyzeDate = #{analyzeDate,jdbcType=INTEGER},
+            </if>
+            <if test="startTime != null">
+                startTime = #{startTime,jdbcType=BIGINT},
+            </if>
+            <if test="startLongitude != null">
+                startLongitude = #{startLongitude,jdbcType=DOUBLE},
+            </if>
+            <if test="startLatitude != null">
+                startLatitude = #{startLatitude,jdbcType=DOUBLE},
+            </if>
+            <if test="endTime != null">
+                endTime = #{endTime,jdbcType=BIGINT},
+            </if>
+            <if test="endLongitude != null">
+                endLongitude = #{endLongitude,jdbcType=DOUBLE},
+            </if>
+            <if test="endLatitude != null">
+                endLatitude = #{endLatitude,jdbcType=DOUBLE},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.stat.model.StatVehicle">
+    update stat_vehicle
+    set vehicleId = #{vehicleId,jdbcType=BIGINT},
+      companyId = #{companyId,jdbcType=BIGINT},
+      driveMileages = #{driveMileages,jdbcType=INTEGER},
+      completeMileages = #{completeMileages,jdbcType=INTEGER},
+      eventCount = #{eventCount,jdbcType=INTEGER},
+      driveTime = #{driveTime,jdbcType=INTEGER},
+      highRiskEventCount = #{highRiskEventCount,jdbcType=INTEGER},
+      mediumRiskEventCount = #{mediumRiskEventCount,jdbcType=INTEGER},
+      lowRiskEventCount = #{lowRiskEventCount,jdbcType=INTEGER},
+      highRiskEventDuration = #{highRiskEventDuiration,jdbcType=INTEGER},
+      mediumRiskEventDuration = #{mediumRiskEventDuration,jdbcType=INTEGER},
+      lowRiskEventDuration = #{lowRiskEventDuration,jdbcType=INTEGER},
+      overspeedCount = #{overspeedCount,jdbcType=INTEGER},
+      vhitchCount = #{vhitchCount,jdbcType=INTEGER},
+      dhitchCount = #{dhitchCount,jdbcType=INTEGER},
+      analyzeDate = #{analyzeDate,jdbcType=INTEGER},
+      startTime = #{startTime,jdbcType=BIGINT},
+      startLongitude = #{startLongitude,jdbcType=DOUBLE},
+      startLatitude = #{startLatitude,jdbcType=DOUBLE},
+      endTime = #{endTime,jdbcType=BIGINT},
+      endLongitude = #{endLongitude,jdbcType=DOUBLE},
+      endLatitude = #{endLatitude,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <update id="increaseBy" parameterType="com.transnova.foundation.stat.model.StatVehicle">
+        update stat_vehicle
+        <set>
+            <if test="driveMileages != null">
+                driveMileages = driveMileages + #{driveMileages,jdbcType=INTEGER},
+            </if>
+            <if test="completeMileages != null">
+                completeMileages = completeMileages + #{completeMileages,jdbcType=INTEGER},
+            </if>
+            <if test="eventCount != null">
+                eventCount = eventCount + #{eventCount,jdbcType=INTEGER},
+            </if>
+            <if test="driveTime != null">
+                driveTime = driveTime + #{driveTime,jdbcType=INTEGER},
+            </if>
+            <if test="highRiskEventCount != null">
+                highRiskEventCount = highRiskEventCount + #{highRiskEventCount,jdbcType=INTEGER},
+            </if>
+            <if test="mediumRiskEventCount != null">
+                mediumRiskEventCount = mediumRiskEventCount + #{mediumRiskEventCount,jdbcType=INTEGER},
+            </if>
+            <if test="lowRiskEventCount != null">
+                lowRiskEventCount = lowRiskEventCount + #{lowRiskEventCount,jdbcType=INTEGER},
+            </if>
+            <if test="highRiskEventDuration != null">
+                highRiskEventDuration = highRiskEventDuration + #{highRiskEventDuration,jdbcType=INTEGER},
+            </if>
+            <if test="mediumRiskEventDuration != null">
+                mediumRiskEventDuration = mediumRiskEventDuration + #{mediumRiskEventDuration,jdbcType=INTEGER},
+            </if>
+            <if test="lowRiskEventDuration != null">
+                lowRiskEventDuration = lowRiskEventDuration + #{lowRiskEventDuration,jdbcType=INTEGER},
+            </if>
+            <if test="overspeedCount != null">
+                overspeedCount = overspeedCount + #{overspeedCount,jdbcType=INTEGER},
+            </if>
+            <if test="vhitchCount != null">
+                vhitchCount = vhitchCount + #{vhitchCount,jdbcType=INTEGER},
+            </if>
+            <if test="dhitchCount != null">
+                dhitchCount = dhitchCount + #{dhitchCount,jdbcType=INTEGER},
+            </if>
+        </set>
+        where
+        id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectStatVehicleCustomByExample" resultMap="statVehicleCustom"
+            parameterType="com.transnova.foundation.stat.mapper.StatVehicleExample">
+        select
+        vehicleId,
+        (select vin from vehicle where id = vehicleId) vin,
+        driveTime,
+        highRiskEventDuration,
+        riskDuration
+        from
+        (
+        select
+        vehicleId,
+        driveTime,
+        highRiskEventDuration,
+        highRiskEventDuration + mediumRiskEventDuration + lowRiskEventDuration riskDuration
+        from
+        stat_vehicle
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        )t
+        order by
+        t.riskDuration desc,
+        t.highRiskEventDuration desc,
+        t.driveTime desc
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+
+    <select id="countVehicleWorkStat" resultMap="VehicleWorkStatMap">
+    select vehicleId, count(*) as days from stat_vehicle where companyId = #{companyId,jdbcType=BIGINT} and analyzeDate &gt;= #{beginDate,jdbcType=INTEGER} and analyzeDate &lt; #{endDate,jdbcType=INTEGER} group by vehicleId
+  </select>
+
+    <select id="selectStatVehicleByCondition" parameterType="map" resultMap="StatVehicleExMap">
+        select tab.*,svmin.startTime,svmin.startLongitude,svmin.startLatitude,
+        svmax.endTime,svmax.endLongitude,svmax.endLatitude,
+        v.vehicleNumber,
+        v.color,
+        v.name,
+        v.id as vehicleId,
+        (SELECT NAME FROM code WHERE groupId = (SELECT id FROM code_group WHERE NAME = '车辆.营运类型')AND CODE = v.operateTypeId) operateTypeName
+        FROM
+        (select a.id,vehicleNumber, plateColor color,operateTypeId,b.name
+        from vehicle a INNER JOIN company b on a.companyid=b.id
+        where  a.deleted=0 and isOpenService=1
+        <if test="orgCode != null and orgCode != ''">
+            and a.orgCode = #{orgCode}
+        </if>
+        <if test="hieCode != null and hieCode != ''">
+            and hierarchyCode like '${hieCode}%'
+        </if>
+        <if test="vehicleNumber != null and vehicleNumber != ''">
+            and vehicleNumber like '${vehicleNumber}%'
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and b.name like '${companyName}%'
+        </if>
+        <if test="colors != null">
+            and plateColor in
+            <foreach item="plateColor" index="index" collection="colors" open="(" separator="," close=")">
+                #{plateColor,jdbcType=VARCHAR}
+            </foreach>
+        </if>
+        <if test="operateTypes != null">
+            and operateTypeId in
+            <foreach item="operateTypeId" index="index" collection="operateTypes" open="(" separator="," close=")">
+                #{operateTypeId,jdbcType=VARCHAR}
+            </foreach>
+        </if>
+        ) v
+        LEFT JOIN
+        (
+        select min(a.id) minid,max(a.id) maxid,
+        a.vehicleId as vid,
+        sum(completeMileages) driveMileages,
+        count(1) days,
+        min(driveTime) driveTime,
+        min(analyzeDate) analyzeDate
+        from stat_vehicle a
+        LEFT JOIN company c ON a.companyId = c.id
+        WHERE 1=1
+        <if test="startTime != null and startTime != ''">
+            and analyzeDate &gt;= #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and analyzeDate &lt;= #{endTime}
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            and c.orgCode = #{orgCode}
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and c.name like '${companyName}%'
+        </if>
+
+        group by a.vehicleId) tab ON v.id=tab.vid
+        LEFT JOIN stat_vehicle svmin on tab.minid=svmin.id
+        LEFT JOIN stat_vehicle svmax on tab.maxid=svmax.id
+        order by tab.driveMileages desc, vehicleId, startTime
+        <if test="offset != null">
+            limit #{offset}, #{limit}
+        </if>
+
+    </select>
+
+    <select id="countStatVehicleByCondition" parameterType="map" resultType="java.lang.Long">
+        select count(1)
+        from vehicle v LEFT JOIN company c ON v.companyId = c.id
+        WHERE v.deleted=0 and v.isOpenService=1
+        <if test="orgCode != null and orgCode != ''">
+            and v.orgCode = #{orgCode}
+        </if>
+        <if test="hieCode != null and hieCode != ''">
+            and hierarchyCode like '${hieCode}%'
+        </if>
+        <if test="vehicleNumber != null and vehicleNumber != ''">
+            and vehicleNumber like '${vehicleNumber}%'
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and c.name like '${companyName}%'
+        </if>
+        <if test="colors != null">
+            and plateColor in
+            <foreach item="plateColor" index="index" collection="colors" open="(" separator="," close=")">
+                #{plateColor,jdbcType=VARCHAR}
+            </foreach>
+        </if>
+        <if test="operateTypes != null">
+            and operateTypeId in
+            <foreach item="operateTypeId" index="index" collection="operateTypes" open="(" separator="," close=")">
+                #{operateTypeId,jdbcType=VARCHAR}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="selectStatVehicleByVehicleId" parameterType="map" resultMap="StatVehicleExMap">
+        select a.*,completeMileages as driveMileages,DATE_FORMAT(analyzeDate, '%Y-%m-%d') analyzeDate from (
+        select v.id as vehicleid,vehicleNumber,
+        (select name from code where groupId=(select id from code_group where name='车辆.营运类型') and code=v.operateTypeId) operateTypeName,
+        c.name
+        from vehicle v
+        left join company c on v.companyId = c.id
+        where v.deleted=0 and v.isOpenService=1
+        <if test="orgCode != null and orgCode != ''">
+            and v.orgCode = #{orgCode}
+        </if>
+        <if test="hieCode != null and hieCode != ''">
+            and hierarchyCode like '${hieCode}%'
+        </if>
+        <if test="vehicleId != null and vehicleId != ''">
+            and v.id = #{vehicleId,jdbcType=BIGINT}
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and c.name like '${companyName}%'
+        </if>
+        <if test="operateTypes != null">
+            and operateTypeId in
+            <foreach item="operateTypeId" index="index" collection="operateTypes" open="(" separator="," close=")">
+                #{operateTypeId,jdbcType=VARCHAR}
+            </foreach>
+        </if>
+        ) a left join (select * from stat_vehicle
+        where 1=1
+        <if test="startTime != null and startTime != ''">
+            and analyzeDate &gt;= #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and analyzeDate &lt;= #{endTime}
+        </if>
+        <if test="vehicleId != null and vehicleId != ''">
+            and vehicleid = #{vehicleId,jdbcType=BIGINT}
+        </if>
+        ) b on a.vehicleId = b.vehicleid
+        order by a.vehicleId ,analyzeDate
+        <if test="offset != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="countStatVehicleByVehicleId" parameterType="map" resultType="java.lang.Long">
+        select count(1)
+        from (
+        select v.id as vehicleid from vehicle v left join company c on v.companyId = c.id
+        where v.deleted=0 and v.isOpenService=1
+        <if test="orgCode != null and orgCode != ''">
+            and v.orgCode = #{orgCode}
+        </if>
+        <if test="hieCode != null and hieCode != ''">
+            and hierarchyCode like '${hieCode}%'
+        </if>
+        <if test="vehicleId != null and vehicleId != ''">
+            and v.id = #{vehicleId,jdbcType=BIGINT}
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and c.name like '${companyName}%'
+        </if>
+        <if test="operateTypes != null">
+            and operateTypeId in
+            <foreach item="operateTypeId" index="index" collection="operateTypes" open="(" separator="," close=")">
+                #{operateTypeId,jdbcType=VARCHAR}
+            </foreach>
+        </if>
+        ) a left join (select * from stat_vehicle
+        where 1=1
+        <if test="startTime != null and startTime != ''">
+            and analyzeDate &gt;= #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and analyzeDate &lt;= #{endTime}
+        </if>
+        <if test="vehicleId != null and vehicleId != ''">
+            and vehicleid = #{vehicleId,jdbcType=BIGINT}
+        </if>
+        ) b on a.vehicleId = b.vehicleid
+    </select>
+
+    <select id="exportStatVehicleExcel" parameterType="map" resultMap="StatVehicleExMap">
+        select sv.*,v.vin,v.color,v.operateTypeId,c.name,
+        (select name from code where groupId=(select id from code_group where name='车辆.营运类型') and code=v.operateTypeId)
+        operateTypeName
+        from (
+        select vehicleid,companyId,analyzeDate,sum(driveMileages) as driveMileages,sum(driveTime) as driveTime
+        from stat_vehicle
+        where 1=1
+        <if test="governmentFiltering">
+            and exists (select id from company_manage_relevance _x_ where stat_vehicle.companyId = _x_.companyId and _x_.govCode like #{filteringGovernmentCode})
+        </if>
+
+        <!-- 平台运营商用户 -->
+        <if test="proxyFiltering">
+            and vehicleId in (select vehicleId from vehicle_manage_relevance _x_ where _x_.orgCode = #{filteringUserOrganizationCode})
+        </if>
+
+        <!-- 企业用户 -->
+        <if test="companyFiltering">
+            and vehicleId in (select vehicleId from vehicle_manage_relevance _x_ where _x_.orgCode = #{filteringUserOrganizationCode})
+        </if>
+        <if test="startTime != null and startTime != ''">
+            and analyzeDate &gt;= #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and analyzeDate &lt;= #{endTime}
+        </if>
+        <if test="vehicleIds != null and vehicleIds != ''">
+            and vehicleid in
+            <foreach item="vehicleId" index="index" collection="vehicleIds" open="(" separator="," close=")">
+                #{vehicleId,jdbcType=BIGINT}
+            </foreach>
+        </if>
+        <if test="companyIds != null and companyIds != ''">
+            and companyId in
+            <foreach item="companyId" index="index" collection="companyIds" open="(" separator="," close=")">
+                #{companyId,jdbcType=BIGINT}
+            </foreach>
+        </if>
+        group by vehicleid,companyId,analyzeDate
+        ) sv
+        inner join vehicle v on sv.vehicleId=v.id
+        inner join company c on sv.companyId=c.id
+        where 1=1
+        <if test="colors != null and colors != ''">
+            and color in
+            <foreach item="color" index="index" collection="colors" open="(" separator="," close=")">
+                #{color,jdbcType=VARCHAR}
+            </foreach>
+        </if>
+        <if test="operateTypeIds != null and operateTypeIds != ''">
+            and operateTypeId in
+            <foreach item="operateTypeId" index="index" collection="operateTypeIds" open="(" separator="," close=")">
+                #{operateTypeId,jdbcType=VARCHAR}
+            </foreach>
+        </if>
+        order by vehicleId,analyzeDate
+    </select>
+
+    <select id="selectStatVehicleOnlineByCondition" parameterType="map" resultMap="StatVehicleExMap">
+        select a.*,vehicleNumber,plateColor color,
+        (select name from code where groupId=(select id from code_group where name='车辆.营运类型') and code=v.operateTypeId) operateTypeName,
+        c.name,driveTime,analyzeDate
+        from (
+        select vehicleid,companyId,analyzeDate,sum(completeMileages) driveMileages,sum(driveTime) as driveTime
+        from stat_vehicle
+        where 1=1
+        <if test="startTime != null and startTime != ''">
+            and analyzeDate &gt;= #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and analyzeDate &lt;= #{endTime}
+        </if>
+        group by vehicleid,companyId,analyzeDate
+        ) a
+        left join vehicle v on a.vehicleId=v.id
+        left join company c on v.companyId = c.id
+        where v.deleted=0 and v.isOpenService=1
+        <if test="orgCode != null and orgCode != ''">
+            and v.orgCode = #{orgCode}
+        </if>
+        <if test="hieCode != null and hieCode != ''">
+            and hierarchyCode like '${hieCode}%'
+        </if>
+        <if test="vehicleNumber != null and vehicleNumber != ''">
+            and vehicleNumber like '${vehicleNumber}%'
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and c.name like '${companyName}%'
+        </if>
+        <if test="colors != null">
+            and plateColor in
+            <foreach item="plateColor" index="index" collection="colors" open="(" separator="," close=")">
+                #{plateColor,jdbcType=VARCHAR}
+            </foreach>
+        </if>
+        <if test="operateTypes != null">
+            and operateTypeId in
+            <foreach item="operateTypeId" index="index" collection="operateTypes" open="(" separator="," close=")">
+                #{operateTypeId,jdbcType=VARCHAR}
+            </foreach>
+        </if>
+        order by vehicleId,analyzeDate
+        <if test="offset != null">
+            limit #{offset}, #{limit}
+        </if>
+
+    </select>
+
+    <select id="countStatVehicleOnlineByCondition" parameterType="map" resultType="java.lang.Long">
+        select count(1)
+        from (
+        select vehicleid,companyId,analyzeDate,sum(completeMileages) as driveMileages
+        from stat_vehicle
+        where 1=1
+        <if test="startTime != null and startTime != ''">
+            and analyzeDate &gt;= #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and analyzeDate &lt;= #{endTime}
+        </if>
+        group by vehicleid,companyId,analyzeDate
+        ) a
+        left join vehicle v on a.vehicleId=v.id
+        left join company c on v.companyId = c.id
+        where v.deleted=0 and v.isOpenService=1
+        <if test="orgCode != null and orgCode != ''">
+            and v.orgCode = #{orgCode}
+        </if>
+        <if test="hieCode != null and hieCode != ''">
+            and hierarchyCode like '${hieCode}%'
+        </if>
+        <if test="vehicleNumber != null and vehicleNumber != ''">
+            and vehicleNumber like '${vehicleNumber}%'
+        </if>
+        <if test="companyName != null and companyName != ''">
+            and c.name like '${companyName}%'
+        </if>
+        <if test="colors != null">
+            and plateColor in
+            <foreach item="plateColor" index="index" collection="colors" open="(" separator="," close=")">
+                #{plateColor,jdbcType=VARCHAR}
+            </foreach>
+        </if>
+        <if test="operateTypes != null">
+            and operateTypeId in
+            <foreach item="operateTypeId" index="index" collection="operateTypes" open="(" separator="," close=")">
+                #{operateTypeId,jdbcType=VARCHAR}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="selectByCompany" parameterType="map" resultType="com.transnova.foundation.stat.model.StatVehicle">
+          select
+            s.vehicleId as vehicleId,
+            v.vehicleNumber as vehicleNumber,
+            s.completeMileages as completeMileages
+          from
+          stat_vehicle s
+          left join vehicle v on v.id = s.vehicleId
+          where  1 = 1
+          <if test="companyId != null">
+              and s.companyId  = #{companyId}
+          </if>
+          <if test="analyzeDate != null">
+              and s.analyzeDate = #{analyzeDate}
+          </if>
+          order by completeMileages desc
+    </select>
+
+    <select id="groupByVehicle" parameterType="map" resultType="com.transnova.foundation.stat.model.StatVehicle">
+        select
+            vehicleId,
+            v.vehicleNumber,
+            sum(completeMileages) as completeMileages
+        from
+            stat_vehicle sv
+        left join
+            vehicle v on v.id = sv.vehicleId
+        where 1 = 1
+        <if test="companyId != null">
+           and sv.companyId = #{companyId}
+        </if>
+        <if test="start != null">
+           and sv.analyzeDate &gt;= #{start}
+        </if>
+        <if test="end != null">
+           and sv.analyzeDate &lt;= #{end}
+        </if>
+        group by vehicleId
+        order by sum(completeMileages) desc
+    </select>
+
+    <select id="groupByDay" parameterType="map" resultType="com.transnova.foundation.stat.model.StatVehicle">
+         select
+            analyzeDate,
+            sum(completeMileages) as completeMileages
+        from
+            stat_vehicle sv
+        where 1 = 1
+        <if test="companyId != null">
+            and sv.companyId = #{companyId}
+        </if>
+        <if test="start != null">
+            and sv.analyzeDate &gt;= #{start}
+        </if>
+        <if test="end != null">
+            and sv.analyzeDate &lt;= #{end}
+        </if>
+        group by analyzeDate
+        order by analyzeDate
+    </select>
+
+</mapper>

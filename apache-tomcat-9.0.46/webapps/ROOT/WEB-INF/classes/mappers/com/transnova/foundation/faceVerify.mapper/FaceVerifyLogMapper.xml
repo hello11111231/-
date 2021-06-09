@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.faceVerify.mapper.FaceVerifyLogMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.faceVerify.model.FaceVerifyLog">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Oct 28 14:03:48 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="userId" jdbcType="BIGINT" property="userId" />
+    <result column="score" jdbcType="DECIMAL" property="score" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="result" jdbcType="VARCHAR" property="result" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Oct 28 14:03:48 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Oct 28 14:03:48 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Oct 28 14:03:48 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    id, userId, score, status, result, createTime
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.faceVerify.mapper.FaceVerifyLogExample" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Oct 28 14:03:48 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from face_verify_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Oct 28 14:03:48 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from face_verify_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Oct 28 14:03:48 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from face_verify_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.faceVerify.mapper.FaceVerifyLogExample">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Oct 28 14:03:48 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from face_verify_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.faceVerify.model.FaceVerifyLog">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Oct 28 14:03:48 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into face_verify_log (id, userId, score, 
+      status, result, createTime
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{score,jdbcType=DECIMAL}, 
+      #{status,jdbcType=INTEGER}, #{result,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.faceVerify.model.FaceVerifyLog">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Oct 28 14:03:48 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into face_verify_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="result != null">
+        result,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.faceVerify.mapper.FaceVerifyLogExample" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Oct 28 14:03:48 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select count(*) from face_verify_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Oct 28 14:03:48 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update face_verify_log
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null">
+        userId = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.score != null">
+        score = #{record.score,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.result != null">
+        result = #{record.result,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Oct 28 14:03:48 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update face_verify_log
+    set id = #{record.id,jdbcType=BIGINT},
+      userId = #{record.userId,jdbcType=BIGINT},
+      score = #{record.score,jdbcType=DECIMAL},
+      status = #{record.status,jdbcType=INTEGER},
+      result = #{record.result,jdbcType=VARCHAR},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.faceVerify.model.FaceVerifyLog">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Oct 28 14:03:48 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update face_verify_log
+    <set>
+      <if test="userId != null">
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="result != null">
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.faceVerify.model.FaceVerifyLog">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Oct 28 14:03:48 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update face_verify_log
+    set userId = #{userId,jdbcType=BIGINT},
+      score = #{score,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      result = #{result,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

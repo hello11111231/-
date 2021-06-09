@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.vehicle.mapper.VehicleInsuranceAttachmentMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.vehicle.model.VehicleInsuranceAttachment">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="vehicleId" jdbcType="BIGINT" property="vehicleId" />
+    <result column="fileName" jdbcType="VARCHAR" property="fileName" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="size" jdbcType="INTEGER" property="size" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="effectiveDate" jdbcType="DATE" property="effectiveDate" />
+    <result column="expiryDate" jdbcType="DATE" property="expiryDate" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, vehicleId, fileName, path, size, createTime, effectiveDate, expiryDate, type
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.vehicle.mapper.VehicleInsuranceAttachmentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vehicle_insurance_attachment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from vehicle_insurance_attachment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from vehicle_insurance_attachment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.vehicle.mapper.VehicleInsuranceAttachmentExample">
+    delete from vehicle_insurance_attachment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.vehicle.model.VehicleInsuranceAttachment">
+    insert into vehicle_insurance_attachment (id, vehicleId, fileName, 
+      path, size, createTime, 
+      effectiveDate, expiryDate, type
+      )
+    values (#{id,jdbcType=BIGINT}, #{vehicleId,jdbcType=BIGINT}, #{fileName,jdbcType=VARCHAR}, 
+      #{path,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{effectiveDate,jdbcType=DATE}, #{expiryDate,jdbcType=DATE}, #{type,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.vehicle.model.VehicleInsuranceAttachment">
+    insert into vehicle_insurance_attachment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="vehicleId != null">
+        vehicleId,
+      </if>
+      <if test="fileName != null">
+        fileName,
+      </if>
+      <if test="path != null">
+        path,
+      </if>
+      <if test="size != null">
+        size,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="effectiveDate != null">
+        effectiveDate,
+      </if>
+      <if test="expiryDate != null">
+        expiryDate,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="vehicleId != null">
+        #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        #{size,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="effectiveDate != null">
+        #{effectiveDate,jdbcType=DATE},
+      </if>
+      <if test="expiryDate != null">
+        #{expiryDate,jdbcType=DATE},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.vehicle.mapper.VehicleInsuranceAttachmentExample" resultType="java.lang.Long">
+    select count(*) from vehicle_insurance_attachment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update vehicle_insurance_attachment
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.vehicleId != null">
+        vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="record.fileName != null">
+        fileName = #{record.fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.path != null">
+        path = #{record.path,jdbcType=VARCHAR},
+      </if>
+      <if test="record.size != null">
+        size = #{record.size,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.effectiveDate != null">
+        effectiveDate = #{record.effectiveDate,jdbcType=DATE},
+      </if>
+      <if test="record.expiryDate != null">
+        expiryDate = #{record.expiryDate,jdbcType=DATE},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update vehicle_insurance_attachment
+    set id = #{record.id,jdbcType=BIGINT},
+      vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      fileName = #{record.fileName,jdbcType=VARCHAR},
+      path = #{record.path,jdbcType=VARCHAR},
+      size = #{record.size,jdbcType=INTEGER},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      effectiveDate = #{record.effectiveDate,jdbcType=DATE},
+      expiryDate = #{record.expiryDate,jdbcType=DATE},
+      type = #{record.type,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.vehicle.model.VehicleInsuranceAttachment">
+    update vehicle_insurance_attachment
+    <set>
+      <if test="vehicleId != null">
+        vehicleId = #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="fileName != null">
+        fileName = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        size = #{size,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="effectiveDate != null">
+        effectiveDate = #{effectiveDate,jdbcType=DATE},
+      </if>
+      <if test="expiryDate != null">
+        expiryDate = #{expiryDate,jdbcType=DATE},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.vehicle.model.VehicleInsuranceAttachment">
+    update vehicle_insurance_attachment
+    set vehicleId = #{vehicleId,jdbcType=BIGINT},
+      fileName = #{fileName,jdbcType=VARCHAR},
+      path = #{path,jdbcType=VARCHAR},
+      size = #{size,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      effectiveDate = #{effectiveDate,jdbcType=DATE},
+      expiryDate = #{expiryDate,jdbcType=DATE},
+      type = #{type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    insert into vehicle_insurance_attachment
+    (id, vehicleId, fileName, path, size, createTime, effectiveDate, expiryDate, type
+      )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.vehicleId,jdbcType=BIGINT}, #{item.fileName,jdbcType=VARCHAR}, 
+        #{item.path,jdbcType=VARCHAR}, #{item.size,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
+        #{item.effectiveDate,jdbcType=DATE}, #{item.expiryDate,jdbcType=DATE}, #{item.type,jdbcType=VARCHAR}
+        )
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" parameterType="map">
+    insert into vehicle_insurance_attachment (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.value}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'id' == column.value">
+          #{item.id,jdbcType=BIGINT}
+        </if>
+        <if test="'vehicleId' == column.value">
+          #{item.vehicleId,jdbcType=BIGINT}
+        </if>
+        <if test="'fileName' == column.value">
+          #{item.fileName,jdbcType=VARCHAR}
+        </if>
+        <if test="'path' == column.value">
+          #{item.path,jdbcType=VARCHAR}
+        </if>
+        <if test="'size' == column.value">
+          #{item.size,jdbcType=INTEGER}
+        </if>
+        <if test="'createTime' == column.value">
+          #{item.createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'effectiveDate' == column.value">
+          #{item.effectiveDate,jdbcType=DATE}
+        </if>
+        <if test="'expiryDate' == column.value">
+          #{item.expiryDate,jdbcType=DATE}
+        </if>
+        <if test="'type' == column.value">
+          #{item.type,jdbcType=VARCHAR}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
+</mapper>

@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.member.mapper.MemberLogMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.member.model.MemberLog">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri Jan 08 14:16:39 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="userId" jdbcType="BIGINT" property="userId" />
+    <result column="memberId" jdbcType="BIGINT" property="memberId" />
+    <result column="sate" jdbcType="TINYINT" property="sate" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri Jan 08 14:16:39 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri Jan 08 14:16:39 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri Jan 08 14:16:39 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    id, userId, memberId, sate, createTime
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.member.mapper.MemberLogExample" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri Jan 08 14:16:39 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from train_member_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri Jan 08 14:16:39 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from train_member_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri Jan 08 14:16:39 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    delete from train_member_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.member.mapper.MemberLogExample">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri Jan 08 14:16:39 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    delete from train_member_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.member.model.MemberLog">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri Jan 08 14:16:39 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    insert into train_member_log (id, userId, memberId, 
+      sate, createTime)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{memberId,jdbcType=BIGINT}, 
+      #{sate,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.member.model.MemberLog">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri Jan 08 14:16:39 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    insert into train_member_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="memberId != null">
+        memberId,
+      </if>
+      <if test="sate != null">
+        sate,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="sate != null">
+        #{sate,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.member.mapper.MemberLogExample" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri Jan 08 14:16:39 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    select count(*) from train_member_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri Jan 08 14:16:39 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    update train_member_log
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null">
+        userId = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberId != null">
+        memberId = #{record.memberId,jdbcType=BIGINT},
+      </if>
+      <if test="record.sate != null">
+        sate = #{record.sate,jdbcType=TINYINT},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri Jan 08 14:16:39 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    update train_member_log
+    set id = #{record.id,jdbcType=BIGINT},
+      userId = #{record.userId,jdbcType=BIGINT},
+      memberId = #{record.memberId,jdbcType=BIGINT},
+      sate = #{record.sate,jdbcType=TINYINT},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.member.model.MemberLog">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri Jan 08 14:16:39 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    update train_member_log
+    <set>
+      <if test="userId != null">
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="memberId != null">
+        memberId = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="sate != null">
+        sate = #{sate,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.member.model.MemberLog">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri Jan 08 14:16:39 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    update train_member_log
+    set userId = #{userId,jdbcType=BIGINT},
+      memberId = #{memberId,jdbcType=BIGINT},
+      sate = #{sate,jdbcType=TINYINT},
+      createTime = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri Jan 08 14:16:39 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    insert into train_member_log
+    (id, userId, memberId, sate, createTime)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.userId,jdbcType=BIGINT}, #{item.memberId,jdbcType=BIGINT}, 
+        #{item.sate,jdbcType=TINYINT}, #{item.createTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri Jan 08 14:16:39 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    insert into train_member_log (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.value}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'id' == column.value">
+          #{item.id,jdbcType=BIGINT}
+        </if>
+        <if test="'userId' == column.value">
+          #{item.userId,jdbcType=BIGINT}
+        </if>
+        <if test="'memberId' == column.value">
+          #{item.memberId,jdbcType=BIGINT}
+        </if>
+        <if test="'sate' == column.value">
+          #{item.sate,jdbcType=TINYINT}
+        </if>
+        <if test="'createTime' == column.value">
+          #{item.createTime,jdbcType=TIMESTAMP}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
+</mapper>

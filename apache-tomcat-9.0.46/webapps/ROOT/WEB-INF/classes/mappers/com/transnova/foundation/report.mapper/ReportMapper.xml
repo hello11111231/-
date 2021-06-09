@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.report.mapper.ReportMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.report.model.Report">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="templatePath" jdbcType="VARCHAR" property="templatePath" />
+    <result column="templateName" jdbcType="VARCHAR" property="templateName" />
+    <result column="dataSource" jdbcType="VARCHAR" property="dataSource" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
+    <result column="mode" jdbcType="VARCHAR" property="mode" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, templatePath, templateName, dataSource, type, category, mode
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.report.mapper.ReportExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from report
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from report
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from report
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.report.mapper.ReportExample">
+    delete from report
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.report.model.Report">
+    insert into report (id, templatePath, templateName,
+    dataSource, type, category,
+    mode)
+    values (#{id,jdbcType=BIGINT}, #{templatePath,jdbcType=VARCHAR}, #{templateName,jdbcType=VARCHAR},
+    #{dataSource,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR},
+    #{mode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.report.model.Report">
+    insert into report
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="templatePath != null">
+        templatePath,
+      </if>
+      <if test="templateName != null">
+        templateName,
+      </if>
+      <if test="dataSource != null">
+        dataSource,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="category != null">
+        category,
+      </if>
+      <if test="mode != null">
+        mode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="templatePath != null">
+        #{templatePath,jdbcType=VARCHAR},
+      </if>
+      <if test="templateName != null">
+        #{templateName,jdbcType=VARCHAR},
+      </if>
+      <if test="dataSource != null">
+        #{dataSource,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null">
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="mode != null">
+        #{mode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.report.mapper.ReportExample" resultType="java.lang.Long">
+    select count(*) from report
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update report
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.templatePath != null">
+        templatePath = #{record.templatePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.templateName != null">
+        templateName = #{record.templateName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataSource != null">
+        dataSource = #{record.dataSource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.category != null">
+        category = #{record.category,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mode != null">
+        mode = #{record.mode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update report
+    set id = #{record.id,jdbcType=BIGINT},
+    templatePath = #{record.templatePath,jdbcType=VARCHAR},
+    templateName = #{record.templateName,jdbcType=VARCHAR},
+    dataSource = #{record.dataSource,jdbcType=VARCHAR},
+    type = #{record.type,jdbcType=VARCHAR},
+    category = #{record.category,jdbcType=VARCHAR},
+    mode = #{record.mode,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.report.model.Report">
+    update report
+    <set>
+      <if test="templatePath != null">
+        templatePath = #{templatePath,jdbcType=VARCHAR},
+      </if>
+      <if test="templateName != null">
+        templateName = #{templateName,jdbcType=VARCHAR},
+      </if>
+      <if test="dataSource != null">
+        dataSource = #{dataSource,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null">
+        category = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="mode != null">
+        mode = #{mode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.report.model.Report">
+    update report
+    set templatePath = #{templatePath,jdbcType=VARCHAR},
+    templateName = #{templateName,jdbcType=VARCHAR},
+    dataSource = #{dataSource,jdbcType=VARCHAR},
+    type = #{type,jdbcType=VARCHAR},
+    category = #{category,jdbcType=VARCHAR},
+    mode = #{mode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    insert into report
+    (id, templatePath, templateName, dataSource, type, category, mode)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.templatePath,jdbcType=VARCHAR}, #{item.templateName,jdbcType=VARCHAR},
+      #{item.dataSource,jdbcType=VARCHAR}, #{item.type,jdbcType=VARCHAR}, #{item.category,jdbcType=VARCHAR},
+      #{item.mode,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" parameterType="map">
+    insert into report (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.value}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'id' == column.value">
+          #{item.id,jdbcType=BIGINT}
+        </if>
+        <if test="'templatePath' == column.value">
+          #{item.templatePath,jdbcType=VARCHAR}
+        </if>
+        <if test="'templateName' == column.value">
+          #{item.templateName,jdbcType=VARCHAR}
+        </if>
+        <if test="'dataSource' == column.value">
+          #{item.dataSource,jdbcType=VARCHAR}
+        </if>
+        <if test="'type' == column.value">
+          #{item.type,jdbcType=VARCHAR}
+        </if>
+        <if test="'category' == column.value">
+          #{item.category,jdbcType=VARCHAR}
+        </if>
+        <if test="'mode' == column.value">
+          #{item.mode,jdbcType=VARCHAR}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
+
+
+  <select id="selectByOrgCode" parameterType="map" resultType="com.transnova.foundation.report.model.Report">
+    select
+      r.id,
+      r.templatePath,
+      r.templateName,
+      r.dataSource,
+      r.type,
+      o.parameterName as parameterName,
+      o.parameterValue as parameterValue
+    from report r
+    inner join report_org_relevance o on o.reportId = r.id
+    where o.orgCode = #{orgCode}
+    <if test="category != null">
+      and r.category = #{category}
+    </if>
+    <if test="enable != null">
+      and o.enable = #{enable}
+    </if>
+
+
+  </select>
+
+  <select id="selectByCompany" parameterType="map" resultType="com.transnova.foundation.report.model.Report">
+       select
+            r.id,
+            r.templatePath,
+            r.templateName,
+            r.dataSource,
+            r.type,
+            c.parameterName as parameterName,
+            c.parameterValue as parameterValue
+      from report r
+      inner join report_company_relevance c on c.reportId = r.id
+      where c.companyId = #{companyId} and r.category = #{category}
+  </select>
+</mapper>

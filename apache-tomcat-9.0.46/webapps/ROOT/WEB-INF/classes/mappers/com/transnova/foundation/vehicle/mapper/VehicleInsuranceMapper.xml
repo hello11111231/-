@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.vehicle.mapper.VehicleInsuranceMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.vehicle.model.VehicleInsurance">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="vehicleId" jdbcType="BIGINT" property="vehicleId" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="sort" jdbcType="VARCHAR" property="sort" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="effectiveDate" jdbcType="DATE" property="effectiveDate" />
+    <result column="expiryDate" jdbcType="DATE" property="expiryDate" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="createUser" jdbcType="BIGINT" property="createUser" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <resultMap id="leInsuranceAmountMap" type="com.transnova.foundation.vehicle.model.VehicleInsuranceAmount">
+    <result column="compusory" jdbcType="DECIMAL" property="compusory" />
+    <result column="merchant" jdbcType="DECIMAL" property="merchant" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, vehicleId, type, sort, amount, effectiveDate, expiryDate, company, createUser, 
+    createTime
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.vehicle.mapper.VehicleInsuranceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vehicle_insurance
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from vehicle_insurance
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from vehicle_insurance
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.vehicle.mapper.VehicleInsuranceExample">
+    delete from vehicle_insurance
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.vehicle.model.VehicleInsurance">
+    insert into vehicle_insurance (id, vehicleId, type, 
+      sort, amount, effectiveDate, 
+      expiryDate, company, createUser, 
+      createTime)
+    values (#{id,jdbcType=BIGINT}, #{vehicleId,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, #{effectiveDate,jdbcType=DATE}, 
+      #{expiryDate,jdbcType=DATE}, #{company,jdbcType=VARCHAR}, #{createUser,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.vehicle.model.VehicleInsurance">
+    insert into vehicle_insurance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="vehicleId != null">
+        vehicleId,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="effectiveDate != null">
+        effectiveDate,
+      </if>
+      <if test="expiryDate != null">
+        expiryDate,
+      </if>
+      <if test="company != null">
+        company,
+      </if>
+      <if test="createUser != null">
+        createUser,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="vehicleId != null">
+        #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="effectiveDate != null">
+        #{effectiveDate,jdbcType=DATE},
+      </if>
+      <if test="expiryDate != null">
+        #{expiryDate,jdbcType=DATE},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.vehicle.mapper.VehicleInsuranceExample" resultType="java.lang.Long">
+    select count(*) from vehicle_insurance
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update vehicle_insurance
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.vehicleId != null">
+        vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=VARCHAR},
+      </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.effectiveDate != null">
+        effectiveDate = #{record.effectiveDate,jdbcType=DATE},
+      </if>
+      <if test="record.expiryDate != null">
+        expiryDate = #{record.expiryDate,jdbcType=DATE},
+      </if>
+      <if test="record.company != null">
+        company = #{record.company,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        createUser = #{record.createUser,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update vehicle_insurance
+    set id = #{record.id,jdbcType=BIGINT},
+      vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      type = #{record.type,jdbcType=VARCHAR},
+      sort = #{record.sort,jdbcType=VARCHAR},
+      amount = #{record.amount,jdbcType=DECIMAL},
+      effectiveDate = #{record.effectiveDate,jdbcType=DATE},
+      expiryDate = #{record.expiryDate,jdbcType=DATE},
+      company = #{record.company,jdbcType=VARCHAR},
+      createUser = #{record.createUser,jdbcType=BIGINT},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.vehicle.model.VehicleInsurance">
+    update vehicle_insurance
+    <set>
+      <if test="vehicleId != null">
+        vehicleId = #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="effectiveDate != null">
+        effectiveDate = #{effectiveDate,jdbcType=DATE},
+      </if>
+      <if test="expiryDate != null">
+        expiryDate = #{expiryDate,jdbcType=DATE},
+      </if>
+      <if test="company != null">
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        createUser = #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.vehicle.model.VehicleInsurance">
+    update vehicle_insurance
+    set vehicleId = #{vehicleId,jdbcType=BIGINT},
+      type = #{type,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DECIMAL},
+      effectiveDate = #{effectiveDate,jdbcType=DATE},
+      expiryDate = #{expiryDate,jdbcType=DATE},
+      company = #{company,jdbcType=VARCHAR},
+      createUser = #{createUser,jdbcType=BIGINT},
+      createTime = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    insert into vehicle_insurance
+    (id, vehicleId, type, sort, amount, effectiveDate, expiryDate, company, createUser, 
+      createTime)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.vehicleId,jdbcType=BIGINT}, #{item.type,jdbcType=VARCHAR}, 
+        #{item.sort,jdbcType=VARCHAR}, #{item.amount,jdbcType=DECIMAL}, #{item.effectiveDate,jdbcType=DATE}, 
+        #{item.expiryDate,jdbcType=DATE}, #{item.company,jdbcType=VARCHAR}, #{item.createUser,jdbcType=BIGINT}, 
+        #{item.createTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" parameterType="map">
+    insert into vehicle_insurance (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.value}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'id' == column.value">
+          #{item.id,jdbcType=BIGINT}
+        </if>
+        <if test="'vehicleId' == column.value">
+          #{item.vehicleId,jdbcType=BIGINT}
+        </if>
+        <if test="'type' == column.value">
+          #{item.type,jdbcType=VARCHAR}
+        </if>
+        <if test="'sort' == column.value">
+          #{item.sort,jdbcType=VARCHAR}
+        </if>
+        <if test="'amount' == column.value">
+          #{item.amount,jdbcType=DECIMAL}
+        </if>
+        <if test="'effectiveDate' == column.value">
+          #{item.effectiveDate,jdbcType=DATE}
+        </if>
+        <if test="'expiryDate' == column.value">
+          #{item.expiryDate,jdbcType=DATE}
+        </if>
+        <if test="'company' == column.value">
+          #{item.company,jdbcType=VARCHAR}
+        </if>
+        <if test="'createUser' == column.value">
+          #{item.createUser,jdbcType=BIGINT}
+        </if>
+        <if test="'createTime' == column.value">
+          #{item.createTime,jdbcType=TIMESTAMP}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
+
+  <select id="getInsuranceAmountGroupByType" resultMap="leInsuranceAmountMap">
+    select
+    sum(case when type='compusory' then amount end) compusory,
+    sum(case when type='merchant' then amount end) merchant
+    from
+    (
+    select type,
+    case when type='compusory' then sum(amount)
+         when type='merchant' then sum(amount)  end amount
+    from vehicle_insurance
+    where vehicleId= #{vehicleId}
+    and expiryDate > #{currentTime}
+    group by type
+    ) tab
+  </select>
+
+</mapper>

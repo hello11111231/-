@@ -1,0 +1,894 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.driver.mapper.DriverMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.driver.model.Driver">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="userId" jdbcType="BIGINT" property="userId" />
+    <result column="companyId" jdbcType="BIGINT" property="companyId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="age" jdbcType="TINYINT" property="age" />
+    <result column="race" jdbcType="VARCHAR" property="race" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="identifier" jdbcType="VARCHAR" property="identifier" />
+    <result column="identifierExpirationDate" jdbcType="DATE" property="identifierExpirationDate" />
+    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="homeAddress" jdbcType="VARCHAR" property="homeAddress" />
+    <result column="birthDate" jdbcType="DATE" property="birthDate" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="judgement" jdbcType="VARCHAR" property="judgement" />
+    <result column="relativesName" jdbcType="VARCHAR" property="relativesName" />
+    <result column="relativesPhone" jdbcType="VARCHAR" property="relativesPhone" />
+    <result column="fileIntegrity" jdbcType="DECIMAL" property="fileIntegrity" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="extcol" jdbcType="CHAR" property="extcol" />
+    <result column="createUserId" jdbcType="BIGINT" property="createUserId" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updateUserId" jdbcType="BIGINT" property="updateUserId" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="orgCode" jdbcType="VARCHAR" property="orgCode" />
+    <result column="hierarchyCode" jdbcType="VARCHAR" property="hierarchyCode" />
+    <result column="employeeType" jdbcType="VARCHAR" property="employeeType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    id, userId, companyId, name, photo, age, race, telephone, identifier, identifierExpirationDate, 
+    sex, homeAddress, birthDate, education, judgement, relativesName, relativesPhone, 
+    fileIntegrity, deleted, extcol, createUserId, createTime, updateUserId, updateTime,
+    orgCode, hierarchyCode,employeeType
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.driver.mapper.DriverExample" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from driver
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from driver
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from driver
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.driver.mapper.DriverExample">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from driver
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.driver.model.Driver">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into driver (id, userId, companyId,
+    name, photo, age, race,
+    telephone, identifier, identifierExpirationDate,
+    sex, homeAddress, birthDate,
+    education, judgement, relativesName,
+    relativesPhone, fileIntegrity, deleted,
+    extcol, createUserId, createTime,
+    updateUserId, updateTime, orgCode,
+    hierarchyCode,employeeType)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{companyId,jdbcType=BIGINT},
+    #{name,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, #{age,jdbcType=TINYINT}, #{race,jdbcType=VARCHAR},
+    #{telephone,jdbcType=VARCHAR}, #{identifier,jdbcType=VARCHAR}, #{identifierExpirationDate,jdbcType=DATE},
+    #{sex,jdbcType=BIT}, #{homeAddress,jdbcType=VARCHAR}, #{birthDate,jdbcType=DATE},
+    #{education,jdbcType=VARCHAR}, #{judgement,jdbcType=VARCHAR}, #{relativesName,jdbcType=VARCHAR},
+    #{relativesPhone,jdbcType=VARCHAR}, #{fileIntegrity,jdbcType=DECIMAL}, #{deleted,jdbcType=BIT},
+    #{extcol,jdbcType=CHAR}, #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
+    #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{orgCode,jdbcType=VARCHAR},
+    #{hierarchyCode,jdbcType=VARCHAR},
+    #{employeeType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.driver.model.Driver">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into driver
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="companyId != null">
+        companyId,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="photo != null">
+        photo,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="race != null">
+        race,
+      </if>
+      <if test="telephone != null">
+        telephone,
+      </if>
+      <if test="identifier != null">
+        identifier,
+      </if>
+      <if test="identifierExpirationDate != null">
+        identifierExpirationDate,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="homeAddress != null">
+        homeAddress,
+      </if>
+      <if test="birthDate != null">
+        birthDate,
+      </if>
+      <if test="education != null">
+        education,
+      </if>
+      <if test="judgement != null">
+        judgement,
+      </if>
+      <if test="relativesName != null">
+        relativesName,
+      </if>
+      <if test="relativesPhone != null">
+        relativesPhone,
+      </if>
+      <if test="fileIntegrity != null">
+        fileIntegrity,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="extcol != null">
+        extcol,
+      </if>
+      <if test="createUserId != null">
+        createUserId,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="updateUserId != null">
+        updateUserId,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="orgCode != null">
+        orgCode,
+      </if>
+      <if test="hierarchyCode != null">
+        hierarchyCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=TINYINT},
+      </if>
+      <if test="race != null">
+        #{race,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="identifier != null">
+        #{identifier,jdbcType=VARCHAR},
+      </if>
+      <if test="identifierExpirationDate != null">
+        #{identifierExpirationDate,jdbcType=DATE},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=BIT},
+      </if>
+      <if test="homeAddress != null">
+        #{homeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null">
+        #{birthDate,jdbcType=DATE},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="judgement != null">
+        #{judgement,jdbcType=VARCHAR},
+      </if>
+      <if test="relativesName != null">
+        #{relativesName,jdbcType=VARCHAR},
+      </if>
+      <if test="relativesPhone != null">
+        #{relativesPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="fileIntegrity != null">
+        #{fileIntegrity,jdbcType=DECIMAL},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="extcol != null">
+        #{extcol,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orgCode != null">
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hierarchyCode != null">
+        #{hierarchyCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.driver.mapper.DriverExample" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select count(*) from driver
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update driver
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null">
+        userId = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.companyId != null">
+        companyId = #{record.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.photo != null">
+        photo = #{record.photo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null">
+        age = #{record.age,jdbcType=TINYINT},
+      </if>
+      <if test="record.race != null">
+        race = #{record.race,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telephone != null">
+        telephone = #{record.telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.identifier != null">
+        identifier = #{record.identifier,jdbcType=VARCHAR},
+      </if>
+      <if test="record.identifierExpirationDate != null">
+        identifierExpirationDate = #{record.identifierExpirationDate,jdbcType=DATE},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=BIT},
+      </if>
+      <if test="record.homeAddress != null">
+        homeAddress = #{record.homeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthDate != null">
+        birthDate = #{record.birthDate,jdbcType=DATE},
+      </if>
+      <if test="record.education != null">
+        education = #{record.education,jdbcType=VARCHAR},
+      </if>
+      <if test="record.judgement != null">
+        judgement = #{record.judgement,jdbcType=VARCHAR},
+      </if>
+      <if test="record.relativesName != null">
+        relativesName = #{record.relativesName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.relativesPhone != null">
+        relativesPhone = #{record.relativesPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileIntegrity != null">
+        fileIntegrity = #{record.fileIntegrity,jdbcType=DECIMAL},
+      </if>
+      <if test="record.deleted != null">
+        deleted = #{record.deleted,jdbcType=BIT},
+      </if>
+      <if test="record.extcol != null">
+        extcol = #{record.extcol,jdbcType=CHAR},
+      </if>
+      <if test="record.createUserId != null">
+        createUserId = #{record.createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null">
+        updateUserId = #{record.updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orgCode != null">
+        orgCode = #{record.orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hierarchyCode != null">
+        hierarchyCode = #{record.hierarchyCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update driver
+    set id = #{record.id,jdbcType=BIGINT},
+      userId = #{record.userId,jdbcType=BIGINT},
+      companyId = #{record.companyId,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      photo = #{record.photo,jdbcType=VARCHAR},
+      age = #{record.age,jdbcType=TINYINT},
+      race = #{record.race,jdbcType=VARCHAR},
+      telephone = #{record.telephone,jdbcType=VARCHAR},
+      identifier = #{record.identifier,jdbcType=VARCHAR},
+      identifierExpirationDate = #{record.identifierExpirationDate,jdbcType=DATE},
+      sex = #{record.sex,jdbcType=BIT},
+      homeAddress = #{record.homeAddress,jdbcType=VARCHAR},
+      birthDate = #{record.birthDate,jdbcType=DATE},
+      education = #{record.education,jdbcType=VARCHAR},
+      judgement = #{record.judgement,jdbcType=VARCHAR},
+      relativesName = #{record.relativesName,jdbcType=VARCHAR},
+      relativesPhone = #{record.relativesPhone,jdbcType=VARCHAR},
+      fileIntegrity = #{record.fileIntegrity,jdbcType=DECIMAL},
+      deleted = #{record.deleted,jdbcType=BIT},
+      extcol = #{record.extcol,jdbcType=CHAR},
+      createUserId = #{record.createUserId,jdbcType=BIGINT},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      updateUserId = #{record.updateUserId,jdbcType=BIGINT},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      orgCode = #{record.orgCode,jdbcType=VARCHAR},
+      hierarchyCode = #{record.hierarchyCode,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.driver.model.Driver">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update driver
+    <set>
+      <if test="userId != null">
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null">
+        companyId = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=TINYINT},
+      </if>
+      <if test="race != null">
+        race = #{race,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="identifier != null">
+        identifier = #{identifier,jdbcType=VARCHAR},
+      </if>
+      <if test="identifierExpirationDate != null">
+        identifierExpirationDate = #{identifierExpirationDate,jdbcType=DATE},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=BIT},
+      </if>
+      <if test="homeAddress != null">
+        homeAddress = #{homeAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="birthDate != null">
+        birthDate = #{birthDate,jdbcType=DATE},
+      </if>
+      <if test="education != null">
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="judgement != null">
+        judgement = #{judgement,jdbcType=VARCHAR},
+      </if>
+      <if test="relativesName != null">
+        relativesName = #{relativesName,jdbcType=VARCHAR},
+      </if>
+      <if test="relativesPhone != null">
+        relativesPhone = #{relativesPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="fileIntegrity != null">
+        fileIntegrity = #{fileIntegrity,jdbcType=DECIMAL},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="extcol != null">
+        extcol = #{extcol,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null">
+        createUserId = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        updateUserId = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orgCode != null">
+        orgCode = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hierarchyCode != null">
+        hierarchyCode = #{hierarchyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeType != null">
+        employeeType = #{employeeType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.driver.model.Driver">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update driver
+    set userId = #{userId,jdbcType=BIGINT},
+      companyId = #{companyId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR},
+      age = #{age,jdbcType=TINYINT},
+      race = #{race,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      identifier = #{identifier,jdbcType=VARCHAR},
+      identifierExpirationDate = #{identifierExpirationDate,jdbcType=DATE},
+      sex = #{sex,jdbcType=BIT},
+      homeAddress = #{homeAddress,jdbcType=VARCHAR},
+      birthDate = #{birthDate,jdbcType=DATE},
+      education = #{education,jdbcType=VARCHAR},
+      judgement = #{judgement,jdbcType=VARCHAR},
+      relativesName = #{relativesName,jdbcType=VARCHAR},
+      relativesPhone = #{relativesPhone,jdbcType=VARCHAR},
+      fileIntegrity = #{fileIntegrity,jdbcType=DECIMAL},
+      deleted = #{deleted,jdbcType=BIT},
+      extcol = #{extcol,jdbcType=CHAR},
+      createUserId = #{createUserId,jdbcType=BIGINT},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateUserId = #{updateUserId,jdbcType=BIGINT},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      orgCode = #{orgCode,jdbcType=VARCHAR},
+      hierarchyCode = #{hierarchyCode,jdbcType=VARCHAR},
+      employeeType = #{employeeType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateDeleted" parameterType="map">
+    update driver set deleted = ${state} where id in
+    <foreach collection="id" item="item" index="index" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+  <select id="selectByCompanyId" parameterType="map" resultType="map">
+    <!--
+     WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+   -->
+    select
+    d.id,d.name,d.identifier,v.vehicleNumber,v.operateTypeId,c.name as typeName,d.sex,d.telephone,d.age,v.plateColor,license.model
+    from driver d
+    left join
+    (select driverId ,max(vehicleId) as vehicleId ,max(state) as state  from driver_vehicle_relevance where state='binding' group by driverId) dvr
+    on
+    d.id=dvr.driverId
+    left join
+    vehicle v
+    on
+    v.id=dvr.vehicleId
+
+    left  join
+    code c
+    on
+    v.operateTypeId=c.`code` and c.groupId=(select id from code_group where name='车辆.营运类型')
+    left join
+    driver_license license
+    on
+    d.id=license.driverId
+    where d.companyId=#{companyId} and d.deleted=0
+    <if test="driverName!= null and driverName!=''">
+      and d.name like '%${driverName}%'
+    </if>
+    <if test="operateTypeId!= null and operateTypeId!=''">
+      and v.operateTypeId =#{operateTypeId}
+    </if>
+    <if test="pageIndex!= null">
+      limit #{pageIndex},#{pageSize}
+    </if>
+  </select>
+
+  <select id="selectByCompanyIdCount" parameterType="map" resultType="INTEGER">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select
+    COUNT(*)
+    from driver d
+    left join
+    (select driverId ,max(vehicleId) as vehicleId ,max(state) as state  from driver_vehicle_relevance where state='binding' group by driverId) dvr
+    on
+    d.id=dvr.driverId
+    left join
+    vehicle v
+    on
+    v.id=dvr.vehicleId
+
+    left  join
+    code c
+    on
+    v.operateTypeId=c.`code` and c.groupId=(select id from code_group where name='车辆.营运类型')
+
+    where d.companyId=#{companyId}  and d.deleted=0
+    <if test="driverName!= null and driverName!=''">
+      and d.name like '%${driverName}%'
+    </if>
+    <if test="operateTypeId!= null and operateTypeId!=''">
+      and v.operateTypeId =#{operateTypeId}
+    </if>
+  </select>
+  <select id="selectVoById" parameterType="map" resultType="map">
+        <!--
+         WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+       -->
+        select
+        d.id,d.name,d.identifier,v.vehicleNumber,v.operateTypeId,c.name as typeName,d.sex,d.telephone,d.age,v.plateColor,license.model
+        from v_employee d
+        left join
+        (select driverId ,max(vehicleId) as vehicleId ,max(state) as state  from driver_vehicle_relevance where state='binding' group by driverId) dvr
+        on
+        d.id=dvr.driverId
+        left join
+        vehicle v
+        on
+        v.id=dvr.vehicleId
+
+        left  join
+        code c
+        on
+        v.operateTypeId=c.`code` and c.groupId=(select id from code_group where name='车辆.营运类型')
+        left join
+        driver_license license
+        on
+        d.id=license.driverId
+        where d.id=#{driverId}
+    </select>
+  <select id="selectByCompanyIdPlanId" parameterType="map" resultType="map">
+    <!--
+     WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+   -->
+    select
+    d.id,d.name,d.identifier,v.vehicleNumber,v.operateTypeId,c.name as typeName,d.sex,d.telephone,d.age,v.plateColor,license.model
+    from driver d
+    left join
+    (select driverId ,max(vehicleId) as vehicleId ,max(state) as state  from driver_vehicle_relevance where state='binding' group by driverId) dvr
+    on
+    d.id=dvr.driverId
+    left join
+    vehicle v
+    on
+    v.id=dvr.vehicleId
+
+    left  join
+    code c
+    on
+    v.operateTypeId=c.`code` and c.groupId=(select id from code_group where name='车辆.营运类型')
+    left join
+    driver_license license
+    on
+    d.id=license.driverId
+    where d.companyId=#{companyId} and d.deleted=0
+    <choose>
+      <when test="falg==1">
+        and d.id in (select userId from train_user_plan where planId=#{planId})
+      </when>
+      <otherwise>
+        and d.id not in (select userId from train_user_plan where planId=#{planId})
+      </otherwise>
+    </choose>
+    <if test="driverName!= null and driverName!=''">
+      and d.name like '%${driverName}%'
+    </if>
+    <if test="operateTypeId!= null and operateTypeId!=''">
+      and v.operateTypeId =#{operateTypeId}
+    </if>
+    <if test="pageIndex!= null">
+      limit #{pageIndex},#{pageSize}
+    </if>
+  </select>
+  <select id="selectByCompanyIdPlanIdCount" parameterType="map" resultType="INTEGER">
+    <!--
+     WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+   -->
+    select COUNT(*)
+    from driver d
+    left join
+    (select driverId ,max(vehicleId) as vehicleId ,max(state) as state  from driver_vehicle_relevance where state='binding' group by driverId) dvr
+    on
+    d.id=dvr.driverId
+    left join
+    vehicle v
+    on
+    v.id=dvr.vehicleId
+
+    left  join
+    code c
+    on
+    v.operateTypeId=c.`code` and c.groupId=(select id from code_group where name='车辆.营运类型')
+    left join
+    driver_license license
+    on
+    d.id=license.driverId
+    where d.companyId=#{companyId} and d.deleted=0
+    <choose>
+      <when test="falg==1">
+        and d.id in (select userId from train_user_plan where planId=#{planId})
+      </when>
+      <otherwise>
+        and d.id not in (select userId from train_user_plan where planId=#{planId})
+      </otherwise>
+    </choose>
+    <if test="driverName!= null and driverName!=''">
+      and d.name like '%${driverName}%'
+    </if>
+    <if test="operateTypeId!= null and operateTypeId!=''">
+      and v.operateTypeId =#{operateTypeId}
+    </if>
+  </select>
+
+
+  <select id="selectByCompanyName" parameterType="map" resultType="map">
+    <!--
+     WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+   -->
+    select
+    d.id,d.name,d.identifier,v.vehicleNumber,v.operateTypeId,c.name as typeName,d.sex,d.telephone,d.age,v.plateColor,license.model,d.companyId
+    from driver d
+    left join
+    (select driverId ,max(vehicleId) as vehicleId ,max(state) as state  from driver_vehicle_relevance where state='binding' group by driverId) dvr
+    on
+    d.id=dvr.driverId
+    left join
+    vehicle v
+    on
+    v.id=dvr.vehicleId
+
+    left  join
+    code c
+    on
+    v.operateTypeId=c.`code` and c.groupId=(select id from code_group where name='车辆.营运类型')
+    left join
+    driver_license license
+    on
+    d.id=license.driverId
+    where d.companyId in (select id from company where orgCode=#{orgCode} and name like '%${companyName}%' and deleted=0)  and d.deleted=0
+    <if test="hierarchyCode!=null and hierarchyCode !=''">
+      and d.hierarchyCode like '${hierarchyCode}%'
+    </if>
+    <if test="driverName!= null and driverName!=''">
+      and d.name like '%${driverName}%'
+    </if>
+    <if test="operateTypeId!= null and operateTypeId!=''">
+      and v.operateTypeId =#{operateTypeId}
+    </if>
+    <if test="pageIndex!= null">
+      limit #{pageIndex},#{pageSize}
+    </if>
+  </select>
+
+  <select id="selectByCompanyNameCount" parameterType="map" resultType="INTEGER">
+    <!--
+     WARNING - @mbg.generated  This element was generated on Thu Apr 23 13:54:52 CST 2020. by MyBatis Generator, do not modify.
+   -->
+    select COUNT(*)
+    from driver d
+    left join
+    (select driverId ,max(vehicleId) as vehicleId ,max(state) as state  from driver_vehicle_relevance where state='binding' group by driverId) dvr
+    on
+    d.id=dvr.driverId
+    left join
+    vehicle v
+    on
+    v.id=dvr.vehicleId
+
+    left  join
+    code c
+    on
+    v.operateTypeId=c.`code` and c.groupId=(select id from code_group where name='车辆.营运类型')
+    left join
+    driver_license license
+    on
+    d.id=license.driverId
+    where d.companyId in (select id from company where orgCode=#{orgCode} and name like '%${companyName}%' and deleted=0)  and d.deleted=0
+    <if test="hierarchyCode!=null and hierarchyCode !=''">
+      and d.hierarchyCode like '${hierarchyCode}%'
+    </if>
+    <if test="driverName!= null and driverName!=''">
+      and d.name like '%${driverName}%'
+    </if>
+    <if test="operateTypeId!= null and operateTypeId!=''">
+      and v.operateTypeId =#{operateTypeId}
+    </if>
+  </select>
+
+  <select id="countIdentifierByExample" parameterType="map" resultType="java.lang.Long">
+    select count(*)
+    from driver
+    where deleted = 0 and (identifier is null or identifier='')
+    <if test="orgCode != null and orgCode != ''">
+      and orgCode = #{orgCode}
+    </if>
+    <if test="hieCode != null and hieCode != ''">
+      and hierarchyCode like '${hieCode}%'
+    </if>
+  </select>
+
+  <select id="countLicenseByExample" parameterType="map" resultType="java.lang.Long">
+    select count(*)
+    from driver d inner join driver_license dl on d.id=dl.driverId
+    where deleted = 0
+    <if test="orgCode != null and orgCode != ''">
+      and orgCode = #{orgCode}
+    </if>
+    <if test="hieCode != null and hieCode != ''">
+      and hierarchyCode like '${hieCode}%'
+    </if>
+  </select>
+
+  <select id="countQualificationByExample" parameterType="map" resultType="java.lang.Long">
+    select count(*)
+    from driver d inner join driver_qualification dq on d.id=dq.driverId
+    where deleted = 0
+    <if test="orgCode != null and orgCode != ''">
+      and orgCode = #{orgCode}
+    </if>
+    <if test="hieCode != null and hieCode != ''">
+      and hierarchyCode like '${hieCode}%'
+    </if>
+  </select>
+
+
+</mapper>

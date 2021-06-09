@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.vehicle.mapper.VehicleDailyStatisticsMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.vehicle.model.VehicleDailyStatistics">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="vehicleId" jdbcType="BIGINT" property="vehicleId" />
+    <result column="companyId" jdbcType="BIGINT" property="companyId" />
+    <result column="totalMileage" jdbcType="INTEGER" property="totalMileage" />
+    <result column="totalOilConsumption" jdbcType="DECIMAL" property="totalOilConsumption" />
+    <result column="mileages" jdbcType="INTEGER" property="mileages" />
+    <result column="oilConsumption" jdbcType="DECIMAL" property="oilConsumption" />
+    <result column="averageOilConsumption" jdbcType="DECIMAL" property="averageOilConsumption" />
+    <result column="vehicleHitchCount" jdbcType="INTEGER" property="vehicleHitchCount" />
+    <result column="deviceHitchCount" jdbcType="INTEGER" property="deviceHitchCount" />
+    <result column="vehicleHitchRatio" jdbcType="DECIMAL" property="vehicleHitchRatio" />
+    <result column="deviceHitchRatio" jdbcType="DECIMAL" property="deviceHitchRatio" />
+    <result column="score" jdbcType="DECIMAL" property="score" />
+    <result column="lastScore" jdbcType="DECIMAL" property="lastScore" />
+    <result column="analyzeDate" jdbcType="DATE" property="analyzeDate" />
+    <result column="totalMileageRank" jdbcType="BIGINT" property="totalMileageRank" />
+    <result column="averageOilConsumptionRank" jdbcType="BIGINT" property="averageOilConsumptionRank" />
+    <result column="vehicleHitchCountRank" jdbcType="BIGINT" property="vehicleHitchCountRank" />
+    <result column="vehicleHitchRatioRank" jdbcType="BIGINT" property="vehicleHitchRatioRank" />
+    <result column="deviceHitchCountRank" jdbcType="BIGINT" property="deviceHitchCountRank" />
+    <result column="deviceHitchRatioRank" jdbcType="BIGINT" property="deviceHitchRatioRank" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, vehicleId, companyId, totalMileage, totalOilConsumption, mileages, oilConsumption, averageOilConsumption,
+    vehicleHitchCount, deviceHitchCount, vehicleHitchRatio, deviceHitchRatio, score, 
+    lastScore, analyzeDate, totalMileageRank, averageOilConsumptionRank, vehicleHitchCountRank, vehicleHitchRatioRank,
+    deviceHitchCountRank, deviceHitchRatioRank
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.vehicle.mapper.VehicleDailyStatisticsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vehicle_daily_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from vehicle_daily_statistics
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from vehicle_daily_statistics
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.vehicle.mapper.VehicleDailyStatisticsExample">
+    delete from vehicle_daily_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.vehicle.model.VehicleDailyStatistics">
+    insert into vehicle_daily_statistics (id, vehicleId, companyId, totalMileage,
+      totalOilConsumption, mileages, oilConsumption, 
+      averageOilConsumption, vehicleHitchCount, 
+      deviceHitchCount, vehicleHitchRatio, deviceHitchRatio, 
+      score, lastScore, analyzeDate, totalMileageRank, averageOilConsumptionRank, vehicleHitchCountRank, vehicleHitchRatioRank,
+      deviceHitchCountRank, deviceHitchRatioRank
+      )
+    values (#{id,jdbcType=BIGINT}, #{vehicleId,jdbcType=BIGINT}, #{companyId,jdbcType=BIGINT}, #{totalMileage,jdbcType=INTEGER},
+      #{totalOilConsumption,jdbcType=DECIMAL}, #{mileages,jdbcType=INTEGER}, #{oilConsumption,jdbcType=DECIMAL}, 
+      #{averageOilConsumption,jdbcType=DECIMAL}, #{vehicleHitchCount,jdbcType=INTEGER}, 
+      #{deviceHitchCount,jdbcType=INTEGER}, #{vehicleHitchRatio,jdbcType=DECIMAL}, #{deviceHitchRatio,jdbcType=DECIMAL}, 
+      #{score,jdbcType=DECIMAL}, #{lastScore,jdbcType=DECIMAL}, #{analyzeDate,jdbcType=DATE},
+      #{totalMileageRank,jdbcType=BIGINT}, #{averageOilConsumptionRank,jdbcType=BIGINT},#{vehicleHitchCountRank,jdbcType=BIGINT},
+      #{vehicleHitchRatioRank,jdbcType=BIGINT},#{deviceHitchCountRank,jdbcType=BIGINT},#{deviceHitchRatioRank,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.vehicle.model.VehicleDailyStatistics">
+    insert into vehicle_daily_statistics
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="vehicleId != null">
+        vehicleId,
+      </if>
+      <if test="companyId != null">
+        companyId,
+      </if>
+      <if test="totalMileage != null">
+        totalMileage,
+      </if>
+      <if test="totalOilConsumption != null">
+        totalOilConsumption,
+      </if>
+      <if test="mileages != null">
+        mileages,
+      </if>
+      <if test="oilConsumption != null">
+        oilConsumption,
+      </if>
+      <if test="averageOilConsumption != null">
+        averageOilConsumption,
+      </if>
+      <if test="vehicleHitchCount != null">
+        vehicleHitchCount,
+      </if>
+      <if test="deviceHitchCount != null">
+        deviceHitchCount,
+      </if>
+      <if test="vehicleHitchRatio != null">
+        vehicleHitchRatio,
+      </if>
+      <if test="deviceHitchRatio != null">
+        deviceHitchRatio,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="lastScore != null">
+        lastScore,
+      </if>
+      <if test="analyzeDate != null">
+        analyzeDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="vehicleId != null">
+        #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="totalMileage != null">
+        #{totalMileage,jdbcType=INTEGER},
+      </if>
+      <if test="totalOilConsumption != null">
+        #{totalOilConsumption,jdbcType=DECIMAL},
+      </if>
+      <if test="mileages != null">
+        #{mileages,jdbcType=INTEGER},
+      </if>
+      <if test="oilConsumption != null">
+        #{oilConsumption,jdbcType=DECIMAL},
+      </if>
+      <if test="averageOilConsumption != null">
+        #{averageOilConsumption,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleHitchCount != null">
+        #{vehicleHitchCount,jdbcType=INTEGER},
+      </if>
+      <if test="deviceHitchCount != null">
+        #{deviceHitchCount,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleHitchRatio != null">
+        #{vehicleHitchRatio,jdbcType=DECIMAL},
+      </if>
+      <if test="deviceHitchRatio != null">
+        #{deviceHitchRatio,jdbcType=DECIMAL},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="lastScore != null">
+        #{lastScore,jdbcType=DECIMAL},
+      </if>
+      <if test="analyzeDate != null">
+        #{analyzeDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.vehicle.mapper.VehicleDailyStatisticsExample" resultType="java.lang.Long">
+    select count(*) from vehicle_daily_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update vehicle_daily_statistics
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.vehicleId != null">
+        vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="record.companyId != null">
+        companyId = #{record.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.totalMileage != null">
+        totalMileage = #{record.totalMileage,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalOilConsumption != null">
+        totalOilConsumption = #{record.totalOilConsumption,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mileages != null">
+        mileages = #{record.mileages,jdbcType=INTEGER},
+      </if>
+      <if test="record.oilConsumption != null">
+        oilConsumption = #{record.oilConsumption,jdbcType=DECIMAL},
+      </if>
+      <if test="record.averageOilConsumption != null">
+        averageOilConsumption = #{record.averageOilConsumption,jdbcType=DECIMAL},
+      </if>
+      <if test="record.vehicleHitchCount != null">
+        vehicleHitchCount = #{record.vehicleHitchCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.deviceHitchCount != null">
+        deviceHitchCount = #{record.deviceHitchCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.vehicleHitchRatio != null">
+        vehicleHitchRatio = #{record.vehicleHitchRatio,jdbcType=DECIMAL},
+      </if>
+      <if test="record.deviceHitchRatio != null">
+        deviceHitchRatio = #{record.deviceHitchRatio,jdbcType=DECIMAL},
+      </if>
+      <if test="record.score != null">
+        score = #{record.score,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lastScore != null">
+        lastScore = #{record.lastScore,jdbcType=DECIMAL},
+      </if>
+      <if test="record.analyzeDate != null">
+        analyzeDate = #{record.analyzeDate,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update vehicle_daily_statistics
+    set id = #{record.id,jdbcType=BIGINT},
+      vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      companyId = #{record.companyId,jdbcType=BIGINT},
+      totalMileage = #{record.totalMileage,jdbcType=INTEGER},
+      totalOilConsumption = #{record.totalOilConsumption,jdbcType=DECIMAL},
+      mileages = #{record.mileages,jdbcType=INTEGER},
+      oilConsumption = #{record.oilConsumption,jdbcType=DECIMAL},
+      averageOilConsumption = #{record.averageOilConsumption,jdbcType=DECIMAL},
+      vehicleHitchCount = #{record.vehicleHitchCount,jdbcType=INTEGER},
+      deviceHitchCount = #{record.deviceHitchCount,jdbcType=INTEGER},
+      vehicleHitchRatio = #{record.vehicleHitchRatio,jdbcType=DECIMAL},
+      deviceHitchRatio = #{record.deviceHitchRatio,jdbcType=DECIMAL},
+      score = #{record.score,jdbcType=DECIMAL},
+      lastScore = #{record.lastScore,jdbcType=DECIMAL},
+      analyzeDate = #{record.analyzeDate,jdbcType=DATE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.vehicle.model.VehicleDailyStatistics">
+    update vehicle_daily_statistics
+    <set>
+      <if test="vehicleId != null">
+        vehicleId = #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null">
+        companyId = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="totalMileage != null">
+        totalMileage = #{totalMileage,jdbcType=INTEGER},
+      </if>
+      <if test="totalOilConsumption != null">
+        totalOilConsumption = #{totalOilConsumption,jdbcType=DECIMAL},
+      </if>
+      <if test="mileages != null">
+        mileages = #{mileages,jdbcType=INTEGER},
+      </if>
+      <if test="oilConsumption != null">
+        oilConsumption = #{oilConsumption,jdbcType=DECIMAL},
+      </if>
+      <if test="averageOilConsumption != null">
+        averageOilConsumption = #{averageOilConsumption,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleHitchCount != null">
+        vehicleHitchCount = #{vehicleHitchCount,jdbcType=INTEGER},
+      </if>
+      <if test="deviceHitchCount != null">
+        deviceHitchCount = #{deviceHitchCount,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleHitchRatio != null">
+        vehicleHitchRatio = #{vehicleHitchRatio,jdbcType=DECIMAL},
+      </if>
+      <if test="deviceHitchRatio != null">
+        deviceHitchRatio = #{deviceHitchRatio,jdbcType=DECIMAL},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="lastScore != null">
+        lastScore = #{lastScore,jdbcType=DECIMAL},
+      </if>
+      <if test="analyzeDate != null">
+        analyzeDate = #{analyzeDate,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.vehicle.model.VehicleDailyStatistics">
+    update vehicle_daily_statistics
+    set vehicleId = #{vehicleId,jdbcType=BIGINT},
+      companyId = #{companyId,jdbcType=BIGINT},
+      totalMileage = #{totalMileage,jdbcType=INTEGER},
+      totalOilConsumption = #{totalOilConsumption,jdbcType=DECIMAL},
+      mileages = #{mileages,jdbcType=INTEGER},
+      oilConsumption = #{oilConsumption,jdbcType=DECIMAL},
+      averageOilConsumption = #{averageOilConsumption,jdbcType=DECIMAL},
+      vehicleHitchCount = #{vehicleHitchCount,jdbcType=INTEGER},
+      deviceHitchCount = #{deviceHitchCount,jdbcType=INTEGER},
+      vehicleHitchRatio = #{vehicleHitchRatio,jdbcType=DECIMAL},
+      deviceHitchRatio = #{deviceHitchRatio,jdbcType=DECIMAL},
+      score = #{score,jdbcType=DECIMAL},
+      lastScore = #{lastScore,jdbcType=DECIMAL},
+      analyzeDate = #{analyzeDate,jdbcType=DATE},
+      totalMileageRank = #{totalMileageRank,jdbcType=BIGINT},
+      averageOilConsumptionRank = #{averageOilConsumptionRank,jdbcType=BIGINT},
+      vehicleHitchCountRank = #{vehicleHitchCountRank,jdbcType=BIGINT},
+      vehicleHitchRatioRank = #{vehicleHitchRatioRank,jdbcType=BIGINT},
+      deviceHitchCountRank = #{deviceHitchCountRank,jdbcType=BIGINT},
+      deviceHitchRatioRank = #{deviceHitchRatioRank,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

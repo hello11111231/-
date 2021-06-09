@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.organization.mapper.OrgPlatformMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.organization.model.OrgPlatform">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Apr 20 16:39:24 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="orgCode" jdbcType="VARCHAR" property="orgCode" />
+    <result column="platformCode" jdbcType="VARCHAR" property="platformCode" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Apr 20 16:39:24 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Apr 20 16:39:24 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Apr 20 16:39:24 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    id, orgCode, platformCode
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.organization.mapper.OrgPlatformExample" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Apr 20 16:39:24 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_org_platform
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Apr 20 16:39:24 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from sys_org_platform
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Apr 20 16:39:24 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from sys_org_platform
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.organization.mapper.OrgPlatformExample">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Apr 20 16:39:24 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from sys_org_platform
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.organization.model.OrgPlatform">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Apr 20 16:39:24 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into sys_org_platform (id, orgCode, platformCode
+      )
+    values (#{id,jdbcType=BIGINT}, #{orgCode,jdbcType=VARCHAR}, #{platformCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.organization.model.OrgPlatform">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Apr 20 16:39:24 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into sys_org_platform
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orgCode != null">
+        orgCode,
+      </if>
+      <if test="platformCode != null">
+        platformCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orgCode != null">
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="platformCode != null">
+        #{platformCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.organization.mapper.OrgPlatformExample" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Apr 20 16:39:24 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select count(*) from sys_org_platform
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Apr 20 16:39:24 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update sys_org_platform
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.orgCode != null">
+        orgCode = #{record.orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.platformCode != null">
+        platformCode = #{record.platformCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Apr 20 16:39:24 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update sys_org_platform
+    set id = #{record.id,jdbcType=BIGINT},
+      orgCode = #{record.orgCode,jdbcType=VARCHAR},
+      platformCode = #{record.platformCode,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.organization.model.OrgPlatform">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Apr 20 16:39:24 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update sys_org_platform
+    <set>
+      <if test="orgCode != null">
+        orgCode = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="platformCode != null">
+        platformCode = #{platformCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.organization.model.OrgPlatform">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Apr 20 16:39:24 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update sys_org_platform
+    set orgCode = #{orgCode,jdbcType=VARCHAR},
+      platformCode = #{platformCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectPlatformByMap" parameterType="map" resultType="com.transnova.foundation.platform.model.Platform">
+  select id,pcode,pname,SSOkey,SSOLoginURL,SSOLogoutURL
+  from
+  sys_platform p
+  inner join
+  (select orgCode,platformCode from sys_org_platform where orgCode=#{orgCode}) o
+  on p.pcode=o.platformCode
+    <if test="pageIndex != null">
+  limit #{pageIndex},#{pageSize}
+    </if>
+
+</select>
+  <select id="selectPlatformCountByMap" parameterType="map" resultType="long">
+    select count(*)
+    from
+    sys_platform p
+    inner join
+    (select orgCode,platformCode from sys_org_platform where orgCode=#{orgCode}) o
+    on p.pcode=o.platformCode
+    <if test="pageIndex != null">
+    limit #{pageIndex},#{pageSize}
+    </if>
+  </select>
+</mapper>

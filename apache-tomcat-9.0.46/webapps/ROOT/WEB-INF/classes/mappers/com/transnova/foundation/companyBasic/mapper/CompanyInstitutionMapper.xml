@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.companyBasic.mapper.CompanyInstitutionMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.companyBasic.model.CompanyInstitution">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="companyId" jdbcType="BIGINT" property="companyId" />
+    <result column="systemNumber" jdbcType="VARCHAR" property="systemNumber" />
+    <result column="systemName" jdbcType="VARCHAR" property="systemName" />
+    <result column="updateUserId" jdbcType="TIMESTAMP" property="updateUserId" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="createUserId" jdbcType="TIMESTAMP" property="createUserId" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, companyId, systemNumber, systemName, updateUserId, updateTime, createUserId, 
+    createTime, deleted
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.companyBasic.mapper.CompanyInstitutionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from company_institution
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from company_institution
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from company_institution
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.companyBasic.mapper.CompanyInstitutionExample">
+    delete from company_institution
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.companyBasic.model.CompanyInstitution">
+    insert into company_institution (id, companyId, systemNumber, 
+      systemName, updateUserId, updateTime, 
+      createUserId, createTime, deleted
+      )
+    values (#{id,jdbcType=BIGINT}, #{companyId,jdbcType=BIGINT}, #{systemNumber,jdbcType=VARCHAR}, 
+      #{systemName,jdbcType=VARCHAR}, #{updateUserId,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.companyBasic.model.CompanyInstitution">
+    insert into company_institution
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="companyId != null">
+        companyId,
+      </if>
+      <if test="systemNumber != null">
+        systemNumber,
+      </if>
+      <if test="systemName != null">
+        systemName,
+      </if>
+      <if test="updateUserId != null">
+        updateUserId,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="createUserId != null">
+        createUserId,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="systemNumber != null">
+        #{systemNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="systemName != null">
+        #{systemName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.companyBasic.mapper.CompanyInstitutionExample" resultType="java.lang.Long">
+    select count(*) from company_institution
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update company_institution
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.companyId != null">
+        companyId = #{record.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.systemNumber != null">
+        systemNumber = #{record.systemNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.systemName != null">
+        systemName = #{record.systemName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUserId != null">
+        updateUserId = #{record.updateUserId,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null">
+        createUserId = #{record.createUserId,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleted != null">
+        deleted = #{record.deleted,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update company_institution
+    set id = #{record.id,jdbcType=BIGINT},
+      companyId = #{record.companyId,jdbcType=BIGINT},
+      systemNumber = #{record.systemNumber,jdbcType=VARCHAR},
+      systemName = #{record.systemName,jdbcType=VARCHAR},
+      updateUserId = #{record.updateUserId,jdbcType=TIMESTAMP},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      createUserId = #{record.createUserId,jdbcType=TIMESTAMP},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      deleted = #{record.deleted,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.companyBasic.model.CompanyInstitution">
+    update company_institution
+    <set>
+      <if test="companyId != null">
+        companyId = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="systemNumber != null">
+        systemNumber = #{systemNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="systemName != null">
+        systemName = #{systemName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserId != null">
+        updateUserId = #{updateUserId,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        createUserId = #{createUserId,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.companyBasic.model.CompanyInstitution">
+    update company_institution
+    set companyId = #{companyId,jdbcType=BIGINT},
+      systemNumber = #{systemNumber,jdbcType=VARCHAR},
+      systemName = #{systemName,jdbcType=VARCHAR},
+      updateUserId = #{updateUserId,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      createUserId = #{createUserId,jdbcType=TIMESTAMP},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      deleted = #{deleted,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

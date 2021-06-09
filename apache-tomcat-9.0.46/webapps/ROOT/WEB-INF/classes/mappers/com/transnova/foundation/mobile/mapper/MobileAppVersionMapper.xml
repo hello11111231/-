@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.mobile.mapper.MobileAppVersionMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.mobile.model.MobileAppVersion">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:30 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="appId" jdbcType="BIGINT" property="appId" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="modification" jdbcType="VARCHAR" property="modification" />
+    <result column="updateUrl" jdbcType="VARCHAR" property="updateUrl" />
+    <result column="forceUpdate" jdbcType="BIT" property="forceUpdate" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:30 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:30 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:30 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    id, appId, version, code, modification, updateUrl, createTime, forceUpdate
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.mobile.mapper.MobileAppVersionExample" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:30 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from mobile_app_version
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:30 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from mobile_app_version
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:30 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    delete from mobile_app_version
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.mobile.mapper.MobileAppVersionExample">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:30 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    delete from mobile_app_version
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.mobile.model.MobileAppVersion">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:30 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    insert into mobile_app_version (id, appId, version, 
+      code, modification, updateUrl, 
+      createTime, forceUpdate)
+    values (#{id,jdbcType=BIGINT}, #{appId,jdbcType=BIGINT}, #{version,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{modification,jdbcType=VARCHAR}, #{updateUrl,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{forceUpdate,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.mobile.model.MobileAppVersion">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:30 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    insert into mobile_app_version
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="appId != null">
+        appId,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="modification != null">
+        modification,
+      </if>
+      <if test="updateUrl != null">
+        updateUrl,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="forceUpdate != null">
+        forceUpdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=BIGINT},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="modification != null">
+        #{modification,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUrl != null">
+        #{updateUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="forceUpdate != null">
+        #{forceUpdate,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.mobile.mapper.MobileAppVersionExample" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:30 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    select count(*) from mobile_app_version
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="countByAppId" parameterType="map" resultType="java.lang.Long">
+    select count(*) from mobile_app_version
+    where appId=#{appId} and code > #{code} and forceUpdate=1
+
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:30 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    update mobile_app_version
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.appId != null">
+        appId = #{record.appId,jdbcType=BIGINT},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modification != null">
+        modification = #{record.modification,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUrl != null">
+        updateUrl = #{record.updateUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.forceUpdate != null">
+        forceUpdate = #{record.forceUpdate,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:30 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    update mobile_app_version
+    set id = #{record.id,jdbcType=BIGINT},
+      appId = #{record.appId,jdbcType=BIGINT},
+      version = #{record.version,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=VARCHAR},
+      modification = #{record.modification,jdbcType=VARCHAR},
+      updateUrl = #{record.updateUrl,jdbcType=VARCHAR},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      forceUpdate = #{record.forceUpdate,jdbcType=BIT},
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.mobile.model.MobileAppVersion">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:30 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    update mobile_app_version
+    <set>
+      <if test="appId != null">
+        appId = #{appId,jdbcType=BIGINT},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="modification != null">
+        modification = #{modification,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUrl != null">
+        updateUrl = #{updateUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="forceUpdate != null">
+        forceUpdate = #{forceUpdate,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.mobile.model.MobileAppVersion">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:30 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    update mobile_app_version
+    set appId = #{appId,jdbcType=BIGINT},
+      version = #{version,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      modification = #{modification,jdbcType=VARCHAR},
+      updateUrl = #{updateUrl,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      forceUpdate = #{forceUpdate,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:30 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    insert into mobile_app_version
+    (id, appId, version, code, modification, updateUrl, createTime, forceUpdate)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.appId,jdbcType=BIGINT}, #{item.version,jdbcType=VARCHAR}, 
+        #{item.code,jdbcType=VARCHAR}, #{item.modification,jdbcType=VARCHAR}, #{item.updateUrl,jdbcType=VARCHAR}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.forceUpdate,jdbcType=BIT})
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:30 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    insert into mobile_app_version (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.value}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'id' == column.value">
+          #{item.id,jdbcType=BIGINT}
+        </if>
+        <if test="'appId' == column.value">
+          #{item.appId,jdbcType=BIGINT}
+        </if>
+        <if test="'version' == column.value">
+          #{item.version,jdbcType=VARCHAR}
+        </if>
+        <if test="'code' == column.value">
+          #{item.code,jdbcType=VARCHAR}
+        </if>
+        <if test="'modification' == column.value">
+          #{item.modification,jdbcType=VARCHAR}
+        </if>
+        <if test="'updateUrl' == column.value">
+          #{item.updateUrl,jdbcType=VARCHAR}
+        </if>
+        <if test="'createTime' == column.value">
+          #{item.createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'forceUpdate' == column.value">
+          #{item.forceUpdate,jdbcType=BIT}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
+</mapper>

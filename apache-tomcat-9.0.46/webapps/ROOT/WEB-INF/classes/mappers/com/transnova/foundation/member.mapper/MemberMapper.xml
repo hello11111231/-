@@ -1,0 +1,753 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.member.mapper.MemberMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.member.model.Member">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Jan 06 13:56:59 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="orgCode" jdbcType="VARCHAR" property="orgCode" />
+    <result column="companyId" jdbcType="BIGINT" property="companyId" />
+    <result column="userId" jdbcType="BIGINT" property="userId" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="expirationStartTime" jdbcType="TIMESTAMP" property="expirationStartTime" />
+    <result column="expirationEndTime" jdbcType="TIMESTAMP" property="expirationEndTime" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="effectiveTime" jdbcType="INTEGER" property="effectiveTime" />
+    <result column="watchedTime" jdbcType="INTEGER" property="watchedTime" />
+    <result column="bindTime" jdbcType="TIMESTAMP" property="bindTime" />
+    <result column="bindCount" jdbcType="INTEGER" property="bindCount" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="createUserId" jdbcType="BIGINT" property="createUserId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Jan 06 13:56:59 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Jan 06 13:56:59 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Jan 06 13:56:59 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    id, orgCode, companyId, userId, createTime, expirationStartTime, expirationEndTime, 
+    state, effectiveTime, watchedTime, bindTime, bindCount, updateTime, createUserId
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.member.mapper.MemberExample" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Jan 06 13:56:59 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from train_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Jan 06 13:56:59 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from train_member
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Jan 06 13:56:59 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    delete from train_member
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.member.mapper.MemberExample">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Jan 06 13:56:59 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    delete from train_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.member.model.Member">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Jan 06 13:56:59 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    insert into train_member (id, orgCode, companyId, 
+      userId, createTime, expirationStartTime, 
+      expirationEndTime, state, effectiveTime, 
+      watchedTime, bindTime, bindCount, 
+      updateTime, createUserId)
+    values (#{id,jdbcType=BIGINT}, #{orgCode,jdbcType=VARCHAR}, #{companyId,jdbcType=BIGINT}, 
+      #{userId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{expirationStartTime,jdbcType=TIMESTAMP}, 
+      #{expirationEndTime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}, #{effectiveTime,jdbcType=INTEGER}, 
+      #{watchedTime,jdbcType=INTEGER}, #{bindTime,jdbcType=TIMESTAMP}, #{bindCount,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.member.model.Member">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Jan 06 13:56:59 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    insert into train_member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orgCode != null">
+        orgCode,
+      </if>
+      <if test="companyId != null">
+        companyId,
+      </if>
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="expirationStartTime != null">
+        expirationStartTime,
+      </if>
+      <if test="expirationEndTime != null">
+        expirationEndTime,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="effectiveTime != null">
+        effectiveTime,
+      </if>
+      <if test="watchedTime != null">
+        watchedTime,
+      </if>
+      <if test="bindTime != null">
+        bindTime,
+      </if>
+      <if test="bindCount != null">
+        bindCount,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="createUserId != null">
+        createUserId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orgCode != null">
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expirationStartTime != null">
+        #{expirationStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expirationEndTime != null">
+        #{expirationEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="effectiveTime != null">
+        #{effectiveTime,jdbcType=INTEGER},
+      </if>
+      <if test="watchedTime != null">
+        #{watchedTime,jdbcType=INTEGER},
+      </if>
+      <if test="bindTime != null">
+        #{bindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bindCount != null">
+        #{bindCount,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.member.mapper.MemberExample" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Jan 06 13:56:59 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    select count(*) from train_member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Jan 06 13:56:59 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    update train_member
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.orgCode != null">
+        orgCode = #{record.orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyId != null">
+        companyId = #{record.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null">
+        userId = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expirationStartTime != null">
+        expirationStartTime = #{record.expirationStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expirationEndTime != null">
+        expirationEndTime = #{record.expirationEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.effectiveTime != null">
+        effectiveTime = #{record.effectiveTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.watchedTime != null">
+        watchedTime = #{record.watchedTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.bindTime != null">
+        bindTime = #{record.bindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.bindCount != null">
+        bindCount = #{record.bindCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null">
+        createUserId = #{record.createUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Jan 06 13:56:59 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    update train_member
+    set id = #{record.id,jdbcType=BIGINT},
+      orgCode = #{record.orgCode,jdbcType=VARCHAR},
+      companyId = #{record.companyId,jdbcType=BIGINT},
+      userId = #{record.userId,jdbcType=BIGINT},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      expirationStartTime = #{record.expirationStartTime,jdbcType=TIMESTAMP},
+      expirationEndTime = #{record.expirationEndTime,jdbcType=TIMESTAMP},
+      state = #{record.state,jdbcType=INTEGER},
+      effectiveTime = #{record.effectiveTime,jdbcType=INTEGER},
+      watchedTime = #{record.watchedTime,jdbcType=INTEGER},
+      bindTime = #{record.bindTime,jdbcType=TIMESTAMP},
+      bindCount = #{record.bindCount,jdbcType=INTEGER},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      createUserId = #{record.createUserId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.member.model.Member">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Jan 06 13:56:59 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    update train_member
+    <set>
+      <if test="orgCode != null">
+        orgCode = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        companyId = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expirationStartTime != null">
+        expirationStartTime = #{expirationStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expirationEndTime != null">
+        expirationEndTime = #{expirationEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="effectiveTime != null">
+        effectiveTime = #{effectiveTime,jdbcType=INTEGER},
+      </if>
+      <if test="watchedTime != null">
+        watchedTime = #{watchedTime,jdbcType=INTEGER},
+      </if>
+      <if test="bindTime != null">
+        bindTime = #{bindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bindCount != null">
+        bindCount = #{bindCount,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        createUserId = #{createUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.member.model.Member">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Jan 06 13:56:59 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    update train_member
+    set orgCode = #{orgCode,jdbcType=VARCHAR},
+      companyId = #{companyId,jdbcType=BIGINT},
+      userId = #{userId,jdbcType=BIGINT},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      expirationStartTime = #{expirationStartTime,jdbcType=TIMESTAMP},
+      expirationEndTime = #{expirationEndTime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      effectiveTime = #{effectiveTime,jdbcType=INTEGER},
+      watchedTime = #{watchedTime,jdbcType=INTEGER},
+      bindTime = #{bindTime,jdbcType=TIMESTAMP},
+      bindCount = #{bindCount,jdbcType=INTEGER},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      createUserId = #{createUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Jan 06 13:56:59 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    insert into train_member
+    (id, orgCode, companyId, userId, createTime, expirationStartTime, expirationEndTime, 
+      state, effectiveTime, watchedTime, bindTime, bindCount, updateTime, createUserId
+      )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.orgCode,jdbcType=VARCHAR}, #{item.companyId,jdbcType=BIGINT}, 
+        #{item.userId,jdbcType=BIGINT}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.expirationStartTime,jdbcType=TIMESTAMP}, 
+        #{item.expirationEndTime,jdbcType=TIMESTAMP}, #{item.state,jdbcType=INTEGER}, #{item.effectiveTime,jdbcType=INTEGER}, 
+        #{item.watchedTime,jdbcType=INTEGER}, #{item.bindTime,jdbcType=TIMESTAMP}, #{item.bindCount,jdbcType=INTEGER}, 
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.createUserId,jdbcType=BIGINT})
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Jan 06 13:56:59 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    insert into train_member (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.value}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'id' == column.value">
+          #{item.id,jdbcType=BIGINT}
+        </if>
+        <if test="'orgCode' == column.value">
+          #{item.orgCode,jdbcType=VARCHAR}
+        </if>
+        <if test="'companyId' == column.value">
+          #{item.companyId,jdbcType=BIGINT}
+        </if>
+        <if test="'userId' == column.value">
+          #{item.userId,jdbcType=BIGINT}
+        </if>
+        <if test="'createTime' == column.value">
+          #{item.createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'expirationStartTime' == column.value">
+          #{item.expirationStartTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'expirationEndTime' == column.value">
+          #{item.expirationEndTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'state' == column.value">
+          #{item.state,jdbcType=INTEGER}
+        </if>
+        <if test="'effectiveTime' == column.value">
+          #{item.effectiveTime,jdbcType=INTEGER}
+        </if>
+        <if test="'watchedTime' == column.value">
+          #{item.watchedTime,jdbcType=INTEGER}
+        </if>
+        <if test="'bindTime' == column.value">
+          #{item.bindTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'bindCount' == column.value">
+          #{item.bindCount,jdbcType=INTEGER}
+        </if>
+        <if test="'updateTime' == column.value">
+          #{item.updateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'createUserId' == column.value">
+          #{item.createUserId,jdbcType=BIGINT}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
+
+  <select id="selectUserMember" parameterType="map" resultType="com.transnova.foundation.member.model.UserMember">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jan 05 14:05:29 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    select ve.id,ve.name,ve.employeeType as etype,ve.orgCode,ve.hierarchyCode,ve.telephone,ve.companyId,ve.deleted,tm.state,tm.expirationStartTime,tm.expirationEndTime,co.name as companyName,tm.id as memberId
+    from driver ve
+    left join train_member tm
+    on
+    tm.userId=ve.id
+    left join company co
+    on
+    ve.companyId=co.id
+    where ve.orgCode=#{orgCode}
+    and ve.hierarchyCode like '${hierarchyCode}%'
+    and (ve.employeeType like '%a%' or ve.employeeType like '%c%')
+    <if test="companyId != null">
+      and ve.companyId=#{companyId}
+    </if>
+    <if test="companyName != null">
+      and co.name like '${companyName}%'
+    </if>
+    <if test="identity != null">
+      and co.identity =#{identity}
+    </if>
+
+    <if test="etype != null">
+      and ve.employeeType=#{etype}
+    </if>
+    <if test="telephone != null">
+      and ve.telephone=#{telephone}
+    </if>
+    <if test="state != null">
+      <if test="state == 3">
+        and tm.state=3
+      </if>
+
+      <if test="state != 3">
+        and IFNULL(tm.state,-1) !=3
+      </if>
+
+    </if>
+    <if test="driverName != null">
+      and ve.name like '%${driverName}%'
+    </if>
+    <if test="deleted != null">
+      and ve.deleted=#{deleted}
+    </if>
+    <if test="pageIndex != null">
+      limit ${pageIndex}, ${pageSize}
+    </if>
+
+  </select>
+  <select id="selectUserMemberCount" parameterType="map" resultType="int">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jan 05 14:05:29 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    select count(*)
+    from driver ve
+    left join train_member tm
+    on
+    tm.userId=ve.id
+    left join company co
+    on
+    ve.companyId=co.id
+    where ve.orgCode=#{orgCode}
+    and ve.hierarchyCode like '${hierarchyCode}%'
+    and (ve.employeeType like '%a%' or ve.employeeType like '%c%')
+    <if test="companyId != null">
+      and ve.companyId=#{companyId}
+    </if>
+    <if test="companyName != null">
+      and co.name like '${companyName}%'
+    </if>
+    <if test="identity != null">
+      and co.identity =#{identity}
+    </if>
+    <if test="etype != null">
+      and ve.employeeType=#{etype}
+    </if>
+    <if test="telephone != null">
+      and ve.telephone=#{telephone}
+    </if>
+    <if test="driverName != null">
+      and ve.name like '%${driverName}%'
+    </if>
+    <if test="state != null">
+      <if test="state == 3">
+        and tm.state=3
+      </if>
+
+      <if test="state != 3">
+        and IFNULL(tm.state,-1) !=3
+      </if>
+
+    </if>
+    <if test="deleted != null">
+      and ve.deleted=#{deleted}
+    </if>
+
+
+  </select>
+  <select id="selectMemberCount" parameterType="map" resultType="com.transnova.foundation.member.model.OrgMemberCount">
+
+    select count(tm.id) as distributableCount,
+    (select count(id) from train_member where  orgCode=#{orgCode} and state!=1
+    <if test="companyId != null">
+     and companyId=#{companyId}
+    </if>
+    ) as allocatedCount,
+    (select count(id) from train_member where state=2 and orgCode=#{orgCode}
+    <if test="companyId != null">
+      and companyId=#{companyId}
+    </if>
+    ) as needOpenCount,
+    (select count(id) from train_member where state=-99 and orgCode=#{orgCode}
+    <if test="companyId != null">
+      and companyId=#{companyId}
+    </if>
+    ) as overdueCount,
+    (select count(id) from train_member where state =3 and orgCode=#{orgCode}
+    <if test="companyId != null">
+      and companyId=#{companyId}
+    </if>
+    ) as openedCount,
+    (select count(tm.id) from train_member tm
+    left join driver ve
+    on
+    tm.userId=ve.id
+    where tm.state =3 and ve.deleted=1 and tm.orgCode=#{orgCode}
+    <if test="companyId != null">
+      and tm.companyId=#{companyId}
+    </if>
+    ) as needTransferCount
+    from train_member tm
+    where tm.state=1 and tm.orgCode=#{orgCode}
+    <if test="companyId != null">
+      and companyId=#{companyId}
+    </if>
+  </select>
+
+
+  <select id="selectEmployeeCount" parameterType="map" resultType="int">
+    select count(id) from driver
+    where orgCode=#{orgCode}
+    and (employeeType like '%a%' or employeeType like '%c%')
+    <if test="companyId != null">
+      and companyId=#{companyId}
+    </if>
+    <if test="state != null">
+      and deleted=#{state}
+    </if>
+  </select>
+  <select id="selectMemberList" parameterType="map" resultType="com.transnova.foundation.member.model.CompanyMemberCount">
+    select ve.companyId,COUNT(ve.id)as userCount,(select count(id) from train_member where  companyId=ve.companyId) as allocatedCount,(select count(id) from train_member where state=2 and companyId=ve.companyId) as needOpenCount,(select count(id) from train_member where state =3 and companyId=ve.companyId) as openedCount,co.name as companyName from driver ve
+    left join company co
+    on
+    ve.companyId=co.id
+    where ve.deleted=0 and ve.orgCode=#{orgCode} and (ve.employeeType like '%a%' or ve.employeeType like '%c%')
+    <if test="identity != '' ">
+      and co.identity=#{identity}
+    </if>
+    <if test="companyName !='' ">
+      and co.name like '%${companyName}%'
+    </if>
+    group by ve.companyId
+    <if test="pageIndex != null">
+      limit ${pageIndex}, ${pageSize}
+    </if>
+  </select>
+  <select id="selectMemberListCount" parameterType="map" resultType="int">
+      select  count(DISTINCT companyId) from driver ve
+       left join company co
+    on
+    ve.companyId=co.id
+      where ve.deleted=0 and ve.orgCode=#{orgCode} and (ve.employeeType like '%a%' or ve.employeeType like '%c%')
+    <if test="identity != '' ">
+      and co.identity=#{identity}
+    </if>
+    <if test="companyName !='' ">
+      and co.name like '%${companyName}%'
+    </if>
+
+  </select>
+  <select id="selectCompanyMemberCount" parameterType="map" resultType="int">
+    select count(id) from train_member
+    where state=#{state} and orgCode=#{orgCode} and companyId=#{companyId}
+
+  </select>
+
+  <select id="selectCompanyNeedOpenMember" parameterType="map" resultType="com.transnova.foundation.member.model.UserMember">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jan 05 14:05:29 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    select ve.id,ve.name,ve.employeeType,ve.orgCode,ve.hierarchyCode,ve.telephone,ve.companyId,ve.deleted,tm.state,tm.expirationStartTime,tm.expirationEndTime,co.name as companyName,tm.id as memberId
+    from driver ve
+    left join train_member tm
+    on
+    tm.userId=ve.id
+    left join company co
+    on
+    ve.companyId=co.id
+    where ve.orgCode=#{orgCode}
+    and ve.hierarchyCode like '${hierarchyCode}%'
+    and ve.companyId=#{companyId}
+    and ve.deleted=0
+    and (ve.employeeType like '%a%' or ve.employeeType like '%c%')
+    and IFNULL(tm.state,-1)  !=3
+    <if test="etype != null">
+      and ve.employeeType like '%${etype}%'
+    </if>
+    <if test="telephone != null">
+      and ve.telephone=#{telephone}
+    </if>
+    <if test="driverName != null">
+      and ve.name like '%${driverName}%'
+    </if>
+    <if test="pageIndex != null">
+      limit ${pageIndex}, ${pageSize}
+    </if>
+
+  </select>
+  <select id="selectCompanyNeedOpenMemberCount" parameterType="map" resultType="Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jan 05 14:05:29 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    select COUNT(*)
+    from driver ve
+    left join train_member tm
+    on
+    tm.userId=ve.id
+    left join company co
+    on
+    ve.companyId=co.id
+    where ve.orgCode=#{orgCode}
+    and ve.hierarchyCode like '${hierarchyCode}%'
+    and ve.companyId=#{companyId}
+    and ve.deleted=0
+    and (ve.employeeType like '%a%' or ve.employeeType like '%c%')
+    and IFNULL(tm.state,-1)  !=3
+    <if test="etype != null">
+      and ve.employeeType like '%${etype}%'
+    </if>
+    <if test="telephone != null">
+      and ve.telephone=#{telephone}
+    </if>
+    <if test="driverName != null">
+      and ve.name like '%${driverName}%'
+    </if>
+
+  </select>
+  <update id="updateMemberState" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Jan 06 13:56:59 CST 2021. by MyBatis Generator, do not modify.
+    -->
+    update train_member
+    set state=-99,userId=-99
+    where
+    expirationEndTime &lt;=#{endTime}
+    or
+    watchedTime>=effectiveTime
+    <if test="orgCode != null">
+    and orgCode=#{orgCode}
+    </if>
+    <if test="companyId != null">
+      and companyId=#{companyId}
+    </if>
+    <if test="id != null">
+      and id=#{id}
+    </if>
+  </update>
+</mapper>

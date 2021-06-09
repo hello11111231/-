@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.misc.mapper.MobileRandcodeMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.misc.model.MobileRandcode">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:31 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="randcode" jdbcType="VARCHAR" property="randcode" />
+    <result column="tag" jdbcType="VARCHAR" property="tag" />
+    <result column="sendTime" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="expireTime" jdbcType="TIMESTAMP" property="expireTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:31 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:31 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:31 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    id, mobile, randcode, sendTime, expireTime, tag
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.misc.mapper.MobileRandcodeExample" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:31 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from mobile_randcode
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:31 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from mobile_randcode
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:31 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    delete from mobile_randcode
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.misc.mapper.MobileRandcodeExample">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:31 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    delete from mobile_randcode
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.misc.model.MobileRandcode">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:31 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    insert into mobile_randcode (id, mobile, randcode, tag,
+      sendTime, expireTime)
+    values (#{id,jdbcType=BIGINT}, #{mobile,jdbcType=VARCHAR}, #{randcode,jdbcType=VARCHAR},
+      #{tag,jdbcType=VARCHAR},
+      #{sendTime,jdbcType=TIMESTAMP}, #{expireTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.misc.model.MobileRandcode">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:31 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    insert into mobile_randcode
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="randcode != null">
+        randcode,
+      </if>
+      <if test="sendTime != null">
+        sendTime,
+      </if>
+      <if test="expireTime != null">
+        expireTime,
+      </if>
+      <if test="tag != null">
+        tag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="randcode != null">
+        #{randcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null">
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expireTime != null">
+        #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tag != null">
+        #{tag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.misc.mapper.MobileRandcodeExample" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:31 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    select count(*) from mobile_randcode
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:31 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    update mobile_randcode
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.randcode != null">
+        randcode = #{record.randcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendTime != null">
+        sendTime = #{record.sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expireTime != null">
+        expireTime = #{record.expireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.tag != null">
+        tag = #{record.tag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:31 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    update mobile_randcode
+    set id = #{record.id,jdbcType=BIGINT},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      randcode = #{record.randcode,jdbcType=VARCHAR},
+      sendTime = #{record.sendTime,jdbcType=TIMESTAMP},
+      expireTime = #{record.expireTime,jdbcType=TIMESTAMP},
+      tag = #{record.tag,jdbcType=VARCHAR},
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.misc.model.MobileRandcode">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:31 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    update mobile_randcode
+    <set>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="randcode != null">
+        randcode = #{randcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null">
+        sendTime = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expireTime != null">
+        expireTime = #{expireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tag != null">
+        tag = #{tag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.misc.model.MobileRandcode">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:31 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    update mobile_randcode
+    set mobile = #{mobile,jdbcType=VARCHAR},
+      randcode = #{randcode,jdbcType=VARCHAR},
+      sendTime = #{sendTime,jdbcType=TIMESTAMP},
+      expireTime = #{expireTime,jdbcType=TIMESTAMP},
+      tag = #{tag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:31 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    insert into mobile_randcode
+    (id, mobile, randcode, sendTime, expireTime, tag)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.mobile,jdbcType=VARCHAR}, #{item.randcode,jdbcType=VARCHAR}, 
+        #{item.sendTime,jdbcType=TIMESTAMP}, #{item.expireTime,jdbcType=TIMESTAMP}, #{item.tag,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:31 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    insert into mobile_randcode (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.value}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'id' == column.value">
+          #{item.id,jdbcType=BIGINT}
+        </if>
+        <if test="'mobile' == column.value">
+          #{item.mobile,jdbcType=VARCHAR}
+        </if>
+        <if test="'randcode' == column.value">
+          #{item.randcode,jdbcType=VARCHAR}
+        </if>
+        <if test="'sendTime' == column.value">
+          #{item.sendTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'expireTime' == column.value">
+          #{item.expireTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'tag' == column.value">
+          #{item.tag,jdbcType=VARCHAR}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
+</mapper>

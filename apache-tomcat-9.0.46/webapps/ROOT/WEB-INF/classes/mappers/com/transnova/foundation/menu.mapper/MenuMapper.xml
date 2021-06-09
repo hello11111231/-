@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.menu.mapper.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.menu.model.Menu">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Apr 15 11:40:53 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="orgCode" jdbcType="VARCHAR" property="orgCode" />
+    <result column="platformCode" jdbcType="VARCHAR" property="platformCode" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="parentId" jdbcType="BIGINT" property="parentId" />
+    <result column="showIndex" jdbcType="INTEGER" property="showIndex" />
+    <result column="moduleCode" jdbcType="VARCHAR" property="moduleCode" />
+    <result column="link" jdbcType="VARCHAR" property="link" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="templateId" jdbcType="BIGINT" property="templateId" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="createUserId" jdbcType="BIGINT" property="createUserId" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updateUserId" jdbcType="BIGINT" property="updateUserId" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Apr 15 11:40:53 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Apr 15 11:40:53 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Apr 15 11:40:53 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    id, orgCode, platformCode, name, type, parentId, showIndex, moduleCode, link, icon, 
+    templateId, state, createUserId, createTime, updateUserId, updateTime
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.menu.mapper.MenuExample" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Apr 15 11:40:53 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_menu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Apr 15 11:40:53 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from sys_menu
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Apr 15 11:40:53 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from sys_menu
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.menu.mapper.MenuExample">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Apr 15 11:40:53 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from sys_menu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.menu.model.Menu">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Apr 15 11:40:53 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into sys_menu (id, orgCode, platformCode,
+      name, type, parentId, 
+      showIndex, moduleCode, link, 
+      icon, templateId, state, 
+      createUserId, createTime, updateUserId, 
+      updateTime)
+    values (#{id,jdbcType=BIGINT}, #{orgCode,jdbcType=VARCHAR}, #{platformCode,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, 
+      #{showIndex,jdbcType=INTEGER}, #{moduleCode,jdbcType=VARCHAR}, #{link,jdbcType=VARCHAR}, 
+      #{icon,jdbcType=VARCHAR}, #{templateId,jdbcType=BIGINT}, #{state,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.menu.model.Menu">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Apr 15 11:40:53 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into sys_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orgCode != null">
+        orgCode,
+      </if>
+      <if test="platformCode != null">
+        platformCode,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="parentId != null">
+        parentId,
+      </if>
+      <if test="showIndex != null">
+        showIndex,
+      </if>
+      <if test="moduleCode != null">
+        moduleCode,
+      </if>
+      <if test="link != null">
+        link,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="templateId != null">
+        templateId,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="createUserId != null">
+        createUserId,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="updateUserId != null">
+        updateUserId,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orgCode != null">
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="platformCode != null">
+        #{platformCode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="showIndex != null">
+        #{showIndex,jdbcType=INTEGER},
+      </if>
+      <if test="moduleCode != null">
+        #{moduleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="link != null">
+        #{link,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="templateId != null">
+        #{templateId,jdbcType=BIGINT},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.menu.mapper.MenuExample" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Apr 15 11:40:53 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select count(*) from sys_menu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Apr 15 11:40:53 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update sys_menu
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.orgCode != null">
+        orgCode = #{record.orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.platformCode != null">
+        platformCode = #{record.platformCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentId != null">
+        parentId = #{record.parentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.showIndex != null">
+        showIndex = #{record.showIndex,jdbcType=INTEGER},
+      </if>
+      <if test="record.moduleCode != null">
+        moduleCode = #{record.moduleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.link != null">
+        link = #{record.link,jdbcType=VARCHAR},
+      </if>
+      <if test="record.icon != null">
+        icon = #{record.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.templateId != null">
+        templateId = #{record.templateId,jdbcType=BIGINT},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null">
+        createUserId = #{record.createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null">
+        updateUserId = #{record.updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Apr 15 11:40:53 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update sys_menu
+    set id = #{record.id,jdbcType=BIGINT},
+      orgCode = #{record.orgCode,jdbcType=VARCHAR},
+      platformCode = #{record.platformCode,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      parentId = #{record.parentId,jdbcType=BIGINT},
+      showIndex = #{record.showIndex,jdbcType=INTEGER},
+      moduleCode = #{record.moduleCode,jdbcType=VARCHAR},
+      link = #{record.link,jdbcType=VARCHAR},
+      icon = #{record.icon,jdbcType=VARCHAR},
+      templateId = #{record.templateId,jdbcType=BIGINT},
+      state = #{record.state,jdbcType=VARCHAR},
+      createUserId = #{record.createUserId,jdbcType=BIGINT},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      updateUserId = #{record.updateUserId,jdbcType=BIGINT},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.menu.model.Menu">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Apr 15 11:40:53 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update sys_menu
+    <set>
+      <if test="orgCode != null">
+        orgCode = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="platformCode != null">
+        platformCode = #{platformCode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parentId = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="showIndex != null">
+        showIndex = #{showIndex,jdbcType=INTEGER},
+      </if>
+      <if test="moduleCode != null">
+        moduleCode = #{moduleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="link != null">
+        link = #{link,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="templateId != null">
+        templateId = #{templateId,jdbcType=BIGINT},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        createUserId = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        updateUserId = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.menu.model.Menu">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed Apr 15 11:40:53 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update sys_menu
+    set orgCode = #{orgCode,jdbcType=VARCHAR},
+      platformCode = #{platformCode,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      parentId = #{parentId,jdbcType=BIGINT},
+      showIndex = #{showIndex,jdbcType=INTEGER},
+      moduleCode = #{moduleCode,jdbcType=VARCHAR},
+      link = #{link,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      templateId = #{templateId,jdbcType=BIGINT},
+      state = #{state,jdbcType=VARCHAR},
+      createUserId = #{createUserId,jdbcType=BIGINT},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateUserId = #{updateUserId,jdbcType=BIGINT},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="getUserMenu" parameterType="map" resultMap="BaseResultMap">
+    select
+        <include refid="Base_Column_List" />,(select showIndex from sys_platform where pcode=platformCode limit 1) as platformShow
+    from sys_menu
+    where
+        orgCode = #{orgCode,jdbcType=VARCHAR} and
+        id in (
+            select menuId from sys_org_role_permission
+            where
+              orgCode = #{orgCode,jdbcType=VARCHAR} and
+              roleId in (select roleId from sys_user_role where userId = #{userId,jdbcType=BIGINT})
+        )
+    GROUP BY  parentId, orgCode, platformCode, name, type, id, showIndex, moduleCode, link, icon, templateId, state, createUserId, createTime, updateUserId, updateTime
+    order by platformShow, parentId,showIndex asc
+  </select>
+</mapper>

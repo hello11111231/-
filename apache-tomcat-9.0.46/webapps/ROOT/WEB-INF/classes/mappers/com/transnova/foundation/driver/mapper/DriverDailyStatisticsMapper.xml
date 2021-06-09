@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.driver.mapper.DriverDailyStatisticsMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.driver.model.DriverDailyStatistics">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="companyId" jdbcType="BIGINT" property="companyId" />
+    <result column="driverId" jdbcType="BIGINT" property="driverId" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="totalMileage" jdbcType="INTEGER" property="totalMileage" />
+    <result column="totalDriveMinutes" jdbcType="INTEGER" property="totalDriveMinutes" />
+    <result column="driveMinutes" jdbcType="INTEGER" property="driveMinutes" />
+    <result column="driveMileage" jdbcType="INTEGER" property="driveMileage" />
+    <result column="score" jdbcType="DECIMAL" property="score" />
+    <result column="lastScore" jdbcType="DECIMAL" property="lastScore" />
+    <result column="tireCount" jdbcType="INTEGER" property="tireCount" />
+    <result column="illegalCount" jdbcType="INTEGER" property="illegalCount" />
+    <result column="improperCount" jdbcType="INTEGER" property="improperCount" />
+    <result column="dangerCount" jdbcType="INTEGER" property="dangerCount" />
+    <result column="vehicleHitchCount" jdbcType="INTEGER" property="vehicleHitchCount" />
+    <result column="analyzeDate" jdbcType="DATE" property="analyzeDate" />
+    <result column="tireIndex" jdbcType="DECIMAL" property="tireIndex" />
+    <result column="illegalIndex" jdbcType="DECIMAL" property="illegalIndex" />
+    <result column="dangerIndex" jdbcType="DECIMAL" property="dangerIndex" />
+    <result column="improperIndex" jdbcType="DECIMAL" property="improperIndex" />
+    <result column="lastTireIndex" jdbcType="DECIMAL" property="lastTireIndex" />
+    <result column="lastIllegalIndex" jdbcType="DECIMAL" property="lastIllegalIndex" />
+    <result column="lastDangerIndex" jdbcType="DECIMAL" property="lastDangerIndex" />
+    <result column="lastImproperIndex" jdbcType="DECIMAL" property="lastImproperIndex" />
+    <result column="rank" jdbcType="BIGINT" property="rank" />
+    <result column="dangeDriveRank" jdbcType="BIGINT" property="dangeDriveRank" />
+    <result column="tireDriveRank" jdbcType="BIGINT" property="tireDriveRank" />
+    <result column="illegalDriveRank" jdbcType="BIGINT" property="illegalDriveRank" />
+  </resultMap>
+
+  <resultMap id="BaseResultMapCount" type="com.transnova.foundation.driver.model.DriverDailyStatisticsVO">
+    <result column="companyId" jdbcType="BIGINT" property="companyId" />
+    <result column="driverId" jdbcType="BIGINT" property="driverId" />
+    <result column="driveMinutes" jdbcType="INTEGER" property="driveMinutesTotal" />
+    <result column="driveMileage" jdbcType="INTEGER" property="driveMileageTotal" />
+    <result column="tireCount" jdbcType="INTEGER" property="tireCount" />
+    <result column="illegalCount" jdbcType="INTEGER" property="illegalCount" />
+    <result column="improperCount" jdbcType="INTEGER" property="improperCount" />
+    <result column="dangerCount" jdbcType="INTEGER" property="dangerCount" />
+    <result column="countDate" jdbcType="DATE" property="countDate" />
+    <result column="score" jdbcType="DECIMAL" property="score" />
+    <result column="everyDayKilo" jdbcType="DECIMAL" property="everyDayKilo" />
+    <result column="driveKilo" jdbcType="DECIMAL" property="driveKilo" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+
+                <!-- 新的数据权限控制 -->
+                <when test="criterion.governmentFiltering">
+                  and companyId in (select companyId from company_manage_relevance _x_ where vehicle.companyId = _x_.companyId and _x_.govCode like #{criterion.governmentCode})
+                </when>
+
+                <when test="criterion.proxyFiltering">
+                  and companyId in (select companyId from vehicle_manage_relevance _x_ where _x_.orgCode = #{criterion.userOrganizationCode})
+                </when>
+
+                <when test="criterion.companyFiltering">
+                  and companyId in (select companyId from vehicle_manage_relevance _x_ where _x_.orgCode = #{criterion.userOrganizationCode})
+                </when>
+
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, companyId, driverId, sex, age, totalMileage, totalDriveMinutes, driveMinutes, 
+    driveMileage, score, lastScore, tireCount, illegalCount, improperCount, dangerCount, vehicleHitchCount,
+    analyzeDate, tireIndex, illegalIndex, dangerIndex, improperIndex, lastTireIndex, 
+    lastIllegalIndex, lastDangerIndex, lastImproperIndex, rank, dangeDriveRank, tireDriveRank, illegalDriveRank
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.driver.mapper.DriverDailyStatisticsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from driver_daily_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+
+    <select id="findGroup" parameterType="com.transnova.foundation.driver.mapper.DriverDailyStatisticsExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        max(score) as score, driverId, sex, age
+        from driver_daily_statistics
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        group by driverId, sex, age
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+
+    </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from driver_daily_statistics
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from driver_daily_statistics
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.driver.mapper.DriverDailyStatisticsExample">
+    delete from driver_daily_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.driver.model.DriverDailyStatistics">
+    insert into driver_daily_statistics (id, companyId, driverId, 
+      sex, age, totalMileage, 
+      totalDriveMinutes, driveMinutes, driveMileage, 
+      score, lastScore, tireCount, illegalCount,
+      improperCount, dangerCount, vehicleHitchCount, 
+      analyzeDate, tireIndex, illegalIndex, 
+      dangerIndex, improperIndex, lastTireIndex, 
+      lastIllegalIndex, lastDangerIndex, lastImproperIndex, rank, dangeDriveRank, tireDriveRank, illegalDriveRank
+      )
+    values (#{id,jdbcType=BIGINT}, #{companyId,jdbcType=BIGINT}, #{driverId,jdbcType=BIGINT}, 
+      #{sex,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{totalMileage,jdbcType=INTEGER}, 
+      #{totalDriveMinutes,jdbcType=INTEGER}, #{driveMinutes,jdbcType=INTEGER}, #{driveMileage,jdbcType=INTEGER}, 
+      #{score,jdbcType=DECIMAL}, #{lastScore,jdbcType=DECIMAL}, #{tireCount,jdbcType=INTEGER}, #{illegalCount,jdbcType=INTEGER},
+      #{improperCount,jdbcType=INTEGER}, #{dangerCount,jdbcType=INTEGER}, #{vehicleHitchCount,jdbcType=INTEGER}, 
+      #{analyzeDate,jdbcType=DATE}, #{tireIndex,jdbcType=DECIMAL}, #{illegalIndex,jdbcType=DECIMAL}, 
+      #{dangerIndex,jdbcType=DECIMAL}, #{improperIndex,jdbcType=DECIMAL}, #{lastTireIndex,jdbcType=DECIMAL}, 
+      #{lastIllegalIndex,jdbcType=DECIMAL}, #{lastDangerIndex,jdbcType=DECIMAL}, #{lastImproperIndex,jdbcType=DECIMAL},
+      #{rank,jdbcType=BIGINT},#{dangeDriveRank,jdbcType=BIGINT},#{tireDriveRank,jdbcType=BIGINT},#{illegalDriveRank,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.driver.model.DriverDailyStatistics">
+    insert into driver_daily_statistics
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="companyId != null">
+        companyId,
+      </if>
+      <if test="driverId != null">
+        driverId,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="totalMileage != null">
+        totalMileage,
+      </if>
+      <if test="totalDriveMinutes != null">
+        totalDriveMinutes,
+      </if>
+      <if test="driveMinutes != null">
+        driveMinutes,
+      </if>
+      <if test="driveMileage != null">
+        driveMileage,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="lastScore != null">
+        lastScore,
+      </if>
+      <if test="tireCount != null">
+        tireCount,
+      </if>
+      <if test="illegalCount != null">
+        illegalCount,
+      </if>
+      <if test="improperCount != null">
+        improperCount,
+      </if>
+      <if test="dangerCount != null">
+        dangerCount,
+      </if>
+      <if test="vehicleHitchCount != null">
+        vehicleHitchCount,
+      </if>
+      <if test="analyzeDate != null">
+        analyzeDate,
+      </if>
+      <if test="tireIndex != null">
+        tireIndex,
+      </if>
+      <if test="illegalIndex != null">
+        illegalIndex,
+      </if>
+      <if test="dangerIndex != null">
+        dangerIndex,
+      </if>
+      <if test="improperIndex != null">
+        improperIndex,
+      </if>
+      <if test="lastTireIndex != null">
+        lastTireIndex,
+      </if>
+      <if test="lastIllegalIndex != null">
+        lastIllegalIndex,
+      </if>
+      <if test="lastDangerIndex != null">
+        lastDangerIndex,
+      </if>
+      <if test="lastImproperIndex != null">
+        lastImproperIndex,
+      </if>
+      <if test=""></if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="driverId != null">
+        #{driverId,jdbcType=BIGINT},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="totalMileage != null">
+        #{totalMileage,jdbcType=INTEGER},
+      </if>
+      <if test="totalDriveMinutes != null">
+        #{totalDriveMinutes,jdbcType=INTEGER},
+      </if>
+      <if test="driveMinutes != null">
+        #{driveMinutes,jdbcType=INTEGER},
+      </if>
+      <if test="driveMileage != null">
+        #{driveMileage,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="lastScore != null">
+        #{lastScore,jdbcType=DECIMAL},
+      </if>
+      <if test="tireCount != null">
+        #{tireCount,jdbcType=INTEGER},
+      </if>
+      <if test="illegalCount != null">
+        #{illegalCount,jdbcType=INTEGER},
+      </if>
+      <if test="improperCount != null">
+        #{improperCount,jdbcType=INTEGER},
+      </if>
+      <if test="dangerCount != null">
+        #{dangerCount,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleHitchCount != null">
+        #{vehicleHitchCount,jdbcType=INTEGER},
+      </if>
+      <if test="analyzeDate != null">
+        #{analyzeDate,jdbcType=DATE},
+      </if>
+      <if test="tireIndex != null">
+        #{tireIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="illegalIndex != null">
+        #{illegalIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="dangerIndex != null">
+        #{dangerIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="improperIndex != null">
+        #{improperIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="lastTireIndex != null">
+        #{lastTireIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="lastIllegalIndex != null">
+        #{lastIllegalIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="lastDangerIndex != null">
+        #{lastDangerIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="lastImproperIndex != null">
+        #{lastImproperIndex,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.driver.mapper.DriverDailyStatisticsExample" resultType="java.lang.Long">
+    select count(*) from driver_daily_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update driver_daily_statistics
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.companyId != null">
+        companyId = #{record.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.driverId != null">
+        driverId = #{record.driverId,jdbcType=BIGINT},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null">
+        age = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalMileage != null">
+        totalMileage = #{record.totalMileage,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalDriveMinutes != null">
+        totalDriveMinutes = #{record.totalDriveMinutes,jdbcType=INTEGER},
+      </if>
+      <if test="record.driveMinutes != null">
+        driveMinutes = #{record.driveMinutes,jdbcType=INTEGER},
+      </if>
+      <if test="record.driveMileage != null">
+        driveMileage = #{record.driveMileage,jdbcType=INTEGER},
+      </if>
+      <if test="record.score != null">
+        score = #{record.score,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lastScore != null">
+        lastScore = #{record.lastScore,jdbcType=DECIMAL},
+      </if>
+      <if test="record.tireCount != null">
+        tireCount = #{record.tireCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.illegalCount != null">
+        illegalCount = #{record.illegalCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.improperCount != null">
+        improperCount = #{record.improperCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.dangerCount != null">
+        dangerCount = #{record.dangerCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.vehicleHitchCount != null">
+        vehicleHitchCount = #{record.vehicleHitchCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.analyzeDate != null">
+        analyzeDate = #{record.analyzeDate,jdbcType=DATE},
+      </if>
+      <if test="record.tireIndex != null">
+        tireIndex = #{record.tireIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="record.illegalIndex != null">
+        illegalIndex = #{record.illegalIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dangerIndex != null">
+        dangerIndex = #{record.dangerIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="record.improperIndex != null">
+        improperIndex = #{record.improperIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lastTireIndex != null">
+        lastTireIndex = #{record.lastTireIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lastIllegalIndex != null">
+        lastIllegalIndex = #{record.lastIllegalIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lastDangerIndex != null">
+        lastDangerIndex = #{record.lastDangerIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lastImproperIndex != null">
+        lastImproperIndex = #{record.lastImproperIndex,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update driver_daily_statistics
+    set id = #{record.id,jdbcType=BIGINT},
+      companyId = #{record.companyId,jdbcType=BIGINT},
+      driverId = #{record.driverId,jdbcType=BIGINT},
+      sex = #{record.sex,jdbcType=VARCHAR},
+      age = #{record.age,jdbcType=INTEGER},
+      totalMileage = #{record.totalMileage,jdbcType=INTEGER},
+      totalDriveMinutes = #{record.totalDriveMinutes,jdbcType=INTEGER},
+      driveMinutes = #{record.driveMinutes,jdbcType=INTEGER},
+      driveMileage = #{record.driveMileage,jdbcType=INTEGER},
+      score = #{record.score,jdbcType=DECIMAL},
+      lastScore = #{record.lastScore,jdbcType=DECIMAL},
+      tireCount = #{record.tireCount,jdbcType=INTEGER},
+      illegalCount = #{record.illegalCount,jdbcType=INTEGER},
+      improperCount = #{record.improperCount,jdbcType=INTEGER},
+      dangerCount = #{record.dangerCount,jdbcType=INTEGER},
+      vehicleHitchCount = #{record.vehicleHitchCount,jdbcType=INTEGER},
+      analyzeDate = #{record.analyzeDate,jdbcType=DATE},
+      tireIndex = #{record.tireIndex,jdbcType=DECIMAL},
+      illegalIndex = #{record.illegalIndex,jdbcType=DECIMAL},
+      dangerIndex = #{record.dangerIndex,jdbcType=DECIMAL},
+      improperIndex = #{record.improperIndex,jdbcType=DECIMAL},
+      lastTireIndex = #{record.lastTireIndex,jdbcType=DECIMAL},
+      lastIllegalIndex = #{record.lastIllegalIndex,jdbcType=DECIMAL},
+      lastDangerIndex = #{record.lastDangerIndex,jdbcType=DECIMAL},
+      lastImproperIndex = #{record.lastImproperIndex,jdbcType=DECIMAL},
+      rank = #{record.rank,jdbcType=BIGINT},
+      dangeDriveRank = #{record.dangeDriveRank,jdbcType=BIGINT},
+      tireDriveRank = #{record.tireDriveRank,jdbcType=BIGINT},
+      illegalDriveRank = #{record.illegalDriveRank,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.driver.model.DriverDailyStatistics">
+    update driver_daily_statistics
+    <set>
+      <if test="companyId != null">
+        companyId = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="driverId != null">
+        driverId = #{driverId,jdbcType=BIGINT},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="totalMileage != null">
+        totalMileage = #{totalMileage,jdbcType=INTEGER},
+      </if>
+      <if test="totalDriveMinutes != null">
+        totalDriveMinutes = #{totalDriveMinutes,jdbcType=INTEGER},
+      </if>
+      <if test="driveMinutes != null">
+        driveMinutes = #{driveMinutes,jdbcType=INTEGER},
+      </if>
+      <if test="driveMileage != null">
+        driveMileage = #{driveMileage,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="lastScore != null">
+        lastScore = #{lastScore,jdbcType=DECIMAL},
+      </if>
+      <if test="tireCount != null">
+        tireCount = #{tireCount,jdbcType=INTEGER},
+      </if>
+      <if test="illegalCount != null">
+        illegalCount = #{illegalCount,jdbcType=INTEGER},
+      </if>
+      <if test="improperCount != null">
+        improperCount = #{improperCount,jdbcType=INTEGER},
+      </if>
+      <if test="dangerCount != null">
+        dangerCount = #{dangerCount,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleHitchCount != null">
+        vehicleHitchCount = #{vehicleHitchCount,jdbcType=INTEGER},
+      </if>
+      <if test="analyzeDate != null">
+        analyzeDate = #{analyzeDate,jdbcType=DATE},
+      </if>
+      <if test="tireIndex != null">
+        tireIndex = #{tireIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="illegalIndex != null">
+        illegalIndex = #{illegalIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="dangerIndex != null">
+        dangerIndex = #{dangerIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="improperIndex != null">
+        improperIndex = #{improperIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="lastTireIndex != null">
+        lastTireIndex = #{lastTireIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="lastIllegalIndex != null">
+        lastIllegalIndex = #{lastIllegalIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="lastDangerIndex != null">
+        lastDangerIndex = #{lastDangerIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="lastImproperIndex != null">
+        lastImproperIndex = #{lastImproperIndex,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.driver.model.DriverDailyStatistics">
+    update driver_daily_statistics
+    set companyId = #{companyId,jdbcType=BIGINT},
+      driverId = #{driverId,jdbcType=BIGINT},
+      sex = #{sex,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      totalMileage = #{totalMileage,jdbcType=INTEGER},
+      totalDriveMinutes = #{totalDriveMinutes,jdbcType=INTEGER},
+      driveMinutes = #{driveMinutes,jdbcType=INTEGER},
+      driveMileage = #{driveMileage,jdbcType=INTEGER},
+      score = #{score,jdbcType=DECIMAL},
+      lastScore = #{lastScore,jdbcType=DECIMAL},
+      tireCount = #{tireCount,jdbcType=INTEGER},
+      illegalCount = #{illegalCount,jdbcType=INTEGER},
+      improperCount = #{improperCount,jdbcType=INTEGER},
+      dangerCount = #{dangerCount,jdbcType=INTEGER},
+      vehicleHitchCount = #{vehicleHitchCount,jdbcType=INTEGER},
+      analyzeDate = #{analyzeDate,jdbcType=DATE},
+      tireIndex = #{tireIndex,jdbcType=DECIMAL},
+      illegalIndex = #{illegalIndex,jdbcType=DECIMAL},
+      dangerIndex = #{dangerIndex,jdbcType=DECIMAL},
+      improperIndex = #{improperIndex,jdbcType=DECIMAL},
+      lastTireIndex = #{lastTireIndex,jdbcType=DECIMAL},
+      lastIllegalIndex = #{lastIllegalIndex,jdbcType=DECIMAL},
+      lastDangerIndex = #{lastDangerIndex,jdbcType=DECIMAL},
+      lastImproperIndex = #{lastImproperIndex,jdbcType=DECIMAL},
+      rank = #{rank,jdbcType=BIGINT},
+      dangeDriveRank = #{dangeDriveRank,jdbcType=BIGINT},
+      tireDriveRank = #{tireDriveRank,jdbcType=BIGINT},
+      illegalDriveRank = #{illegalDriveRank,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="countByDriverId" parameterType="com.transnova.foundation.driver.mapper.DriverDailyStatisticsExample" resultMap="BaseResultMapCount">
+    select
+        sum(driveMileage) driveMileageTotal,
+        sum(driveMinutes) driveMinutesTotal,
+        sum(tireCount) tireCount,
+        sum(illegalCount) illegalCount,
+        sum(improperCount)improperCount,
+        sum(dangerCount) dangerCount,
+        sum(driveMileage)/count(driveMileage)/1000 everyDayKilo,
+        sum(driveMileage)/1000 driveKilo,
+        sum(driveMinutes)/count(driveMinutes)/60 everyDayDuration,
+        sum(driveMinutes)/60 driveDuration
+    from
+    driver_daily_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+
+  <select id="countBehaviorByDriverAndTime" parameterType="com.transnova.foundation.driver.mapper.DriverDailyStatisticsExample" resultMap="BaseResultMap">
+    select
+    driverId,
+    avg(tireIndex) tireIndex,
+    avg(dangerIndex) dangerIndex,
+    avg(illegalIndex) illegalIndex,
+    avg(improperIndex) improperIndex,
+    avg(score) score,
+    avg(driveMileage)/1000 driveMileage
+    from
+    driver_daily_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    group by
+    driverId
+    order by avg(score) desc
+  </select>
+
+  <select id="getYearAndMonthGroup" parameterType="com.transnova.foundation.driver.mapper.DriverDailyStatisticsExample" resultType="string">
+    select
+    DATE_FORMAT(analyzeDate, '%Y-%m')
+    from
+    driver_daily_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    group by
+    DATE_FORMAT(analyzeDate, '%Y-%m')
+    order by
+    DATE_FORMAT(analyzeDate, '%Y-%m') desc
+
+  </select>
+</mapper>

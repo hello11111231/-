@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.vehicleBasic.mapper.VehicleDeviceParameterSettingMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.vehicleBasic.model.VehicleDeviceParameterSetting">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="groupCode" jdbcType="VARCHAR" property="groupCode" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="defaultValue" jdbcType="VARCHAR" property="defaultValue" />
+    <result column="dataType" jdbcType="VARCHAR" property="dataType" />
+    <result column="descible" jdbcType="VARCHAR" property="desc" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+  </resultMap>
+
+
+  <select id="selectAll"  resultMap="BaseResultMap">
+    select
+      id,groupCode,code,defaultValue,dataType,descible,title   from vehicle_device_parameter_setting
+
+  </select>
+
+</mapper>

@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.sms.mapper.SmsLogsMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.sms.model.SmsLogs">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="sendTime" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="companyId" jdbcType="BIGINT" property="companyId" />
+    <result column="orgCode" jdbcType="VARCHAR" property="orgCode" />
+    <result column="createUser" jdbcType="BIGINT" property="createUser" />
+    <result column="sendMonth" jdbcType="INTEGER" property="sendMonth" />
+    <result column="sendDate" jdbcType="INTEGER" property="sendDate" />
+  </resultMap>
+
+  <resultMap id="LogStatByCompany" type="com.transnova.foundation.sms.model.LogStatByCompany">
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+  </resultMap>
+
+  <resultMap id="LogStatByDay" type="com.transnova.foundation.sms.model.LogStatByDay" >
+    <result column="sendDate" jdbcType="INTEGER" property="sendDate" />
+    <result column="companyName" jdbcType="VARCHAR" property="companyName" />
+    <result column="typeName" jdbcType="VARCHAR" property="typeName" />
+    <result column="paymentType" jdbcType="VARCHAR" property="paymentType" />
+    <result column="unitPrice" jdbcType="DECIMAL" property="unitPrice" />
+    <result column="paymentCount" jdbcType="INTEGER" property="paymentCount" />
+  </resultMap>
+
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, content, phone, sendTime, companyId, orgCode, createUser, sendMonth, sendDate
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.sms.mapper.SmsLogsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sms_logs
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sms_logs
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sms_logs
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.sms.mapper.SmsLogsExample">
+    delete from sms_logs
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.sms.model.SmsLogs">
+    insert into sms_logs (id, content, phone, 
+      sendTime, companyId, orgCode, 
+      createUser, sendMonth, sendDate
+      )
+    values (#{id,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{sendTime,jdbcType=TIMESTAMP}, #{companyId,jdbcType=BIGINT}, #{orgCode,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=BIGINT}, #{sendMonth,jdbcType=INTEGER}, #{sendDate,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.sms.model.SmsLogs">
+    insert into sms_logs
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="sendTime != null">
+        sendTime,
+      </if>
+      <if test="companyId != null">
+        companyId,
+      </if>
+      <if test="orgCode != null">
+        orgCode,
+      </if>
+      <if test="createUser != null">
+        createUser,
+      </if>
+      <if test="sendMonth != null">
+        sendMonth,
+      </if>
+      <if test="sendDate != null">
+        sendDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null">
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="orgCode != null">
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="sendMonth != null">
+        #{sendMonth,jdbcType=INTEGER},
+      </if>
+      <if test="sendDate != null">
+        #{sendDate,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.sms.mapper.SmsLogsExample" resultType="java.lang.Long">
+    select count(*) from sms_logs
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sms_logs
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendTime != null">
+        sendTime = #{record.sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.companyId != null">
+        companyId = #{record.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.orgCode != null">
+        orgCode = #{record.orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        createUser = #{record.createUser,jdbcType=BIGINT},
+      </if>
+      <if test="record.sendMonth != null">
+        sendMonth = #{record.sendMonth,jdbcType=INTEGER},
+      </if>
+      <if test="record.sendDate != null">
+        sendDate = #{record.sendDate,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sms_logs
+    set id = #{record.id,jdbcType=BIGINT},
+      content = #{record.content,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      sendTime = #{record.sendTime,jdbcType=TIMESTAMP},
+      companyId = #{record.companyId,jdbcType=BIGINT},
+      orgCode = #{record.orgCode,jdbcType=VARCHAR},
+      createUser = #{record.createUser,jdbcType=BIGINT},
+      sendMonth = #{record.sendMonth,jdbcType=INTEGER},
+      sendDate = #{record.sendDate,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.sms.model.SmsLogs">
+    update sms_logs
+    <set>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null">
+        sendTime = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="companyId != null">
+        companyId = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="orgCode != null">
+        orgCode = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        createUser = #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="sendMonth != null">
+        sendMonth = #{sendMonth,jdbcType=INTEGER},
+      </if>
+      <if test="sendDate != null">
+        sendDate = #{sendDate,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.sms.model.SmsLogs">
+    update sms_logs
+    set content = #{content,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      sendTime = #{sendTime,jdbcType=TIMESTAMP},
+      companyId = #{companyId,jdbcType=BIGINT},
+      orgCode = #{orgCode,jdbcType=VARCHAR},
+      createUser = #{createUser,jdbcType=BIGINT},
+      sendMonth = #{sendMonth,jdbcType=INTEGER},
+      sendDate = #{sendDate,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    insert into sms_logs
+    (id, content, phone, sendTime, companyId, orgCode, createUser, sendMonth, sendDate
+      )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.content,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR}, 
+        #{item.sendTime,jdbcType=TIMESTAMP}, #{item.companyId,jdbcType=BIGINT}, #{item.orgCode,jdbcType=VARCHAR}, 
+        #{item.createUser,jdbcType=BIGINT}, #{item.sendMonth,jdbcType=INTEGER}, #{item.sendDate,jdbcType=INTEGER}
+        )
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" parameterType="map">
+    insert into sms_logs (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.value}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'id' == column.value">
+          #{item.id,jdbcType=BIGINT}
+        </if>
+        <if test="'content' == column.value">
+          #{item.content,jdbcType=VARCHAR}
+        </if>
+        <if test="'phone' == column.value">
+          #{item.phone,jdbcType=VARCHAR}
+        </if>
+        <if test="'sendTime' == column.value">
+          #{item.sendTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'companyId' == column.value">
+          #{item.companyId,jdbcType=BIGINT}
+        </if>
+        <if test="'orgCode' == column.value">
+          #{item.orgCode,jdbcType=VARCHAR}
+        </if>
+        <if test="'createUser' == column.value">
+          #{item.createUser,jdbcType=BIGINT}
+        </if>
+        <if test="'sendMonth' == column.value">
+          #{item.sendMonth,jdbcType=INTEGER}
+        </if>
+        <if test="'sendDate' == column.value">
+          #{item.sendDate,jdbcType=INTEGER}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
+
+  <select id="statByCompany" parameterType="map" resultMap="LogStatByCompany" >
+    select
+    companyId,
+    count(1) count,
+    (select name from company where id = companyId) company
+    from
+    sms_logs s
+    where  1 = 1
+    <if test="orgCode != null and orgCode !=''">
+      and  s.orgCode = #{orgCode}
+    </if>
+    <if test="month != null">
+      and s.sendMonth = #{month}
+    </if>
+    <if test="companyName != null and companyName != ''">
+      and exists (select id from company c where c.id = s.companyId and c.name like #{companyName})
+    </if>
+    group by
+    companyId
+    order by
+    count(1) desc
+  </select>
+
+  <select id="statByDay" parameterType="map" resultMap="LogStatByDay" >
+    select
+    sendDate,
+    '短信' as typeName,
+    '后付费' as paymentType,
+    (select name from company c where c.id = s.companyId) companyName,
+    recordId,
+    (select unitPrice from sms_purchase_records m where m.id = s.recordId) unitPrice,
+    count( 1 ) as paymentCount
+
+    from
+    sms_logs s
+    where  1 = 1
+    <if test="orgCode != null and orgCode !=''">
+      and  s.orgCode = #{orgCode}
+    </if>
+    <if test="month != null">
+      and s.sendMonth = #{month}
+    </if>
+    <if test="companyName != null and companyName != ''">
+      and exists (select id from company c where c.id = s.companyId and c.name like #{companyName})
+    </if>
+    group by
+    sendDate,
+    companyId,
+    recordId
+    order by
+    sendDate
+  </select>
+
+  <select id="countByDay" parameterType="com.transnova.foundation.sms.mapper.SmsLogsExample" resultMap="LogStatByDay">
+    select sendDate, count(1) as paymentCount
+    from sms_logs s left join company c on s.companyId = c.id
+    where 1=1
+    <if test="orgCode != null and orgCode != ''">
+      and c.orgCode = #{orgCode}
+    </if>
+    <if test="startSendDate != null and startSendDate != ''">
+      and  sendDate &gt;= #{startSendDate}
+    </if>
+    <if test="endSendDate != null and endSendDate != ''">
+      and sendDate &lt; #{endSendDate}
+    </if>
+    group by sendDate
+  </select>
+
+</mapper>

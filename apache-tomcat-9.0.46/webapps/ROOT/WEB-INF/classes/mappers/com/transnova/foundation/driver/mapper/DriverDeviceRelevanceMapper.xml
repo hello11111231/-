@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.driver.mapper.DriverDeviceRelevanceMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.driver.model.DriverDeviceRelevance">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 20 16:09:06 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="driverVesionId" jdbcType="BIGINT" property="driverVesionId" />
+    <result column="vehicleId" jdbcType="BIGINT" property="vehicleId" />
+    <result column="deviceId" jdbcType="BIGINT" property="deviceId" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 20 16:09:06 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 20 16:09:06 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 20 16:09:06 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    id, driverVesionId, vehicleId, deviceId, version, createTime, updateTime
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.driver.mapper.DriverDeviceRelevanceExample" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 20 16:09:06 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from driver_device_relevance
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 20 16:09:06 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from driver_device_relevance
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 20 16:09:06 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from driver_device_relevance
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.driver.mapper.DriverDeviceRelevanceExample">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 20 16:09:06 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from driver_device_relevance
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.driver.model.DriverDeviceRelevance">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 20 16:09:06 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into driver_device_relevance (id, driverVesionId, vehicleId, 
+      deviceId, version, createTime, 
+      updateTime)
+    values (#{id,jdbcType=BIGINT}, #{driverVesionId,jdbcType=BIGINT}, #{vehicleId,jdbcType=BIGINT}, 
+      #{deviceId,jdbcType=BIGINT}, #{version,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.driver.model.DriverDeviceRelevance">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 20 16:09:06 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into driver_device_relevance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="driverVesionId != null">
+        driverVesionId,
+      </if>
+      <if test="vehicleId != null">
+        vehicleId,
+      </if>
+      <if test="deviceId != null">
+        deviceId,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="driverVesionId != null">
+        #{driverVesionId,jdbcType=BIGINT},
+      </if>
+      <if test="vehicleId != null">
+        #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="deviceId != null">
+        #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.driver.mapper.DriverDeviceRelevanceExample" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 20 16:09:06 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select count(*) from driver_device_relevance
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 20 16:09:06 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update driver_device_relevance
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.driverVesionId != null">
+        driverVesionId = #{record.driverVesionId,jdbcType=BIGINT},
+      </if>
+      <if test="record.vehicleId != null">
+        vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="record.deviceId != null">
+        deviceId = #{record.deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 20 16:09:06 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update driver_device_relevance
+    set id = #{record.id,jdbcType=BIGINT},
+      driverVesionId = #{record.driverVesionId,jdbcType=BIGINT},
+      vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      deviceId = #{record.deviceId,jdbcType=BIGINT},
+      version = #{record.version,jdbcType=BIGINT},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.driver.model.DriverDeviceRelevance">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 20 16:09:06 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update driver_device_relevance
+    <set>
+      <if test="driverVesionId != null">
+        driverVesionId = #{driverVesionId,jdbcType=BIGINT},
+      </if>
+      <if test="vehicleId != null">
+        vehicleId = #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="deviceId != null">
+        deviceId = #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.driver.model.DriverDeviceRelevance">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 20 16:09:06 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update driver_device_relevance
+    set driverVesionId = #{driverVesionId,jdbcType=BIGINT},
+      vehicleId = #{vehicleId,jdbcType=BIGINT},
+      deviceId = #{deviceId,jdbcType=BIGINT},
+      version = #{version,jdbcType=BIGINT},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="getByDriverId" parameterType="map" resultMap="BaseResultMap">
+    select hierarchyCode,vehicleId,companyId
+    from ${tableName}
+    where 1 = 1
+    <if test="hierarchyCode != null">
+      and hierarchyCode = #{hierarchyCode,jdbcType=VARCHAR}
+    </if>
+    <if test="driverId != null">
+      and driverId = #{driverId,jdbcType=BIGINT}
+    </if>
+    <if test="companyId != null">
+      and companyId = #{companyId,jdbcType=BIGINT}
+    </if>
+  </select>
+
+</mapper>

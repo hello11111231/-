@@ -1,0 +1,724 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.attachment.mapper.BasedataAttachmentMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.attachment.model.BasedataAttachment">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Dec 01 15:21:51 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sourceType" jdbcType="VARCHAR" property="sourceType" />
+    <result column="dataType" jdbcType="VARCHAR" property="dataType" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="orgCode" jdbcType="VARCHAR" property="orgCode" />
+    <result column="hierarchyCode" jdbcType="VARCHAR" property="hierarchyCode" />
+    <result column="companyId" jdbcType="BIGINT" property="companyId" />
+    <result column="startExpiryDate" jdbcType="TIMESTAMP" property="startExpiryDate" />
+    <result column="endExpiryDate" jdbcType="TIMESTAMP" property="endExpiryDate" />
+    <result column="sourceId" jdbcType="BIGINT" property="sourceId" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Dec 01 15:21:51 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Dec 01 15:21:51 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Dec 01 15:21:51 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    id, sourceType, dataType, type, orgCode, hierarchyCode, companyId, startExpiryDate, 
+    endExpiryDate, sourceId, state, createTime, updateTime
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.attachment.mapper.BasedataAttachmentExample" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Dec 01 15:21:51 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from basedata_attachment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Dec 01 15:21:51 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from basedata_attachment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Dec 01 15:21:51 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from basedata_attachment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.attachment.mapper.BasedataAttachmentExample">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Dec 01 15:21:51 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from basedata_attachment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.attachment.model.BasedataAttachment">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Dec 01 15:21:51 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into basedata_attachment (id, sourceType, dataType, 
+      type, orgCode, hierarchyCode, 
+      companyId, startExpiryDate, endExpiryDate, 
+      sourceId, state, createTime, 
+      updateTime)
+    values (#{id,jdbcType=BIGINT}, #{sourceType,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{orgCode,jdbcType=VARCHAR}, #{hierarchyCode,jdbcType=VARCHAR}, 
+      #{companyId,jdbcType=BIGINT}, #{startExpiryDate,jdbcType=TIMESTAMP}, #{endExpiryDate,jdbcType=TIMESTAMP}, 
+      #{sourceId,jdbcType=BIGINT}, #{state,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.attachment.model.BasedataAttachment">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Dec 01 15:21:51 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into basedata_attachment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sourceType != null">
+        sourceType,
+      </if>
+      <if test="dataType != null">
+        dataType,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="orgCode != null">
+        orgCode,
+      </if>
+      <if test="hierarchyCode != null">
+        hierarchyCode,
+      </if>
+      <if test="companyId != null">
+        companyId,
+      </if>
+      <if test="startExpiryDate != null">
+        startExpiryDate,
+      </if>
+      <if test="endExpiryDate != null">
+        endExpiryDate,
+      </if>
+      <if test="sourceId != null">
+        sourceId,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sourceType != null">
+        #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null">
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hierarchyCode != null">
+        #{hierarchyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="startExpiryDate != null">
+        #{startExpiryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endExpiryDate != null">
+        #{endExpiryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sourceId != null">
+        #{sourceId,jdbcType=BIGINT},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.attachment.mapper.BasedataAttachmentExample" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Dec 01 15:21:51 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select count(*) from basedata_attachment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Dec 01 15:21:51 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update basedata_attachment
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.sourceType != null">
+        sourceType = #{record.sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataType != null">
+        dataType = #{record.dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgCode != null">
+        orgCode = #{record.orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hierarchyCode != null">
+        hierarchyCode = #{record.hierarchyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyId != null">
+        companyId = #{record.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.startExpiryDate != null">
+        startExpiryDate = #{record.startExpiryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endExpiryDate != null">
+        endExpiryDate = #{record.endExpiryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sourceId != null">
+        sourceId = #{record.sourceId,jdbcType=BIGINT},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=TINYINT},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Dec 01 15:21:51 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update basedata_attachment
+    set id = #{record.id,jdbcType=BIGINT},
+      sourceType = #{record.sourceType,jdbcType=VARCHAR},
+      dataType = #{record.dataType,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      orgCode = #{record.orgCode,jdbcType=VARCHAR},
+      hierarchyCode = #{record.hierarchyCode,jdbcType=VARCHAR},
+      companyId = #{record.companyId,jdbcType=BIGINT},
+      startExpiryDate = #{record.startExpiryDate,jdbcType=TIMESTAMP},
+      endExpiryDate = #{record.endExpiryDate,jdbcType=TIMESTAMP},
+      sourceId = #{record.sourceId,jdbcType=BIGINT},
+      state = #{record.state,jdbcType=TINYINT},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.attachment.model.BasedataAttachment">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Dec 01 15:21:51 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update basedata_attachment
+    <set>
+      <if test="sourceType != null">
+        sourceType = #{sourceType,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        dataType = #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null">
+        orgCode = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hierarchyCode != null">
+        hierarchyCode = #{hierarchyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        companyId = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="startExpiryDate != null">
+        startExpiryDate = #{startExpiryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endExpiryDate != null">
+        endExpiryDate = #{endExpiryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sourceId != null">
+        sourceId = #{sourceId,jdbcType=BIGINT},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.attachment.model.BasedataAttachment">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Dec 01 15:21:51 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update basedata_attachment
+    set sourceType = #{sourceType,jdbcType=VARCHAR},
+      dataType = #{dataType,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      orgCode = #{orgCode,jdbcType=VARCHAR},
+      hierarchyCode = #{hierarchyCode,jdbcType=VARCHAR},
+      companyId = #{companyId,jdbcType=BIGINT},
+      startExpiryDate = #{startExpiryDate,jdbcType=TIMESTAMP},
+      endExpiryDate = #{endExpiryDate,jdbcType=TIMESTAMP},
+      sourceId = #{sourceId,jdbcType=BIGINT},
+      state = #{state,jdbcType=TINYINT},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Dec 01 15:21:51 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into basedata_attachment
+    (id, sourceType, dataType, type, orgCode, hierarchyCode, companyId, startExpiryDate, 
+      endExpiryDate, sourceId, state, createTime, updateTime)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.sourceType,jdbcType=VARCHAR}, #{item.dataType,jdbcType=VARCHAR}, 
+        #{item.type,jdbcType=VARCHAR}, #{item.orgCode,jdbcType=VARCHAR}, #{item.hierarchyCode,jdbcType=VARCHAR}, 
+        #{item.companyId,jdbcType=BIGINT}, #{item.startExpiryDate,jdbcType=TIMESTAMP}, 
+        #{item.endExpiryDate,jdbcType=TIMESTAMP}, #{item.sourceId,jdbcType=BIGINT}, #{item.state,jdbcType=TINYINT}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Dec 01 15:21:51 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into basedata_attachment (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.value}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'id' == column.value">
+          #{item.id,jdbcType=BIGINT}
+        </if>
+        <if test="'sourceType' == column.value">
+          #{item.sourceType,jdbcType=VARCHAR}
+        </if>
+        <if test="'dataType' == column.value">
+          #{item.dataType,jdbcType=VARCHAR}
+        </if>
+        <if test="'type' == column.value">
+          #{item.type,jdbcType=VARCHAR}
+        </if>
+        <if test="'orgCode' == column.value">
+          #{item.orgCode,jdbcType=VARCHAR}
+        </if>
+        <if test="'hierarchyCode' == column.value">
+          #{item.hierarchyCode,jdbcType=VARCHAR}
+        </if>
+        <if test="'companyId' == column.value">
+          #{item.companyId,jdbcType=BIGINT}
+        </if>
+        <if test="'startExpiryDate' == column.value">
+          #{item.startExpiryDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'endExpiryDate' == column.value">
+          #{item.endExpiryDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'sourceId' == column.value">
+          #{item.sourceId,jdbcType=BIGINT}
+        </if>
+        <if test="'state' == column.value">
+          #{item.state,jdbcType=TINYINT}
+        </if>
+        <if test="'createTime' == column.value">
+          #{item.createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'updateTime' == column.value">
+          #{item.updateTime,jdbcType=TIMESTAMP}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
+  <select id="selectCompanyCount" parameterType="map" resultType="map">
+  select count(distinct ba.id) as count,ba.sourceType,ba.state from basedata_attachment ba
+    left join company c
+    on
+    c.id=ba.sourceId
+    left join sys_hierarchy sh
+    on
+    c.id=sh.refId
+    left join code co
+    on
+    co.code=ba.type
+   where  ba.orgCode=#{orgCode}
+   and c.deleted=0
+   and sh.orgCode=#{orgCode} and sh.code like '${hierarchyCode}%'
+   and ba.state in(1,2)
+   and co.groupId=47
+    <if test="companyName != ''">
+      and c.name like '%${companyName}%'
+    </if>
+   <!-- <if test="vehicleNumber != ''">
+      and v.vehicleNumber like '%${vehicleNumber}%'
+    </if>
+    <if test="driverName != ''">
+      and d.name like '%${driverName}%'
+    </if>-->
+    <if test="certificateName != ''">
+      and co.name like '%${certificateName}%'
+    </if>
+  GROUP BY ba.sourceType,ba.state
+  </select>
+  <select id="selectVehicleCount" parameterType="map" resultType="map">
+    select count(distinct ba.id) as count,ba.sourceType,ba.state from basedata_attachment ba
+    left join vehicle v
+    on
+    v.id=ba.sourceId
+    left join company c
+    on
+    c.id=v.companyId
+    left join code co
+    on
+    co.code=ba.type
+    where  ba.orgCode=#{orgCode}
+    and v.orgCode=#{orgCode} and v.hierarchyCode like '${hierarchyCode}%'
+    and ba.state in(1,2)
+    and co.groupId=40
+    <if test="companyName != ''">
+      and c.name like '%${companyName}%'
+    </if>
+     <if test="vehicleNumber != ''">
+       and v.vehicleNumber like '%${vehicleNumber}%'
+     </if>
+   <!--  <if test="driverName != ''">
+       and d.name like '%${driverName}%'
+     </if>&ndash;&gt;-->
+    <if test="certificateName != ''">
+      and co.name like '%${certificateName}%'
+    </if>
+    GROUP BY ba.sourceType,ba.state
+  </select>
+  <select id="selectDriverCount" parameterType="map" resultType="map">
+    select count(distinct ba.id) as count,ba.sourceType,ba.state from basedata_attachment ba
+    left join driver d
+    on
+    d.id=ba.sourceId
+    left join company c
+    on
+    c.id=d.companyId
+    left join code co
+    on
+    co.code=ba.type
+    where  ba.orgCode=#{orgCode}
+    and d.orgCode=#{orgCode} and d.hierarchyCode like '${hierarchyCode}%'
+    and ba.state in(1,2)
+    and co.groupId=34
+    <if test="companyName != ''">
+      and c.name like '%${companyName}%'
+    </if>
+
+    <if test="driverName != ''">
+        and d.name like '%${driverName}%'
+    </if>
+    <if test="certificateName != ''">
+      and co.name like '%${certificateName}%'
+    </if>
+    GROUP BY ba.sourceType,ba.state
+  </select>
+  <select id="selectCompanyList" parameterType="map" resultType="com.transnova.foundation.attachment.model.CompanyCertificateVo">
+    select c.name as companyName,co.name as certificateName,ba.endExpiryDate  as endTime,ba.companyId from basedata_attachment ba
+    left join company c
+    on ba.companyId=c.id
+    left join sys_hierarchy sh
+    on
+    c.id=sh.refId
+    left join code co
+    on ba.type=co.`code`
+    where ba.state=#{state} and ba.orgCode=#{orgCode}
+    and ba.sourceType='company'
+    and c.deleted=0
+    and sh.orgCode=#{orgCode} and sh.code like '${hierarchyCode}%'
+    <if test="companyName != ''">
+      and c.name like '%${companyName}%'
+    </if>
+    <if test="certificateName != ''">
+      and co.name like '%${certificateName}%'
+    </if>
+    <if test="startDate != ''">
+      and ba.endExpiryDate >=#{startDate}
+    </if>
+    <if test="endDate != ''">
+      and ba.endExpiryDate &lt;=#{endDate}
+    </if>
+    order by ba.endExpiryDate desc
+    limit ${pageIndex},${pageSize}
+  </select>
+  <select id="selectCompanyListCount" parameterType="map" resultType="int">
+    select COUNT(ba.id) from basedata_attachment ba
+    left join company c
+    on ba.companyId=c.id
+    left join sys_hierarchy sh
+    on
+    c.id=sh.refId
+    left join code co
+    on ba.type=co.`code`
+    where ba.state=#{state} and ba.orgCode=#{orgCode}
+    and ba.sourceType='company'
+    and c.deleted=0
+    and sh.orgCode=#{orgCode} and sh.code like '${hierarchyCode}%'
+    <if test="companyName != ''">
+      and c.name like '%${companyName}%'
+    </if>
+    <if test="certificateName != ''">
+      and co.name like '%${certificateName}%'
+    </if>
+    <if test="startDate != ''">
+      and ba.endExpiryDate >=#{startDate}
+    </if>
+    <if test="endDate != ''">
+      and ba.endExpiryDate &lt;=#{endDate}
+    </if>
+
+  </select>
+  <select id="selectVehicleList" parameterType="map" resultType="com.transnova.foundation.attachment.model.VehicleCertificateVo">
+    select v.id as vehicleId,v.vehicleNumber,c.name as companyName , co.name as certificateName,ba.endExpiryDate as endTime from basedata_attachment ba
+    right join vehicle v
+    on
+    ba.sourceId=v.id
+    left join company c
+    on
+    ba.companyId=c.id
+    left join code co
+    on
+    ba.type=co.code and co.groupId=40
+    where ba.sourceType='vehicle' and ba.state=#{state} and ba.orgCode=#{orgCode}
+    and v.deleted=0 and v.orgCode=#{orgCode} and v.hierarchyCode like '${hierarchyCode}%'
+    <if test="companyName != ''">
+      and c.name like '%${companyName}%'
+    </if>
+    <if test="vehicleNumber != ''">
+      and v.vehicleNumber like '%${vehicleNumber}%'
+    </if>
+    <if test="certificateName != ''">
+      and co.name like '%${certificateName}%'
+    </if>
+    <if test="startDate != ''">
+      and ba.endExpiryDate >=#{startDate}
+    </if>
+    <if test="endDate != ''">
+      and ba.endExpiryDate &lt;=#{endDate}
+    </if>
+    order by ba.endExpiryDate desc
+    limit ${pageIndex},${pageSize}
+  </select>
+  <select id="selectVehicleListCount" parameterType="map" resultType="int">
+    select COUNT(ba.id) from basedata_attachment ba
+    right join vehicle v
+    on
+    ba.sourceId=v.id
+    left join company c
+    on
+    ba.companyId=c.id
+    left join code co
+    on
+    ba.type=co.code and co.groupId=40
+    where ba.sourceType='vehicle' and ba.state=#{state} and ba.orgCode=#{orgCode}
+    and v.deleted=0 and v.orgCode=#{orgCode} and v.hierarchyCode like '${hierarchyCode}%'
+    <if test="companyName != ''">
+      and c.name like '%${companyName}%'
+    </if>
+    <if test="vehicleNumber != ''">
+      and v.vehicleNumber like '%${vehicleNumber}%'
+    </if>
+    <if test="certificateName != ''">
+      and co.name like '%${certificateName}%'
+    </if>
+    <if test="startDate != ''">
+      and ba.endExpiryDate >=#{startDate}
+    </if>
+    <if test="endDate != ''">
+      and ba.endExpiryDate &lt;=#{endDate}
+    </if>
+  </select>
+  <select id="selectDriverList" parameterType="map" resultType="com.transnova.foundation.attachment.model.DriverCertificateVo">
+    select d.id as driverId,d.name as driverName,c.name as companyName , co.name as certificateName,ba.endExpiryDate as endTime from basedata_attachment ba
+    right join driver d
+    on
+    ba.sourceId=d.id
+    left join company c
+    on
+    ba.companyId=c.id
+    left join code co
+    on
+    ba.type=co.code and co.groupId=34
+    where ba.sourceType='driver' and ba.state=#{state} and ba.orgCode=#{orgCode}
+     and d.deleted=0 and d.orgCode=#{orgCode} and d.hierarchyCode like '${hierarchyCode}%'
+    <if test="companyName != ''">
+      and c.name like '%${companyName}%'
+    </if>
+    <if test="driverName != ''">
+      and d.name like '%${driverName}%'
+    </if>
+    <if test="certificateName != ''">
+      and co.name like '%${certificateName}%'
+    </if>
+    <if test="startDate != ''">
+      and ba.endExpiryDate >=#{startDate}
+    </if>
+    <if test="endDate != ''">
+      and ba.endExpiryDate &lt;=#{endDate}
+    </if>
+    order by ba.endExpiryDate desc
+    limit ${pageIndex},${pageSize}
+  </select>
+  <select id="selectDriverListCount" parameterType="map" resultType="int">
+    select COUNT(ba.id) from basedata_attachment ba
+    right join driver d
+    on
+    ba.sourceId=d.id
+    left join company c
+    on
+    ba.companyId=c.id
+    left join code co
+    on
+    ba.type=co.code and co.groupId=34
+    where ba.sourceType='driver' and ba.state=#{state} and ba.orgCode=#{orgCode}
+    and d.deleted=0 and d.orgCode=#{orgCode} and d.hierarchyCode like '${hierarchyCode}%'
+    <if test="companyName != ''">
+      and c.name like '%${companyName}%'
+    </if>
+    <if test="driverName != ''">
+      and d.name like '%${driverName}%'
+    </if>
+    <if test="certificateName != ''">
+      and co.name like '%${certificateName}%'
+    </if>
+    <if test="startDate != ''">
+      and ba.endExpiryDate >=#{startDate}
+    </if>
+    <if test="endDate != ''">
+      and ba.endExpiryDate &lt;=#{endDate}
+    </if>
+  </select>
+</mapper>

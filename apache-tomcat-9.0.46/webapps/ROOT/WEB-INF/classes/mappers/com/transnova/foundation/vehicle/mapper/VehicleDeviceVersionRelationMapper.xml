@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.vehicle.mapper.VehicleDeviceVersionRelationMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.vehicle.model.VehicleDeviceVersionRelation">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="versionId" jdbcType="BIGINT" property="versionId" />
+    <result column="deviceSn" jdbcType="VARCHAR" property="deviceSn" />
+    <result column="vehicleId" jdbcType="BIGINT" property="vehicleId" />
+
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, versionId, deviceSn, vehicleId
+  </sql>
+  <select id="selectByParam" parameterType="com.transnova.foundation.vehicle.model.VehicleDeviceVersionRelation" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from vehicle_device_version_relation where 1=1
+    <if test="params.deviceSn != null">
+      and deviceSn=#{params.deviceSn}
+    </if>
+    <if test="params.versionId != null">
+      and versionId=#{params.versionId}
+    </if>
+    <if test="params.vehicleId != null">
+      and vehicleId=#{params.vehicleId}
+    </if>
+      order by id desc
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from vehicle_device_version_relation
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+
+  <insert id="insert" parameterType="com.transnova.foundation.vehicle.model.VehicleDeviceVersionRelation">
+    insert into vehicle_device_version_relation (versionId, vehicleId, deviceSn)
+    values (#{versionId,jdbcType=BIGINT}, #{vehicleId,jdbcType=BIGINT},  #{deviceSn,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <update id="updateRelation" parameterType="com.transnova.foundation.vehicle.model.VehicleDeviceVersionRelation">
+      update vehicle_device_version_relation set versionId=#{versionId} where id=#{id}
+  </update>
+</mapper>

@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.vehicleBasic.mapper.VehicleMaintainLogMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.vehicleBasic.model.VehicleMaintainLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="vehicleId" jdbcType="BIGINT" property="vehicleId" />
+    <result column="maintainDate" jdbcType="DATE" property="maintainDate" />
+    <result column="nextMaintainType" jdbcType="VARCHAR" property="nextMaintainType" />
+    <result column="nextMaintainMileage" jdbcType="DECIMAL" property="nextMaintainMileage" />
+    <result column="currentMileage" jdbcType="DECIMAL" property="currentMileage" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="createUserId" jdbcType="BIGINT" property="createUserId" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updateUserId" jdbcType="BIGINT" property="updateUserId" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="nextMaintainDate" jdbcType="DATE" property="nextMaintainDate" />
+    <result column="maintaintype" jdbcType="VARCHAR" property="maintaintype" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, vehicleId, maintainDate, nextMaintainType, nextMaintainMileage, currentMileage, 
+    amount, remark, deleted, createUserId, createTime, updateUserId, updateTime, nextMaintainDate, 
+    maintaintype
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.vehicleBasic.mapper.VehicleMaintainLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vehicle_maintain_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from vehicle_maintain_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from vehicle_maintain_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.vehicleBasic.mapper.VehicleMaintainLogExample">
+    delete from vehicle_maintain_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.vehicleBasic.model.VehicleMaintainLog">
+    insert into vehicle_maintain_log (id, vehicleId, maintainDate, 
+      nextMaintainType, nextMaintainMileage, 
+      currentMileage, amount, remark, 
+      deleted, createUserId, createTime, 
+      updateUserId, updateTime, nextMaintainDate, 
+      maintaintype)
+    values (#{id,jdbcType=BIGINT}, #{vehicleId,jdbcType=BIGINT}, #{maintainDate,jdbcType=DATE}, 
+      #{nextMaintainType,jdbcType=VARCHAR}, #{nextMaintainMileage,jdbcType=DECIMAL}, 
+      #{currentMileage,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
+      #{deleted,jdbcType=BIT}, #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{nextMaintainDate,jdbcType=DATE}, 
+      #{maintaintype,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.vehicleBasic.model.VehicleMaintainLog">
+    insert into vehicle_maintain_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="vehicleId != null">
+        vehicleId,
+      </if>
+      <if test="maintainDate != null">
+        maintainDate,
+      </if>
+      <if test="nextMaintainType != null">
+        nextMaintainType,
+      </if>
+      <if test="nextMaintainMileage != null">
+        nextMaintainMileage,
+      </if>
+      <if test="currentMileage != null">
+        currentMileage,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+      <if test="createUserId != null">
+        createUserId,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="updateUserId != null">
+        updateUserId,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="nextMaintainDate != null">
+        nextMaintainDate,
+      </if>
+      <if test="maintaintype != null">
+        maintaintype,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="vehicleId != null">
+        #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="maintainDate != null">
+        #{maintainDate,jdbcType=DATE},
+      </if>
+      <if test="nextMaintainType != null">
+        #{nextMaintainType,jdbcType=VARCHAR},
+      </if>
+      <if test="nextMaintainMileage != null">
+        #{nextMaintainMileage,jdbcType=DECIMAL},
+      </if>
+      <if test="currentMileage != null">
+        #{currentMileage,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nextMaintainDate != null">
+        #{nextMaintainDate,jdbcType=DATE},
+      </if>
+      <if test="maintaintype != null">
+        #{maintaintype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.vehicleBasic.mapper.VehicleMaintainLogExample" resultType="java.lang.Long">
+    select count(*) from vehicle_maintain_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update vehicle_maintain_log
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.vehicleId != null">
+        vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="record.maintainDate != null">
+        maintainDate = #{record.maintainDate,jdbcType=DATE},
+      </if>
+      <if test="record.nextMaintainType != null">
+        nextMaintainType = #{record.nextMaintainType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nextMaintainMileage != null">
+        nextMaintainMileage = #{record.nextMaintainMileage,jdbcType=DECIMAL},
+      </if>
+      <if test="record.currentMileage != null">
+        currentMileage = #{record.currentMileage,jdbcType=DECIMAL},
+      </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deleted != null">
+        deleted = #{record.deleted,jdbcType=BIT},
+      </if>
+      <if test="record.createUserId != null">
+        createUserId = #{record.createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null">
+        updateUserId = #{record.updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.nextMaintainDate != null">
+        nextMaintainDate = #{record.nextMaintainDate,jdbcType=DATE},
+      </if>
+      <if test="record.maintaintype != null">
+        maintaintype = #{record.maintaintype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update vehicle_maintain_log
+    set id = #{record.id,jdbcType=BIGINT},
+      vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      maintainDate = #{record.maintainDate,jdbcType=DATE},
+      nextMaintainType = #{record.nextMaintainType,jdbcType=VARCHAR},
+      nextMaintainMileage = #{record.nextMaintainMileage,jdbcType=DECIMAL},
+      currentMileage = #{record.currentMileage,jdbcType=DECIMAL},
+      amount = #{record.amount,jdbcType=DECIMAL},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      deleted = #{record.deleted,jdbcType=BIT},
+      createUserId = #{record.createUserId,jdbcType=BIGINT},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      updateUserId = #{record.updateUserId,jdbcType=BIGINT},
+      updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      nextMaintainDate = #{record.nextMaintainDate,jdbcType=DATE},
+      maintaintype = #{record.maintaintype,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.vehicleBasic.model.VehicleMaintainLog">
+    update vehicle_maintain_log
+    <set>
+      <if test="vehicleId != null">
+        vehicleId = #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="maintainDate != null">
+        maintainDate = #{maintainDate,jdbcType=DATE},
+      </if>
+      <if test="nextMaintainType != null">
+        nextMaintainType = #{nextMaintainType,jdbcType=VARCHAR},
+      </if>
+      <if test="nextMaintainMileage != null">
+        nextMaintainMileage = #{nextMaintainMileage,jdbcType=DECIMAL},
+      </if>
+      <if test="currentMileage != null">
+        currentMileage = #{currentMileage,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="createUserId != null">
+        createUserId = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        updateUserId = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nextMaintainDate != null">
+        nextMaintainDate = #{nextMaintainDate,jdbcType=DATE},
+      </if>
+      <if test="maintaintype != null">
+        maintaintype = #{maintaintype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.vehicleBasic.model.VehicleMaintainLog">
+    update vehicle_maintain_log
+    set vehicleId = #{vehicleId,jdbcType=BIGINT},
+      maintainDate = #{maintainDate,jdbcType=DATE},
+      nextMaintainType = #{nextMaintainType,jdbcType=VARCHAR},
+      nextMaintainMileage = #{nextMaintainMileage,jdbcType=DECIMAL},
+      currentMileage = #{currentMileage,jdbcType=DECIMAL},
+      amount = #{amount,jdbcType=DECIMAL},
+      remark = #{remark,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=BIT},
+      createUserId = #{createUserId,jdbcType=BIGINT},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateUserId = #{updateUserId,jdbcType=BIGINT},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      nextMaintainDate = #{nextMaintainDate,jdbcType=DATE},
+      maintaintype = #{maintaintype,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectPage" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from vehicle_maintain_log where vehicleId = #{vehicleId} and  deleted = false
+    <if test="orderName != null and orderName != ''">
+      order by ${orderName}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${limit}, ${offset}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="countPage" parameterType="map" resultType="java.lang.Long">
+    select count(1) from vehicle_maintain_log where vehicleId = #{vehicleId} and deleted = false
+  </select>
+</mapper>

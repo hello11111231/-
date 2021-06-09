@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.driver.mapper.DriverManageRelevanceMapper">
+    <resultMap id="BaseResultMap" type="com.transnova.foundation.driver.model.DriverManageRelevance">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="hierarchyCode" jdbcType="VARCHAR" property="hierarchyCode"/>
+        <result column="driverId" jdbcType="BIGINT" property="driverId"/>
+        <result column="companyId" jdbcType="BIGINT" property="companyId"/>
+    </resultMap>
+
+    <select id="findByHierarchyCode" parameterType="map" resultMap="BaseResultMap">
+        select hierarchyCode,id as driverId,companyId
+        from driver
+        where
+          orgCode = #{orgCode}
+        <if test="hierarchyCode != null and hierarchyCode != ''">
+            and hierarchyCode = #{hierarchyCode,jdbcType=VARCHAR}
+        </if>
+        <if test="companyId != null">
+            and companyId = #{companyId,jdbcType=BIGINT}
+        </if>
+        <if test="companyName != null">
+            and companyId in(select id from company where orgCode=#{orgCode,jdbcType=VARCHAR} and name like '%${companyName}%')
+        </if>
+    </select>
+
+    <select id="pageByHierarchyCode" parameterType="map" resultMap="BaseResultMap">
+        select hierarchyCode,id as driverId,companyId
+        from driver
+        where
+          orgCode = #{orgCode}
+        <if test="hierarchyCode != null and hierarchyCode != ''">
+            and hierarchyCode = #{hierarchyCode,jdbcType=VARCHAR}
+        </if>
+        <if test="companyId != null">
+            and companyId = #{companyId,jdbcType=BIGINT}
+        </if>
+        <if test="companyName != null">
+            and companyId in(select id from company where orgCode=#{orgCode,jdbcType=VARCHAR} and name like '%${companyName}%')
+        </if>
+        limit ${offset}, ${limit}
+    </select>
+
+    <select id="findByHierarchyCodeLike" parameterType="map" resultMap="BaseResultMap">
+        select hierarchyCode,id as driverId,companyId
+        from driver
+        where
+        orgCode = #{orgCode}
+        <if test="hierarchyCode != null and hierarchyCode != ''">
+            and hierarchyCode LIKE '${hierarchyCode}%'
+        </if>
+        <if test="companyId != null">
+            and companyId = #{companyId,jdbcType=BIGINT}
+        </if>
+    </select>
+    <select id="findCountByHierarchyCode" parameterType="map" resultType="long">
+        select COUNT(*)
+        from driver
+        where orgCode=#{orgCode}
+        <if test="hierarchyCode != null and hierarchyCode != ''">
+            and hierarchyCode LIKE '${hierarchyCode}%'
+        </if>
+        <if test="companyId != null">
+            and companyId = #{companyId,jdbcType=BIGINT}
+        </if>
+        and deleted=false
+    </select>
+
+    <select id="pageByHierarchyCodeLike" parameterType="map" resultMap="BaseResultMap">
+        select hierarchyCode,id as driverId,companyId
+        from driver
+        where
+          orgCode = #{orgCode}
+        <if test="hierarchyCode != null and hierarchyCode != ''">
+            and hierarchyCode LIKE '${hierarchyCode}%'
+        </if>
+        <if test="companyId != null">
+            and companyId = #{companyId,jdbcType=BIGINT}
+        </if>
+        limit ${offset}, ${limit}
+    </select>
+
+    <select id="countByHierarchyCode" parameterType="map" resultType="java.lang.Long">
+        select count(*)
+        from driver
+        where
+          orgCode = #{orgCode}
+        <if test="hierarchyCode != null and hierarchyCode != ''">
+            and hierarchyCode = #{hierarchyCode,jdbcType=VARCHAR}
+        </if>
+        <if test="companyId != null">
+            and companyId = #{companyId,jdbcType=BIGINT}
+        </if>
+    </select>
+
+    <select id="getByDriverId" parameterType="map" resultMap="BaseResultMap">
+        select hierarchyCode,id as driverId,companyId
+        from driver
+        where
+          orgCode =#{orgCode}
+        <if test="hierarchyCode != null and hierarchyCode != ''">
+            and hierarchyCode = #{hierarchyCode,jdbcType=VARCHAR}
+        </if>
+        <if test="driverId != null">
+            and id = #{driverId,jdbcType=BIGINT}
+        </if>
+        <if test="companyId != null">
+            and companyId = #{companyId,jdbcType=BIGINT}
+        </if>
+    </select>
+
+</mapper>

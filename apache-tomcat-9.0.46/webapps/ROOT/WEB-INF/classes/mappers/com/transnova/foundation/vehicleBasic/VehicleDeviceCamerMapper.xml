@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.vehicleBasic.mapper.VehicleDeviceCamerMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.vehicleBasic.model.VehicleDeviceCamer">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="deviceId" jdbcType="BIGINT" property="deviceId" />
+    <result column="camerNumber" jdbcType="VARCHAR" property="camerNumber" />
+    <result column="camerName" jdbcType="VARCHAR" property="camerName" />
+    <result column="cameraLogicNumber" jdbcType="INTEGER" property="cameraLogicNumber" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, deviceId, camerNumber, camerName, cameraLogicNumber
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.vehicleBasic.mapper.VehicleDeviceCamerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vehicle_device_camer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from vehicle_device_camer
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from vehicle_device_camer
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.vehicleBasic.mapper.VehicleDeviceCamerExample">
+    delete from vehicle_device_camer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.vehicleBasic.model.VehicleDeviceCamer">
+    insert into vehicle_device_camer (id, deviceId, camerNumber, 
+      camerName,cameraLogicNumber)
+    values (#{id,jdbcType=BIGINT}, #{deviceId,jdbcType=BIGINT}, #{camerNumber,jdbcType=VARCHAR}, 
+      #{camerName,jdbcType=VARCHAR},#{cameraLogicNumber,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.vehicleBasic.model.VehicleDeviceCamer">
+    insert into vehicle_device_camer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="deviceId != null">
+        deviceId,
+      </if>
+      <if test="camerNumber != null">
+        camerNumber,
+      </if>
+      <if test="camerName != null">
+        camerName,
+      </if>
+      <if test="cameraLogicNumber != null">
+        cameraLogicNumber,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="deviceId != null">
+        #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="camerNumber != null">
+        #{camerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="camerName != null">
+        #{camerName,jdbcType=VARCHAR},
+      </if>
+      <if test="cameraLogicNumber != null">
+        #{cameraLogicNumber,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.vehicleBasic.mapper.VehicleDeviceCamerExample" resultType="java.lang.Long">
+    select count(*) from vehicle_device_camer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update vehicle_device_camer
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.deviceId != null">
+        deviceId = #{record.deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="record.camerNumber != null">
+        camerNumber = #{record.camerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.camerName != null">
+        camerName = #{record.camerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cameraLogicNumber != null">
+        cameraLogicNumber = #{record.cameraLogicNumber,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update vehicle_device_camer
+    set id = #{record.id,jdbcType=BIGINT},
+      deviceId = #{record.deviceId,jdbcType=BIGINT},
+      camerNumber = #{record.camerNumber,jdbcType=VARCHAR},
+      camerName = #{record.camerName,jdbcType=VARCHAR},
+      cameraLogicNumber = #{record.cameraLogicNumber,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.vehicleBasic.model.VehicleDeviceCamer">
+    update vehicle_device_camer
+    <set>
+      <if test="deviceId != null">
+        deviceId = #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="camerNumber != null">
+        camerNumber = #{camerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="camerName != null">
+        camerName = #{camerName,jdbcType=VARCHAR},
+      </if>
+      <if test="cameraLogicNumber != null">
+        cameraLogicNumber = #{cameraLogicNumber,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.vehicleBasic.model.VehicleDeviceCamer">
+    update vehicle_device_camer
+    set deviceId = #{deviceId,jdbcType=BIGINT},
+      camerNumber = #{camerNumber,jdbcType=VARCHAR},
+      camerName = #{camerName,jdbcType=VARCHAR},
+      cameraLogicNumber = #{cameraLogicNumber,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <delete id="removeByDeviceId" parameterType="java.lang.Long">
+    delete from vehicle_device_camer where deviceId = #{deviceId}
+  </delete>
+</mapper>

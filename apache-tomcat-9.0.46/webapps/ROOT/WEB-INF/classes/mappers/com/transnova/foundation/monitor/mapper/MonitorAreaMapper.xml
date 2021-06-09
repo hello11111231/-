@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.monitor.mapper.MonitorAreaMapper">
+    <resultMap id="BaseResultMap" type="com.transnova.foundation.monitor.model.MonitorArea">
+        <!--
+          WARNING - @mbg.generated  This element was generated on Wed May 27 10:59:49 CST 2020. by MyBatis Generator, do not modify.
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="orgCode" jdbcType="VARCHAR" property="orgCode"/>
+        <result column="companyId" jdbcType="BIGINT" property="companyId"/>
+        <result column="operateType" jdbcType="VARCHAR" property="operateType"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="createUserId" jdbcType="BIGINT" property="createUserId"/>
+        <result column="createTime" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="updateUserId" jdbcType="BIGINT" property="updateUserId"/>
+        <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="state" jdbcType="INTEGER" property="state" />
+    </resultMap>
+
+    <resultMap id="areaAndConfigVOMap" type="com.transnova.foundation.monitor.model.MonitorAreaAndConfigVO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="areaId" jdbcType="BIGINT" property="areaId"/>
+        <result column="areaName" jdbcType="BIGINT" property="areaName"/>
+        <result column="orgCode" jdbcType="VARCHAR" property="orgCode"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="rule" jdbcType="VARCHAR" property="rule"/>
+        <result column="ruleName" jdbcType="VARCHAR" property="ruleName"/>
+        <result column="vehicleCount" jdbcType="INTEGER" property="vehicleCount"/>
+        <result column="userId" jdbcType="BIGINT" property="userId"/>
+        <result column="rateLimit" jdbcType="INTEGER" property="rateLimit"/>
+        <result column="duration" jdbcType="INTEGER" property="duration"/>
+        <result column="startTime" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="endTime" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="createTime" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="comment" jdbcType="VARCHAR" property="comment"/>
+        <result column="duration" jdbcType="INTEGER" property="duration"/>
+        <result column="companyId" jdbcType="BIGINT" property="companyId"/>
+    </resultMap>
+
+    <resultMap id="monitroAreaMap" type="com.transnova.foundation.monitor.model.MonitorAreaEx">
+        <result column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="startLongitude" jdbcType="DOUBLE" property="startLongitude"/>
+        <result column="startLatitude" jdbcType="DOUBLE" property="startLatitude"/>
+        <result column="endLongitude" jdbcType="DOUBLE" property="endLongitude"/>
+        <result column="endLatitude" jdbcType="DOUBLE" property="endLatitude"/>
+        <result column="userName" jdbcType="VARCHAR" property="userName"/>
+        <result column="createTime" jdbcType="TIMESTAMP" property="createTime"/>
+
+    </resultMap>
+
+    <sql id="Example_Where_Clause">
+        <!--
+          WARNING - @mbg.generated  This element was generated on Wed May 27 10:59:49 CST 2020. by MyBatis Generator, do not modify.
+        -->
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <!--
+          WARNING - @mbg.generated  This element was generated on Wed May 27 10:59:49 CST 2020. by MyBatis Generator, do not modify.
+        -->
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        <!--
+          WARNING - @mbg.generated  This element was generated on Wed May 27 10:59:49 CST 2020. by MyBatis Generator, do not modify.
+        -->
+        id, orgCode, companyId, operateType, name, type, createUserId, createTime, updateUserId, updateTime, state
+    </sql>
+    <select id="selectByExample" parameterType="com.transnova.foundation.monitor.mapper.MonitorAreaExample"
+            resultMap="BaseResultMap">
+        <!--
+          WARNING - @mbg.generated  This element was generated on Wed May 27 10:59:49 CST 2020. by MyBatis Generator, do not modify.
+        -->
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from monitor_area
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--
+          WARNING - @mbg.generated  This element was generated on Wed May 27 10:59:49 CST 2020. by MyBatis Generator, do not modify.
+        -->
+        select
+        <include refid="Base_Column_List"/>
+        from monitor_area
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--
+          WARNING - @mbg.generated  This element was generated on Wed May 27 10:59:49 CST 2020. by MyBatis Generator, do not modify.
+        -->
+        delete from monitor_area
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.transnova.foundation.monitor.mapper.MonitorAreaExample">
+        <!--
+          WARNING - @mbg.generated  This element was generated on Wed May 27 10:59:49 CST 2020. by MyBatis Generator, do not modify.
+        -->
+        delete from monitor_area
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.transnova.foundation.monitor.model.MonitorArea">
+        <!--
+          WARNING - @mbg.generated  This element was generated on Wed May 27 10:59:49 CST 2020. by MyBatis Generator, do not modify.
+        -->
+        insert into monitor_area (id, orgCode, companyId, operateType, name,
+        type, createUserId,
+        createTime, updateUserId, updateTime, state)
+        values (#{id,jdbcType=BIGINT}, #{orgCode,jdbcType=VARCHAR}, #{companyId,jdbcType=BIGINT},
+        #{operateType,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+        #{type,jdbcType=VARCHAR}, #{createUserId,jdbcType=BIGINT},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP},
+        #{state,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="com.transnova.foundation.monitor.model.MonitorArea">
+        <!--
+          WARNING - @mbg.generated  This element was generated on Wed May 27 10:59:49 CST 2020. by MyBatis Generator, do not modify.
+        -->
+        insert into monitor_area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="orgCode != null">
+                orgCode,
+            </if>
+            <if test="companyId != null">
+                companyId,
+            </if>
+            <if test="operateType != null">
+                operateType,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="createUserId != null">
+                createUserId,
+            </if>
+            <if test="createTime != null">
+                createTime,
+            </if>
+            <if test="updateUserId != null">
+                updateUserId,
+            </if>
+            <if test="updateTime != null">
+                updateTime,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="orgCode != null">
+                #{orgCode,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                #{companyId,jdbcType=BIGINT},
+            </if>
+            <if test="operateType != null">
+                #{operateType,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId,jdbcType=BIGINT},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.transnova.foundation.monitor.mapper.MonitorAreaExample"
+            resultType="java.lang.Long">
+        <!--
+          WARNING - @mbg.generated  This element was generated on Wed May 27 10:59:49 CST 2020. by MyBatis Generator, do not modify.
+        -->
+        select count(*) from monitor_area
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        <!--
+          WARNING - @mbg.generated  This element was generated on Wed May 27 10:59:49 CST 2020. by MyBatis Generator, do not modify.
+        -->
+        update monitor_area
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.orgCode != null">
+                orgCode = #{record.orgCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.companyId != null">
+                companyId = #{record.companyId,jdbcType=BIGINT},
+            </if>
+            <if test="record.operateType != null">
+                operateType = #{record.operateType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.name != null">
+                name = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.type != null">
+                type = #{record.type,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUserId != null">
+                createUserId = #{record.createUserId,jdbcType=BIGINT},
+            </if>
+            <if test="record.createTime != null">
+                createTime = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateUserId != null">
+                updateUserId = #{record.updateUserId,jdbcType=BIGINT},
+            </if>
+            <if test="record.updateTime != null">
+                updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.state != null">
+                state = #{record.state,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        <!--
+          WARNING - @mbg.generated  This element was generated on Wed May 27 10:59:49 CST 2020. by MyBatis Generator, do not modify.
+        -->
+        update monitor_area
+        set id = #{record.id,jdbcType=BIGINT},
+        orgCode = #{record.orgCode,jdbcType=VARCHAR},
+        companyId = #{record.companyId,jdbcType=BIGINT},
+        operateType = #{record.operateType,jdbcType=VARCHAR},
+        name = #{record.name,jdbcType=VARCHAR},
+        type = #{record.type,jdbcType=VARCHAR},
+        createUserId = #{record.createUserId,jdbcType=BIGINT},
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+        updateUserId = #{record.updateUserId,jdbcType=BIGINT},
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+        state = #{record.state,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.monitor.model.MonitorArea">
+        <!--
+          WARNING - @mbg.generated  This element was generated on Wed May 27 10:59:49 CST 2020. by MyBatis Generator, do not modify.
+        -->
+        update monitor_area
+        <set>
+            <if test="orgCode != null">
+                orgCode = #{orgCode,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                companyId = #{companyId,jdbcType=BIGINT},
+            </if>
+            <if test="operateType != null">
+                operateType = #{operateType,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                createUserId = #{createUserId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                updateUserId = #{updateUserId,jdbcType=BIGINT},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.monitor.model.MonitorArea">
+        <!--
+          WARNING - @mbg.generated  This element was generated on Wed May 27 10:59:49 CST 2020. by MyBatis Generator, do not modify.
+        -->
+        update monitor_area
+        set orgCode = #{orgCode,jdbcType=VARCHAR},
+        companyId = #{companyId,jdbcType=BIGINT},
+        operateType = #{operateType,jdbcType=VARCHAR},
+        name = #{name,jdbcType=VARCHAR},
+        type = #{type,jdbcType=VARCHAR},
+        createUserId = #{createUserId,jdbcType=BIGINT},
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+        updateUserId = #{updateUserId,jdbcType=BIGINT},
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+        state = #{state,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <insert id="batchInsert" parameterType="map">
+        insert into monitor_area
+        (id, orgCode,companyId,operateType, name, type, createUserId, createTime, updateUserId, updateTime,state)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=BIGINT}, #{item.orgCode,jdbcType=VARCHAR}, #{companyId,jdbcType=BIGINT},
+            #{operateType,jdbcType=VARCHAR},#{item.name,jdbcType=VARCHAR},#{item.type,jdbcType=VARCHAR},
+            #{item.createUserId,jdbcType=BIGINT},
+            #{item.createTime,jdbcType=TIMESTAMP},#{item.updateUserId,jdbcType=BIGINT},
+            #{item.updateTime,jdbcType=TIMESTAMP},#{item.state,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+    <insert id="batchInsertSelective" parameterType="map">
+        insert into monitor_area (
+        <foreach collection="selective" item="column" separator=",">
+            ${column.value}
+        </foreach>
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (
+            <foreach collection="selective" item="column" separator=",">
+                <if test="'id' == column.value">
+                    #{item.id,jdbcType=BIGINT}
+                </if>
+                <if test="'orgCode' == column.value">
+                    #{item.orgCode,jdbcType=VARCHAR}
+                </if>
+                <if test="companyId != null">
+                    #{item.companyId,jdbcType=BIGINT},
+                </if>
+                <if test="operateType != null">
+                    #{item.operateType,jdbcType=VARCHAR},
+                </if>
+                <if test="'name' == column.value">
+                    #{item.name,jdbcType=VARCHAR}
+                </if>
+                <if test="'type' == column.value">
+                    #{item.type,jdbcType=VARCHAR}
+                </if>
+                <if test="'createUserId' == column.value">
+                    #{item.createUserId,jdbcType=BIGINT}
+                </if>
+                <if test="'createTime' == column.value">
+                    #{item.createTime,jdbcType=TIMESTAMP}
+                </if>
+                <if test="'updateUserId' == column.value">
+                    #{item.updateUserId,jdbcType=BIGINT}
+                </if>
+                <if test="'updateTime' == column.value">
+                    #{item.updateTime,jdbcType=TIMESTAMP}
+                </if>
+                <if test="'state' == column.value">
+                    #{item.state,jdbcType=INTEGER}
+                </if>
+            </foreach>
+            )
+        </foreach>
+    </insert>
+
+    <select id="findMonitorAreaData" parameterType="map" resultMap="monitroAreaMap">
+        select ma.id,ma.name,a.*,b.endLongitude,b.endLatitude,
+        (select name from sys_user where id=ma.userId) userName,
+        ma.createTime from
+        (
+        select min(areaid) areaid,min(longitude) as startLongitude,min(latitude) as startLatitude from monitor_area_data
+        group by areaid
+        ) a
+        inner join
+        (select max(areaid) areaid,max(longitude) as endLongitude,max(latitude) as endLatitude from monitor_area_data
+        group by areaid
+        ) b
+        on a.areaid=b.areaid
+        inner join monitor_area ma
+        on a.areaid = ma.id
+        where 1 = 1
+        <if test="companyId != null">
+            and companyId = #{companyId}
+        </if>
+        <if test="operateType != null and operateType != ''">
+            and operateType = #{operateType}
+        </if>
+        <if test="orgCode != null">
+            and ma.orgCode like '%${orgCode}%'
+        </if>
+        <if test="areaType != null">
+            and ma.type = #{areaType}
+        </if>
+        <if test="areaName != null">
+            and ma.name like '%${areaName}%'
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${limit}, ${offset}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+
+    <select id="countMonitorAreaData" parameterType="map" resultType="java.lang.Long">
+        SELECT
+        count( * )
+        FROM
+        monitor_area
+        where 1 = 1
+        <if test="companyId != null">
+            and companyId = #{companyId}
+        </if>
+        <if test="operateType != null and operateType != ''">
+            and operateType = #{operateType}
+        </if>
+        <if test="orgCode != null">
+            and orgCode like '%${orgCode}%'
+        </if>
+        <if test="areaType != null">
+            and type = #{areaType}
+        </if>
+        <if test="areaName != null">
+            and name like '%${areaName}%'
+        </if>
+    </select>
+
+
+    <select id="selectByMap" parameterType="map" resultMap="areaAndConfigVOMap">
+        select
+        ma.id areaId,
+        ma.name areaName,
+        companyId,
+        (
+        select count(distinct(vehicleId)) from monitor_area_vehicle_relevance where areaId = ma.id
+        ) vehicleCount,
+        ma.orgCode,
+        ma.state,
+        ma.createUserId userId,
+        ma.createTime
+        from monitor_area ma inner join
+        (
+        select DISTINCT areaId from monitor_area_config
+        where 1=1
+        <if test="configName != null and configName !=''">
+            and name like '%${configName}%'
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            and orgCode = #{orgCode}
+        </if>
+        <if test="rule != null and rule != ''">
+            and rule = #{rule}
+        </if>
+        ) t on ma.id = t.areaId
+        where state != 2
+        <if test="companyId != null">
+            and companyId = #{companyId}
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            and companyId in (select refId from sys_hierarchy where orgCode = #{orgCode} and type = 'company'
+            <if test="hierarchyCode != null and hierarchyCode != '' and orgState == 1">
+                and code like '${hierarchyCode}%'
+            </if>
+            )
+        </if>
+        <if test="operateType != null and operateType != ''">
+            and operateType = #{operateType}
+        </if>
+        <if test="areaName != null and areaName != ''">
+            and ma.name like '%${areaName}%'
+        </if>
+        <if test="state != null">
+            and state = #{state}
+        </if>
+        limit #{limit}, #{offset}
+    </select>
+    <select id="countByMap" parameterType="map" resultType="long">
+        select
+        count(1)
+        from monitor_area ma
+        inner join
+        (
+        select DISTINCT areaId from monitor_area_config
+        where 1 = 1
+        <if test="configName != null and configName !=''">
+            and name like '%${configName}%'
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            and orgCode = #{orgCode}
+        </if>
+        <if test="rule != null and rule != ''">
+            and rule = #{rule}
+        </if>
+        ) t on ma.id = t.areaId
+        where state != 2
+        <if test="companyId != null">
+            and companyId = #{companyId}
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            and companyId in (select refId from sys_hierarchy where orgCode = #{orgCode} and type = 'company'
+            <if test="hierarchyCode != null and hierarchyCode != '' and orgState == 1">
+                and code like '${hierarchyCode}%'
+            </if>
+            )
+        </if>
+        <if test="operateType != null and operateType != ''">
+            and operateType = #{operateType}
+        </if>
+        <if test="areaName != null and areaName != ''">
+            and ma.name like '%${areaName}%'
+        </if>
+        <if test="state != null">
+            and state = #{state}
+        </if>
+    </select>
+
+
+    <select id="findAreaByMap" parameterType="map" resultMap="areaAndConfigVOMap">
+        select
+        ma.id areaId,
+        ma.name areaName,
+        companyId,
+        ma.orgCode,
+        ma.state,
+        rule
+        from monitor_area ma inner join
+        (
+        select areaId,rule from monitor_area_config
+        where 1=1
+        <if test="orgCode != null and orgCode != ''">
+            and orgCode = #{orgCode}
+        </if>
+        group by areaid,rule
+        ) t on ma.id = t.areaId
+        where state != 2
+        <if test="companyId != null">
+            and companyId = #{companyId}
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            and companyId in (select refId from sys_hierarchy where orgCode = #{orgCode} and type = 'company'
+            <if test="hierarchyCode != null and hierarchyCode != '' and orgState == 1">
+                and code like '${hierarchyCode}%'
+            </if>
+            )
+        </if>
+        <if test="operateType != null and operateType != ''">
+            and operateType = #{operateType}
+        </if>
+        <if test="areaName != null and areaName != ''">
+            and ma.name like '%${areaName}%'
+        </if>
+        <if test="state != null">
+            and state = #{state}
+        </if>
+    </select>
+</mapper>

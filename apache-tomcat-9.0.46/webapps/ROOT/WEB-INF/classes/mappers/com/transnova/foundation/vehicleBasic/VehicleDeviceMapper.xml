@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.vehicleBasic.mapper.VehicleDeviceMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.vehicleBasic.model.VehicleDevice">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="deviceSN" jdbcType="VARCHAR" property="deviceSN" />
+    <result column="model" jdbcType="VARCHAR" property="model" />
+    <result column="sim" jdbcType="VARCHAR" property="sim" />
+    <result column="updateUserId" jdbcType="BIGINT" property="updateUserId" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="createUserId" jdbcType="BIGINT" property="createUserId" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+    <result column="hasGPS" jdbcType="BIT" property="hasGPS" />
+    <result column="hasCamera" jdbcType="BIT" property="hasCamera" />
+    <result column="hasDMS" jdbcType="BIT" property="hasDMS" />
+    <result column="protocol" jdbcType="VARCHAR" property="protocol" />
+    <result column="codeOrgWhole" jdbcType="VARCHAR" property="codeOrgWhole" />
+    <result column="vehicleId" jdbcType="BIGINT" property="vehicleId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, deviceSN, model, sim, updateUserId, updateTime, createUserId, createTime, deleted, 
+    hasGPS, hasCamera, hasDMS,protocol,codeOrgWhole,vehicleId
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.vehicleBasic.mapper.VehicleDeviceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vehicle_device
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from vehicle_device
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from vehicle_device
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.vehicleBasic.mapper.VehicleDeviceExample">
+    delete from vehicle_device
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.vehicleBasic.model.VehicleDevice">
+    insert into vehicle_device (id, deviceSN, model, 
+      sim, updateUserId, updateTime, 
+      createUserId, createTime, deleted, 
+      hasGPS, hasCamera, hasDMS,codeOrgWhole,vehicleId)
+    values (#{id,jdbcType=BIGINT}, #{deviceSN,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, 
+      #{sim,jdbcType=VARCHAR}, #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}, 
+      #{hasGPS,jdbcType=BIT}, #{hasCamera,jdbcType=BIT}, #{hasDMS,jdbcType=BIT},#{codeOrgWhole,jdbcType=VARCHAR}
+    ,#{vehicleId,jdbcType=BIGINT}
+    )
+  </insert>
+
+  <select id="countByExample" parameterType="com.transnova.foundation.vehicleBasic.mapper.VehicleDeviceExample" resultType="java.lang.Long">
+    select count(*) from vehicle_device
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update vehicle_device
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.deviceSN != null">
+        deviceSN = #{record.deviceSN,jdbcType=VARCHAR},
+      </if>
+      <if test="record.model != null">
+        model = #{record.model,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sim != null">
+        sim = #{record.sim,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUserId != null">
+        updateUserId = #{record.updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null">
+        createUserId = #{record.createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleted != null">
+        deleted = #{record.deleted,jdbcType=BIT},
+      </if>
+      <if test="record.hasGPS != null">
+        hasGPS = #{record.hasGPS,jdbcType=BIT},
+      </if>
+      <if test="record.hasCamera != null">
+        hasCamera = #{record.hasCamera,jdbcType=BIT},
+      </if>
+      <if test="record.hasDMS != null">
+        hasDMS = #{record.hasDMS,jdbcType=BIT},
+      </if>
+      <if test="record.protocol != null">
+        protocol = #{record.protocol,jdbcType=VARCHAR},
+      </if>
+      <if test="codeOrgWhole != null">
+        codeOrgWhole= #{codeOrgWhole,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update vehicle_device
+    set id = #{record.id,jdbcType=BIGINT},
+    deviceSN = #{record.deviceSN,jdbcType=VARCHAR},
+    model = #{record.model,jdbcType=VARCHAR},
+    sim = #{record.sim,jdbcType=VARCHAR},
+    updateUserId = #{record.updateUserId,jdbcType=BIGINT},
+    updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+    createUserId = #{record.createUserId,jdbcType=BIGINT},
+    createTime = #{record.createTime,jdbcType=TIMESTAMP},
+    deleted = #{record.deleted,jdbcType=BIT},
+    hasGPS = #{record.hasGPS,jdbcType=BIT},
+    hasCamera = #{record.hasCamera,jdbcType=BIT},
+    hasDMS = #{record.hasDMS,jdbcType=BIT},
+    vehicleId = #{vehicleId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.vehicleBasic.model.VehicleDevice">
+    update vehicle_device
+    <set>
+      <if test="deviceSN != null">
+        deviceSN = #{deviceSN,jdbcType=VARCHAR},
+      </if>
+      <if test="model != null">
+        model = #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="sim != null">
+        sim = #{sim,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserId != null">
+        updateUserId = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        createUserId = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+      <if test="hasGPS != null">
+        hasGPS = #{hasGPS,jdbcType=BIT},
+      </if>
+      <if test="hasCamera != null">
+        hasCamera = #{hasCamera,jdbcType=BIT},
+      </if>
+      <if test="hasDMS != null">
+        hasDMS = #{hasDMS,jdbcType=BIT},
+      </if>
+      <if test="protocol != null">
+        protocol = #{protocol,jdbcType=BIT},
+      </if>
+      <if test="codeOrgWhole != null">
+        codeOrgWhole= #{codeOrgWhole,jdbcType=VARCHAR},
+      </if>
+      <if test=" vehicleId != null">
+        vehicleId = #{vehicleId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.vehicleBasic.model.VehicleDevice">
+    update vehicle_device
+    set deviceSN = #{deviceSN,jdbcType=VARCHAR},
+      model = #{model,jdbcType=VARCHAR},
+      sim = #{sim,jdbcType=VARCHAR},
+      updateUserId = #{updateUserId,jdbcType=BIGINT},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      createUserId = #{createUserId,jdbcType=BIGINT},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      deleted = #{deleted,jdbcType=BIT},
+      hasGPS = #{hasGPS,jdbcType=BIT},
+      hasCamera = #{hasCamera,jdbcType=BIT},
+      hasDMS = #{hasDMS,jdbcType=BIT},
+      protocol =#{protocol,jdbcType=VARCHAR},
+      codeOrgWhole =#{codeOrgWhole,jdbcType=VARCHAR},
+      vehicleId =#{vehicleId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <select id="selectNoCode"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from vehicle_device
+    where (codeOrgWhole is null or vehicleId is Null) and deleted=0
+  </select>
+
+  <select id="selectByCompanyId" parameterType="map" resultMap="BaseResultMap">
+    select vehicleId, hasCamera, hasDMS
+    from vehicle_device
+    where 1 = 1
+    <if test="companyId != null">
+      and vehicleId in(select id from vehicle where companyId = #{companyId} and deleted = '0')
+    </if>
+
+    and deleted = '0'
+    order by vehicleId
+
+  </select>
+
+  <update id="updateCodeOrgWholeByVehicleId" parameterType="map">
+    update vehicle_device
+    set codeOrgWhole = #{codeOrgWhole}
+    where vehicleId = #{vehicleId}
+  </update>
+
+</mapper>

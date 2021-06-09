@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.shard.task.TaskMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.task.model.Task">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:33 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="companyId" jdbcType="BIGINT" property="companyId" />
+    <result column="vehicleId" jdbcType="BIGINT" property="vehicleId" />
+    <result column="driverId" jdbcType="BIGINT" property="driverId" />
+    <result column="startTime" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="startTimeStr" jdbcType="TIMESTAMP" property="startTimeStr" />
+    <result column="endTime" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="driveDate" jdbcType="INTEGER" property="driveDate" />
+    <result column="checkResult" jdbcType="INTEGER" property="checkResult" />
+    <result column="startLng" jdbcType="DOUBLE" property="startLng" />
+    <result column="startLat" jdbcType="DOUBLE" property="startLat" />
+    <result column="endLng" jdbcType="DOUBLE" property="endLng" />
+    <result column="endLat" jdbcType="DOUBLE" property="endLat" />
+  </resultMap>
+  <resultMap id="VehicleMap" type="com.transnova.foundation.vehicle.model.Vehicle">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="modelId" jdbcType="BIGINT" property="modelId" />
+    <result column="companyId" jdbcType="BIGINT" property="companyId" />
+    <result column="operateTypeId" jdbcType="VARCHAR" property="operateTypeId" />
+    <result column="deliverType" jdbcType="VARCHAR" property="deliverType" />
+    <result column="techLevel" jdbcType="VARCHAR" property="techLevel" />
+    <result column="color" jdbcType="VARCHAR" property="color" />
+    <result column="totalWeight" jdbcType="INTEGER" property="totalWeight" />
+    <result column="totalLoadWeight" jdbcType="INTEGER" property="totalLoadWeight" />
+    <result column="energyType" jdbcType="VARCHAR" property="energyType" />
+    <result column="length" jdbcType="DECIMAL" property="length" />
+    <result column="width" jdbcType="DECIMAL" property="width" />
+    <result column="height" jdbcType="DECIMAL" property="height" />
+    <result column="volume" jdbcType="DECIMAL" property="volume" />
+    <result column="vin" jdbcType="VARCHAR" property="vin" />
+    <result column="modification" jdbcType="VARCHAR" property="modification" />
+    <result column="axisCount" jdbcType="INTEGER" property="axisCount" />
+  </resultMap>
+
+  <resultMap id="VehicleShowMap" type="com.transnova.foundation.vehicle.model.VehicleShow">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="modelId" jdbcType="BIGINT" property="modelId" />
+    <result column="companyId" jdbcType="BIGINT" property="companyId" />
+    <result column="operateTypeId" jdbcType="VARCHAR" property="operateTypeId" />
+    <result column="deliverType" jdbcType="VARCHAR" property="deliverType" />
+    <result column="techLevel" jdbcType="VARCHAR" property="techLevel" />
+    <result column="color" jdbcType="VARCHAR" property="color" />
+    <result column="totalWeight" jdbcType="INTEGER" property="totalWeight" />
+    <result column="totalLoadWeight" jdbcType="INTEGER" property="totalLoadWeight" />
+    <result column="energyType" jdbcType="VARCHAR" property="energyType" />
+    <result column="length" jdbcType="DECIMAL" property="length" />
+    <result column="width" jdbcType="DECIMAL" property="width" />
+    <result column="height" jdbcType="DECIMAL" property="height" />
+    <result column="volume" jdbcType="DECIMAL" property="volume" />
+    <result column="vin" jdbcType="VARCHAR" property="vin" />
+    <result column="modification" jdbcType="VARCHAR" property="modification" />
+    <result column="axisCount" jdbcType="INTEGER" property="axisCount" />
+    <result column="hasGPS" jdbcType="BIT" property="hasGPS" />
+    <result column="hasCamera" jdbcType="BIT" property="hasCamera" />
+    <result column="hasADAS" jdbcType="BIT" property="hasADAS" />
+    <result column="hasDMS" jdbcType="BIT" property="hasDMS" />
+  </resultMap>
+
+  <resultMap id="CompanyOnlineRankMap" type="com.transnova.foundation.company.model.CompanyOnlineRank">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="onlineCount" jdbcType="BIGINT" property="onlineCount" />
+  </resultMap>
+
+  <resultMap id="StatCompanyMap" type="com.transnova.foundation.stat.model.StatCompany">
+    <result column="companyId" jdbcType="BIGINT" property="companyId" />
+    <result column="onlineVehicleCount" jdbcType="INTEGER" property="onlineVehicleCount" />
+    <result column="onlineDriverCount" jdbcType="INTEGER" property="onlineDriverCount" />
+  </resultMap>
+
+  <sql id="Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:33 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+
+                <!-- 新的数据权限控制 -->
+                <when test="criterion.governmentFiltering">
+                  and exists (select id from company_manage_relevance _x_ where task.companyId = _x_.companyId and _x_.govCode like #{criterion.governmentCode})
+                </when>
+
+                <when test="criterion.proxyFiltering">
+                  and vehicleId in (select vehicleId from vehicle_manage_relevance _x_ where _x_.orgCode = #{criterion.userOrganizationCode})
+                </when>
+
+                <when test="criterion.companyFiltering">
+                  and vehicleId in (select vehicleId from vehicle_manage_relevance _x_ where _x_.orgCode = #{criterion.userOrganizationCode})
+                </when>
+
+
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:33 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:33 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    id, companyId, vehicleId, driverId, startTime, endTime, driveDate, checkResult, startLng,
+    startLat, endLng, endLat
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.task.mapper.TaskExample" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:33 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:33 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    select
+    <include refid="Base_Column_List" />
+    from task
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:33 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    delete from task
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.task.mapper.TaskExample">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:33 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    delete from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.task.model.Task">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:33 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    insert into task (id, companyId, vehicleId,
+      driverId, startTime, endTime, driveDate,
+      checkResult, startLng,startLat, endLng, endLat)
+    values (#{id,jdbcType=BIGINT}, #{companyId,jdbcType=BIGINT}, #{vehicleId,jdbcType=BIGINT},
+      #{driverId,jdbcType=BIGINT}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{driveDate,jdbcType=INTEGER},
+      #{checkResult,jdbcType=INTEGER}, #{startLng,jdbcType=DOUBLE},
+      #{startLat,jdbcType=DOUBLE}, #{endLng,jdbcType=DOUBLE}, #{endLat,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.task.model.Task">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:33 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    insert into task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="companyId != null">
+        companyId,
+      </if>
+      <if test="vehicleId != null">
+        vehicleId,
+      </if>
+      <if test="driverId != null">
+        driverId,
+      </if>
+      <if test="startTime != null">
+        startTime,
+      </if>
+      <if test="endTime != null">
+        endTime,
+      </if>
+      <if test="driveDate != null">
+        driveDate,
+      </if>
+      <if test="checkResult != null">
+        checkResult,
+      </if>
+      <if test="startLng != null">
+        startLng,
+      </if>
+      <if test="startLat != null">
+        startLat,
+      </if>
+      <if test="endLng != null">
+        endLng,
+      </if>
+      <if test="endLat != null">
+        endLat,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="vehicleId != null">
+        #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="driverId != null">
+        #{driverId,jdbcType=BIGINT},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="driveDate != null">
+        #{driveDate,jdbcType=INTEGER},
+      </if>
+      <if test="checkResult != null">
+        #{checkResult,jdbcType=INTEGER},
+      </if>
+      <if test="startLng != null">
+        #{startLng,jdbcType=DOUBLE},
+      </if>
+      <if test="startLat != null">
+        #{startLat,jdbcType=DOUBLE},
+      </if>
+      <if test="endLng != null">
+        #{endLng,jdbcType=DOUBLE},
+      </if>
+      <if test="endLat != null">
+        #{endLat,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.task.mapper.TaskExample" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:33 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    select count(*) from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectDistinctVehicles" parameterType="com.transnova.foundation.task.mapper.TaskExample" resultMap="VehicleMap">
+    select
+      id,modelId,companyId, operateTypeId,deliverType,techLevel,color,totalWeight,
+      totalLoadWeight,energyType,length,width,height,volume,vin,modification,axisCount
+    from vehicle
+    where id in
+    (
+      select
+      distinct vehicleId
+      from task
+      <if test="_parameter != null">
+        <include refid="Example_Where_Clause" />
+      </if>
+    )
+  </select>
+
+  <select id="selectDistinctVehicleIds" parameterType="com.transnova.foundation.task.mapper.TaskExample" resultMap="VehicleMap">
+    select
+    id,operateTypeId
+    from vehicle
+    where id in
+    (
+    select
+    distinct vehicleId
+    from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    )
+  </select>
+
+  <select id="selectDistinctVehiclesEx" parameterType="map" resultMap="VehicleShowMap">
+    select
+    id, operateTypeId
+    from vehicle
+    where id in
+    (
+    select
+    distinct vehicleId
+    from task where 1=1
+    <if test="companyId != null and companyId != ''">
+      and companyId = #{companyId}
+    </if>
+    <if test="beginDate != null and beginDate != ''">
+      and driveDate = #{beginDate}
+    </if>
+    )
+    <if test="orgCode != null and orgCode != ''">
+      and orgCode = #{orgCode}
+    </if>
+    <if test="hieCode != null and hieCode != ''">
+      and hierarchyCode like '${hieCode}%'
+    </if>
+  </select>
+
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:33 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    update task
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.companyId != null">
+        companyId = #{record.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.vehicleId != null">
+        vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="record.driverId != null">
+        driverId = #{record.driverId,jdbcType=BIGINT},
+      </if>
+      <if test="record.startTime != null">
+        startTime = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        endTime = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.checkResult != null">
+        checkResult = #{record.checkResult,jdbcType=INTEGER},
+      </if>
+      <if test="record.startLng != null">
+        startLng = #{record.startLng,jdbcType=DOUBLE},
+      </if>
+      <if test="record.startLat != null">
+        startLat = #{record.startLat,jdbcType=DOUBLE},
+      </if>
+      <if test="record.endLng != null">
+        endLng = #{record.endLng,jdbcType=DOUBLE},
+      </if>
+      <if test="record.endLat != null">
+        endLat = #{record.endLat,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:33 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    update task
+    set id = #{record.id,jdbcType=BIGINT},
+      companyId = #{record.companyId,jdbcType=BIGINT},
+      vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      driverId = #{record.driverId,jdbcType=BIGINT},
+      startTime = #{record.startTime,jdbcType=TIMESTAMP},
+      endTime = #{record.endTime,jdbcType=TIMESTAMP},
+      checkResult = #{record.checkResult,jdbcType=INTEGER},
+      startLng = #{record.startLng,jdbcType=DOUBLE},
+      startLat = #{record.startLat,jdbcType=DOUBLE},
+      endLng = #{record.endLng,jdbcType=DOUBLE},
+      endLat = #{record.endLat,jdbcType=DOUBLE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.task.model.Task">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:33 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    update task
+    <set>
+      <if test="companyId != null">
+        companyId = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="vehicleId != null">
+        vehicleId = #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="driverId != null">
+        driverId = #{driverId,jdbcType=BIGINT},
+      </if>
+      <if test="startTime != null">
+        startTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        endTime = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkResult != null">
+        checkResult = #{checkResult,jdbcType=INTEGER},
+      </if>
+      <if test="startLng != null">
+        startLng = #{startLng,jdbcType=DOUBLE},
+      </if>
+      <if test="startLat != null">
+        startLat = #{startLat,jdbcType=DOUBLE},
+      </if>
+      <if test="endLng != null">
+        endLng = #{endLng,jdbcType=DOUBLE},
+      </if>
+      <if test="endLat != null">
+        endLat = #{endLat,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.task.model.Task">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:33 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    update task
+    set companyId = #{companyId,jdbcType=BIGINT},
+      vehicleId = #{vehicleId,jdbcType=BIGINT},
+      driverId = #{driverId,jdbcType=BIGINT},
+      startTime = #{startTime,jdbcType=TIMESTAMP},
+      endTime = #{endTime,jdbcType=TIMESTAMP},
+      checkResult = #{checkResult,jdbcType=INTEGER},
+      startLng = #{startLng,jdbcType=DOUBLE},
+      startLat = #{startLat,jdbcType=DOUBLE},
+      endLng = #{endLng,jdbcType=DOUBLE},
+      endLat = #{endLat,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:33 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    insert into task
+    (id, companyId, vehicleId, driverId, startTime, endTime, driveDate, checkResult, startLng, startLat, endLng, endLat)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.companyId,jdbcType=BIGINT}, #{item.vehicleId,jdbcType=BIGINT},
+        #{item.driverId,jdbcType=BIGINT}, #{item.startTime,jdbcType=TIMESTAMP}, #{item.endTime,jdbcType=TIMESTAMP}, #{item.driveDate,jdbcType=INTEGER},
+        #{item.checkResult,jdbcType=INTEGER}, #{startLng,jdbcType=DOUBLE}, #{startLat,jdbcType=DOUBLE}, #{endLng,jdbcType=DOUBLE}, #{endLat,jdbcType=DOUBLE})
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Fri May 04 10:05:33 CST 2018. by MyBatis Generator, do not modify.
+    -->
+    insert into task (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.value}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'id' == column.value">
+          #{item.id,jdbcType=BIGINT}
+        </if>
+        <if test="'companyId' == column.value">
+          #{item.companyId,jdbcType=BIGINT}
+        </if>
+        <if test="'vehicleId' == column.value">
+          #{item.vehicleId,jdbcType=BIGINT}
+        </if>
+        <if test="'driverId' == column.value">
+          #{item.driverId,jdbcType=BIGINT}
+        </if>
+        <if test="'startTime' == column.value">
+          #{item.startTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'endTime' == column.value">
+          #{item.endTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'driveDate' == column.value">
+          #{item.driveDate,jdbcType=INTEGER}
+        </if>
+        <if test="'checkResult' == column.value">
+          #{item.checkResult,jdbcType=INTEGER}
+        </if>
+        <if test="'startLng' == column.value">
+          #{item.startLng,jdbcType=DOUBLE}
+        </if>
+        <if test="'startLat' == column.value">
+          #{item.startLat,jdbcType=DOUBLE}
+        </if>
+        <if test="'endLng' == column.value">
+          #{item.endLng,jdbcType=DOUBLE}
+        </if>
+        <if test="'endLat' == column.value">
+          #{item.endLat,jdbcType=DOUBLE}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
+
+  <select id="selectTodayVehicles" parameterType="com.transnova.foundation.task.mapper.TaskExample" resultMap="BaseResultMap">
+    select  DISTINCT vehicleId,driverId,companyId
+    from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    order by
+    startTime desc
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+
+  </select>
+
+  <select id="countTodayVehicles" parameterType="com.transnova.foundation.task.mapper.TaskExample" resultType="int">
+   <!-- select
+    count(1)
+    from
+    (
+    select
+    tem.vehicleid,
+    tem.driverid,
+    tem.companyId
+    from
+    (
+    select
+    *
+    from
+    task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    order by
+    startTime desc
+    ) tem
+    group by
+    tem.vehicleid,
+    tem.driverid,
+    tem.companyId
+    ) t-->
+    SELECT COUNT(DISTINCT vehicleId,companyId)
+    from   task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+  <select id="vehicleCount" parameterType="com.transnova.foundation.task.mapper.TaskExample" resultType="int">
+
+    select count(distinct vehicleId) from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+
+  </select>
+
+  <select id="findCompanyId" parameterType="com.transnova.foundation.task.mapper.TaskExample" resultType="long">
+    select distinct companyId from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+  </select>
+
+  <select id="findVehicleId" parameterType="com.transnova.foundation.task.mapper.TaskExample" resultType="long">
+    select distinct vehicleId from task
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+  </select>
+
+
+  <select id="selectDateVehicleByExample" parameterType="map" resultMap="BaseResultMap">
+    select  date_format( ta.startTime, '%Y-%m-%d') startTimestr,   ta.vehicleId  from   task ta
+    LEFT JOIN vehicle v on ta.vehicleId = v.id
+    WHERE 1=1
+    <if test="orgCode !=null ">
+      and v.orgCode= #{orgCode}
+    </if>
+    <if test="startTime !=null ">
+      and ta.driveDate &gt;=  ${startTime}
+    </if>
+    <if test="endTime !=null ">
+      and ta.driveDate &lt;=  ${endTime}
+    </if>
+    <if test="vehicleId !=null ">
+      and ta.vehicleId = #{vehicleId}
+    </if>
+    group by
+    date_format( ta.startTime, '%Y-%m-%d'),    vehicleId
+    order by     date_format(ta.startTime, '%Y-%m-%d')
+      <if test="limit != null">
+        <if test="offset != null">
+          limit ${offset}, ${limit}
+        </if>
+        <if test="offset == null">
+          limit ${limit}
+        </if>
+      </if>
+  </select>
+
+  <select id="countDateVehicleByExample" parameterType="map" resultType="long">
+    select count(1) from
+    (
+        select count(1)
+        from   task ta
+        LEFT JOIN vehicle v on ta.vehicleId = v.id
+        WHERE 1=1
+        <if test="orgCode !=null ">
+          and v.orgCode= #{orgCode}
+        </if>
+        <if test="startTime !=null ">
+          and ta.driveDate &gt;=  ${startTime}
+        </if>
+        <if test="endTime !=null ">
+          and ta.driveDate &lt;=  ${endTime}
+        </if>
+        <if test="vehicleId !=null ">
+          and ta.vehicleId = #{vehicleId}
+        </if>
+        group by
+        date_format( ta.startTime, '%Y-%m-%d'),    vehicleId
+    ) alias
+  </select>
+  <select id="selectCompanyByExample" resultMap="CompanyOnlineRankMap" parameterType="com.transnova.foundation.task.mapper.TaskExample">
+      select
+          x.companyId id,
+          count(1) onlineCount
+      from (
+          select
+              companyId,
+              vehicleId
+          from
+              task
+          <if test="_parameter != null">
+              <include refid="Example_Where_Clause"/>
+          </if>
+          group by
+              companyId,
+              vehicleId
+              ) x
+              group by x.companyId;
+
+  </select>
+
+  <select id="countByCompanyEx" resultMap="StatCompanyMap" parameterType="java.lang.Integer">
+     select  companyId, count( DISTINCT vehicleId) as onlineVehicleCount from ${tableName} where driveDate = #{driveDate,jdbcType=INTEGER} and companyId is not null group by companyId
+  </select>
+
+  <select id="findDrivedComapnies" resultType="java.lang.Long" parameterType="com.transnova.foundation.task.mapper.TaskExample">
+    select distinct companyId from task
+    <include refid="Example_Where_Clause"/>
+  </select>
+  <!--查询上线的车辆数 -->
+  <select id="countOnlinedVehicles" parameterType="map" resultMap="BaseResultMap">
+
+        select  DISTINCT ta.vehicleId
+        from task ta  LEFT JOIN vehicle ve on ta.vehicleId = ve.id
+        where
+            ta.driveDate=#{driveDate}
+            and ve.orgCode=#{orgCode}
+            and ve.hierarchyCode like '${hierarchyCode}%'
+            and ve.deleted=0
+
+  </select>
+
+  <select id="countTask" parameterType="map" resultMap="BaseResultMap">
+    select  DISTINCT ta.vehicleId
+    from task ta  LEFT JOIN vehicle ve on ta.vehicleId = ve.id
+    where 1=1
+    <if test="beginDate != null and beginDate != ''">
+      and ta.driveDate=#{beginDate}
+    </if>
+    <if test="orgCode != null and orgCode != ''">
+      and ve.orgCode=#{orgCode}
+    </if>
+    <if test="hieCode != null and hieCode != ''">
+      and ve.hierarchyCode like '${hieCode}%'
+    </if>
+    and ve.deleted=0
+    <if test="companyId != null and companyId != ''">
+      and ve.companyId = #{companyId}
+    </if>
+  </select>
+
+</mapper>

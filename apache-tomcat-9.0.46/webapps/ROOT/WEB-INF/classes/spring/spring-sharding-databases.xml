@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <beans xmlns="http://www.springframework.org/schema/beans"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:context="http://www.springframework.org/schema/context"
+           xmlns:tx="http://www.springframework.org/schema/tx"
+           xmlns:sharding="http://shardingsphere.apache.org/schema/shardingsphere/sharding"
+           xmlns:bean="http://www.springframework.org/schema/util"
+           xmlns:master-slave="http://shardingsphere.apache.org/schema/shardingsphere/masterslave"
+           xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/tx
+                        http://www.springframework.org/schema/tx/spring-tx.xsd
+                        http://www.springframework.org/schema/context
+                         http://www.springframework.org/schema/context/spring-context-4.1.xsd
+                        http://shardingsphere.apache.org/schema/shardingsphere/sharding
+                        http://shardingsphere.apache.org/schema/shardingsphere/sharding/sharding.xsd
+                        http://shardingsphere.apache.org/schema/shardingsphere/masterslave
+                        http://shardingsphere.apache.org/schema/shardingsphere/masterslave/master-slave.xsd
+                        http://www.springframework.org/schema/util
+                        http://www.springframework.org/schema/util/spring-util.xsd">
+    <context:component-scan base-package="com.transnova.shard" />
+    <context:annotation-config />
+    <!-- 加载配置属性文件 -->
+    <context:property-placeholder ignore-unresolvable="true" location="classpath:/config/*.properties" />
+
+    <bean id="ds_master0" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="jdbcUrl" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="minimumIdle" value="10"/>
+        <property name="maximumPoolSize" value="60"/>
+    </bean>
+    <!-- 数据库路由规则类 -->
+    <bean id="preciseModuloDatabaseShardingAlgorithm" class="com.transnova.foundation.common.sharding.DatabaseAlgorithm" />
+    <!-- VehicleMonitorRecord -->
+    <bean id="beanVehicleMonitorRecordLogic" class="com.transnova.foundation.common.sharding.ComplexShardingVehicleMonitorRecordStrategy" />
+    <!-- VehicleMonitorRecord -->
+    <bean id="beanStatVehicleMileageLogic" class="com.transnova.foundation.common.sharding.ComplexShardingStatVehicleMileageStrategy" />
+
+    <bean id="beanTaskLogic" class="com.transnova.foundation.common.sharding.ComplexShardingTaskStrategy" />
+
+    <!-- VehicleMonitorRecord复合路由方式 -->
+    <sharding:complex-strategy id="complexShardingVehicleMonitorRecordStrategy" sharding-columns="id,createhour" algorithm-ref="beanVehicleMonitorRecordLogic"/>
+
+    <!-- stat_vehicle_mileage复合路由方式 -->
+    <sharding:complex-strategy id="complexStrategyStatVehicleMileage" sharding-columns="id,analyzeDate" algorithm-ref="beanStatVehicleMileageLogic"/>
+
+    <!-- Task复合路由方式 -->
+    <sharding:complex-strategy id="complexShardingStrategyTask" sharding-columns="id,driveDate" algorithm-ref="beanTaskLogic"/>
+    <!--数据库分表键策略 -->
+    <sharding:standard-strategy id="databaseShardingStrategy" sharding-column="id" precise-algorithm-ref="preciseModuloDatabaseShardingAlgorithm" />
+    <!-- 数据源 -->
+    <sharding:data-source id="shardingDataSource">
+        <sharding:sharding-rule data-source-names="ds_master0">
+            <sharding:table-rules>
+                <sharding:table-rule logic-table="vehicle_monitor_record" actual-data-nodes="ds_master0.vehicle_monitor_record_$->{1..366}" database-strategy-ref="databaseShardingStrategy" table-strategy-ref="complexShardingVehicleMonitorRecordStrategy" />
+                <sharding:table-rule logic-table="task" actual-data-nodes="ds_master0.task_$->{1..12}" database-strategy-ref="databaseShardingStrategy" table-strategy-ref="complexShardingStrategyTask"  />
+                <sharding:table-rule logic-table="stat_vehicle_mileage" actual-data-nodes="ds_master0.stat_vehicle_mileage_$->{1..366}" database-strategy-ref="databaseShardingStrategy" table-strategy-ref="complexStrategyStatVehicleMileage" />
+            </sharding:table-rules>
+
+        </sharding:sharding-rule>
+    </sharding:data-source>
+
+    <tx:annotation-driven />
+
+    <bean id="sqlSessionFactoryShard" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="shardingDataSource"/>
+        <property name="mapperLocations" value="classpath*:/mappers/com/transnova/shard/**/*.xml"/>
+        <property name="configLocation" value="classpath:/spring/mybatis-config.xml"></property>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryShard" />
+        <property name="basePackage" value="com.transnova.shard"/>
+        <property name="annotationClass" value="com.transnova.foundation.common.annotation.Mapper"/>
+    </bean>
+
+    <bean id="jdbcTemplateShard" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource">
+            <ref bean="shardingDataSource" />
+        </property>
+    </bean>
+
+    <bean id="namedParameterJdbcTemplate"
+          class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg ref="shardingDataSource" />
+    </bean>
+
+    <!-- 定义事务 -->
+    <bean id="transactionManagerShard" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="shardingDataSource" />
+    </bean>
+
+    <!-- 配置 Annotation 驱动，扫描@Transactional注解的类定义事务  -->
+    <tx:annotation-driven transaction-manager="transactionManagerShard" proxy-target-class="true"/>
+    <!-- MyBatis end -->
+
+    <!-- 配置 JSR303 Bean Validator 定义 -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+</beans>

@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.message.mapper.MessageMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.message.model.Message">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 14 17:30:45 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="source_id" jdbcType="BIGINT" property="source_id" />
+    <result column="source_type" jdbcType="INTEGER" property="source_type" />
+    <result column="source_table" jdbcType="VARCHAR" property="source_table" />
+    <result column="source_module" jdbcType="INTEGER" property="source_module" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="org_id" jdbcType="BIGINT" property="org_id" />
+    <result column="company_id" jdbcType="BIGINT" property="company_id" />
+    <result column="user_id" jdbcType="BIGINT" property="user_id" />
+    <result column="other_id" jdbcType="BIGINT" property="other_id" />
+    <result column="msg_range" jdbcType="INTEGER" property="msg_range" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="update_time" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 14 17:30:45 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 14 17:30:45 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 14 17:30:45 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    id, source_id, source_type, source_table, source_module, content, org_id, company_id, 
+    user_id, other_id, msg_range, status, create_time, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.message.mapper.MessageExample" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 14 17:30:45 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 14 17:30:45 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from sys_message
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 14 17:30:45 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from sys_message
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.message.mapper.MessageExample">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 14 17:30:45 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from sys_message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.message.model.Message">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 14 17:30:45 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_message (source_id, source_type, source_table, 
+      source_module, content, org_id, 
+      company_id, user_id, other_id, 
+      msg_range, status, create_time, 
+      update_time)
+    values (#{source_id,jdbcType=BIGINT}, #{source_type,jdbcType=INTEGER}, #{source_table,jdbcType=VARCHAR}, 
+      #{source_module,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{org_id,jdbcType=BIGINT}, 
+      #{company_id,jdbcType=BIGINT}, #{user_id,jdbcType=BIGINT}, #{other_id,jdbcType=BIGINT}, 
+      #{msg_range,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{create_time,jdbcType=TIMESTAMP}, 
+      #{update_time,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.message.model.Message">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 14 17:30:45 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="source_id != null">
+        source_id,
+      </if>
+      <if test="source_type != null">
+        source_type,
+      </if>
+      <if test="source_table != null">
+        source_table,
+      </if>
+      <if test="source_module != null">
+        source_module,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="org_id != null">
+        org_id,
+      </if>
+      <if test="company_id != null">
+        company_id,
+      </if>
+      <if test="user_id != null">
+        user_id,
+      </if>
+      <if test="other_id != null">
+        other_id,
+      </if>
+      <if test="msg_range != null">
+        msg_range,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="create_time != null">
+        create_time,
+      </if>
+      <if test="update_time != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="source_id != null">
+        #{source_id,jdbcType=BIGINT},
+      </if>
+      <if test="source_type != null">
+        #{source_type,jdbcType=INTEGER},
+      </if>
+      <if test="source_table != null">
+        #{source_table,jdbcType=VARCHAR},
+      </if>
+      <if test="source_module != null">
+        #{source_module,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="org_id != null">
+        #{org_id,jdbcType=BIGINT},
+      </if>
+      <if test="company_id != null">
+        #{company_id,jdbcType=BIGINT},
+      </if>
+      <if test="user_id != null">
+        #{user_id,jdbcType=BIGINT},
+      </if>
+      <if test="other_id != null">
+        #{other_id,jdbcType=BIGINT},
+      </if>
+      <if test="msg_range != null">
+        #{msg_range,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="create_time != null">
+        #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="update_time != null">
+        #{update_time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.message.mapper.MessageExample" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 14 17:30:45 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select count(*) from sys_message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 14 17:30:45 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update sys_message
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.source_id != null">
+        source_id = #{record.source_id,jdbcType=BIGINT},
+      </if>
+      <if test="record.source_type != null">
+        source_type = #{record.source_type,jdbcType=INTEGER},
+      </if>
+      <if test="record.source_table != null">
+        source_table = #{record.source_table,jdbcType=VARCHAR},
+      </if>
+      <if test="record.source_module != null">
+        source_module = #{record.source_module,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.org_id != null">
+        org_id = #{record.org_id,jdbcType=BIGINT},
+      </if>
+      <if test="record.company_id != null">
+        company_id = #{record.company_id,jdbcType=BIGINT},
+      </if>
+      <if test="record.user_id != null">
+        user_id = #{record.user_id,jdbcType=BIGINT},
+      </if>
+      <if test="record.other_id != null">
+        other_id = #{record.other_id,jdbcType=BIGINT},
+      </if>
+      <if test="record.msg_range != null">
+        msg_range = #{record.msg_range,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.create_time != null">
+        create_time = #{record.create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.update_time != null">
+        update_time = #{record.update_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 14 17:30:45 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update sys_message
+    set id = #{record.id,jdbcType=BIGINT},
+      source_id = #{record.source_id,jdbcType=BIGINT},
+      source_type = #{record.source_type,jdbcType=INTEGER},
+      source_table = #{record.source_table,jdbcType=VARCHAR},
+      source_module = #{record.source_module,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=VARCHAR},
+      org_id = #{record.org_id,jdbcType=BIGINT},
+      company_id = #{record.company_id,jdbcType=BIGINT},
+      user_id = #{record.user_id,jdbcType=BIGINT},
+      other_id = #{record.other_id,jdbcType=BIGINT},
+      msg_range = #{record.msg_range,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      create_time = #{record.create_time,jdbcType=TIMESTAMP},
+      update_time = #{record.update_time,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.message.model.Message">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 14 17:30:45 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update sys_message
+    <set>
+      <if test="source_id != null">
+        source_id = #{source_id,jdbcType=BIGINT},
+      </if>
+      <if test="source_type != null">
+        source_type = #{source_type,jdbcType=INTEGER},
+      </if>
+      <if test="source_table != null">
+        source_table = #{source_table,jdbcType=VARCHAR},
+      </if>
+      <if test="source_module != null">
+        source_module = #{source_module,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="org_id != null">
+        org_id = #{org_id,jdbcType=BIGINT},
+      </if>
+      <if test="company_id != null">
+        company_id = #{company_id,jdbcType=BIGINT},
+      </if>
+      <if test="user_id != null">
+        user_id = #{user_id,jdbcType=BIGINT},
+      </if>
+      <if test="other_id != null">
+        other_id = #{other_id,jdbcType=BIGINT},
+      </if>
+      <if test="msg_range != null">
+        msg_range = #{msg_range,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="create_time != null">
+        create_time = #{create_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="update_time != null">
+        update_time = #{update_time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.message.model.Message">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 14 17:30:45 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update sys_message
+    set source_id = #{source_id,jdbcType=BIGINT},
+      source_type = #{source_type,jdbcType=INTEGER},
+      source_table = #{source_table,jdbcType=VARCHAR},
+      source_module = #{source_module,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      org_id = #{org_id,jdbcType=BIGINT},
+      company_id = #{company_id,jdbcType=BIGINT},
+      user_id = #{user_id,jdbcType=BIGINT},
+      other_id = #{other_id,jdbcType=BIGINT},
+      msg_range = #{msg_range,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{create_time,jdbcType=TIMESTAMP},
+      update_time = #{update_time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

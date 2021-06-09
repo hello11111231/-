@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.menu.mapper.MenuTemplateMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.menu.model.MenuTemplate">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 13 10:21:32 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="platformCode" jdbcType="VARCHAR" property="platformCode" />
+    <result column="templateName" jdbcType="VARCHAR" property="templateName" />
+    <result column="productId" jdbcType="BIGINT" property="productId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 13 10:21:32 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 13 10:21:32 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 13 10:21:32 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    id, platformCode, templateName, productId
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.menu.mapper.MenuTemplateExample" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 13 10:21:32 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_menu_template
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 13 10:21:32 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from sys_menu_template
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 13 10:21:32 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from sys_menu_template
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.menu.mapper.MenuTemplateExample">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 13 10:21:32 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from sys_menu_template
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.menu.model.MenuTemplate">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 13 10:21:32 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into sys_menu_template (id, platformCode, templateName, productId
+      )
+    values (#{id,jdbcType=BIGINT}, #{platformCode,jdbcType=VARCHAR}, #{templateName,jdbcType=VARCHAR}, #{productId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.menu.model.MenuTemplate">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 13 10:21:32 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into sys_menu_template
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="platformCode != null">
+        platformCode,
+      </if>
+      <if test="templateName != null">
+        templateName,
+      </if>
+      <if test="productId != null">
+        productId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="platformCode != null">
+        #{platformCode,jdbcType=VARCHAR},
+      </if>
+      <if test="templateName != null">
+        #{templateName,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.menu.mapper.MenuTemplateExample" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 13 10:21:32 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select count(*) from sys_menu_template
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 13 10:21:32 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update sys_menu_template
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.platformCode != null">
+        platformCode = #{record.platformCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.templateName != null">
+        templateName = #{record.templateName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productId != null">
+        templateName = #{record.productId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 13 10:21:32 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update sys_menu_template
+    set id = #{record.id,jdbcType=BIGINT},
+      platformCode = #{record.platformCode,jdbcType=VARCHAR},
+      templateName = #{record.templateName,jdbcType=VARCHAR},
+      productId = #{record.productId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.menu.model.MenuTemplate">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 13 10:21:32 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update sys_menu_template
+    <set>
+      <if test="platformCode != null">
+        platformCode = #{platformCode,jdbcType=VARCHAR},
+      </if>
+      <if test="templateName != null">
+        templateName = #{templateName,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null">
+        productId = #{productId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.menu.model.MenuTemplate">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Wed May 13 10:21:32 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update sys_menu_template
+    set platformCode = #{platformCode,jdbcType=VARCHAR},
+      templateName = #{templateName,jdbcType=VARCHAR},
+      productId = #{productId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.stat.mapper.StatDailyCompanyMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.stat.model.StatDailyCompany">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="companyId" jdbcType="BIGINT" property="companyId" />
+    <result column="vehicleCount" jdbcType="INTEGER" property="vehicleCount" />
+    <result column="onlineVehicleCount" jdbcType="INTEGER" property="onlineVehicleCount" />
+    <result column="onlineVehicleRate" jdbcType="REAL" property="onlineVehicleRate" />
+    <result column="offlineVehicleCount" jdbcType="INTEGER" property="offlineVehicleCount" />
+    <result column="mileageCompleteRate" jdbcType="REAL" property="mileageCompleteRate" />
+    <result column="driftRate" jdbcType="REAL" property="driftRate" />
+    <result column="driverCount" jdbcType="INTEGER" property="driverCount" />
+    <result column="onlineDriverCount" jdbcType="INTEGER" property="onlineDriverCount" />
+    <result column="onlineDriverRate" jdbcType="REAL" property="onlineDriverRate" />
+    <result column="offlineDriverCount" jdbcType="INTEGER" property="offlineDriverCount" />
+    <result column="gpsDeviceCount" jdbcType="INTEGER" property="gpsDeviceCount" />
+    <result column="videoDeviceCount" jdbcType="INTEGER" property="videoDeviceCount" />
+    <result column="dmsDeviceCount" jdbcType="INTEGER" property="dmsDeviceCount" />
+    <result column="ttsSendCount" jdbcType="INTEGER" property="ttsSendCount" />
+    <result column="smsSendCount" jdbcType="INTEGER" property="smsSendCount" />
+    <result column="voiceSendCount" jdbcType="INTEGER" property="voiceSendCount" />
+    <result column="appCount" jdbcType="INTEGER" property="appCount" />
+    <result column="invalidEventCount" jdbcType="INTEGER" property="invalidEventCount" />
+    <result column="platformHandledEventCount" jdbcType="INTEGER" property="platformHandledEventCount" />
+    <result column="manualHandledEventCount" jdbcType="INTEGER" property="manualHandledEventCount" />
+    <result column="eventCount" jdbcType="INTEGER" property="eventCount" />
+    <result column="eventHandledRate" jdbcType="REAL" property="eventHandledRate" />
+    <result column="orgCode" jdbcType="VARCHAR" property="orgCode" />
+    <result column="analyzeDate" jdbcType="INTEGER" property="analyzeDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, companyId, vehicleCount, onlineVehicleCount, onlineVehicleRate, offlineVehicleCount, 
+    mileageCompleteRate, driftRate, driverCount, onlineDriverCount, onlineDriverRate, 
+    offlineDriverCount, gpsDeviceCount, videoDeviceCount, dmsDeviceCount, ttsSendCount, 
+    smsSendCount, voiceSendCount, appCount, invalidEventCount, platformHandledEventCount, 
+    manualHandledEventCount, eventCount, eventHandledRate, orgCode, analyzeDate
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.stat.mapper.StatDailyCompanyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from stat_daily_company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from stat_daily_company
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from stat_daily_company
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.stat.mapper.StatDailyCompanyExample">
+    delete from stat_daily_company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.stat.model.StatDailyCompany">
+    insert into stat_daily_company (id, companyId, vehicleCount, 
+      onlineVehicleCount, onlineVehicleRate, offlineVehicleCount, 
+      mileageCompleteRate, driftRate, driverCount, 
+      onlineDriverCount, onlineDriverRate, offlineDriverCount, 
+      gpsDeviceCount, videoDeviceCount, dmsDeviceCount, 
+      ttsSendCount, smsSendCount, voiceSendCount, 
+      appCount, invalidEventCount, platformHandledEventCount, 
+      manualHandledEventCount, eventCount, eventHandledRate, 
+      orgCode, analyzeDate)
+    values (#{id,jdbcType=BIGINT}, #{companyId,jdbcType=BIGINT}, #{vehicleCount,jdbcType=INTEGER}, 
+      #{onlineVehicleCount,jdbcType=INTEGER}, #{onlineVehicleRate,jdbcType=REAL}, #{offlineVehicleCount,jdbcType=INTEGER}, 
+      #{mileageCompleteRate,jdbcType=REAL}, #{driftRate,jdbcType=REAL}, #{driverCount,jdbcType=INTEGER}, 
+      #{onlineDriverCount,jdbcType=INTEGER}, #{onlineDriverRate,jdbcType=REAL}, #{offlineDriverCount,jdbcType=INTEGER}, 
+      #{gpsDeviceCount,jdbcType=INTEGER}, #{videoDeviceCount,jdbcType=INTEGER}, #{dmsDeviceCount,jdbcType=INTEGER}, 
+      #{ttsSendCount,jdbcType=INTEGER}, #{smsSendCount,jdbcType=INTEGER}, #{voiceSendCount,jdbcType=INTEGER}, 
+      #{appCount,jdbcType=INTEGER}, #{invalidEventCount,jdbcType=INTEGER}, #{platformHandledEventCount,jdbcType=INTEGER}, 
+      #{manualHandledEventCount,jdbcType=INTEGER}, #{eventCount,jdbcType=INTEGER}, #{eventHandledRate,jdbcType=REAL}, 
+      #{orgCode,jdbcType=VARCHAR}, #{analyzeDate,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.stat.model.StatDailyCompany">
+    insert into stat_daily_company
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="companyId != null">
+        companyId,
+      </if>
+      <if test="vehicleCount != null">
+        vehicleCount,
+      </if>
+      <if test="onlineVehicleCount != null">
+        onlineVehicleCount,
+      </if>
+      <if test="onlineVehicleRate != null">
+        onlineVehicleRate,
+      </if>
+      <if test="offlineVehicleCount != null">
+        offlineVehicleCount,
+      </if>
+      <if test="mileageCompleteRate != null">
+        mileageCompleteRate,
+      </if>
+      <if test="driftRate != null">
+        driftRate,
+      </if>
+      <if test="driverCount != null">
+        driverCount,
+      </if>
+      <if test="onlineDriverCount != null">
+        onlineDriverCount,
+      </if>
+      <if test="onlineDriverRate != null">
+        onlineDriverRate,
+      </if>
+      <if test="offlineDriverCount != null">
+        offlineDriverCount,
+      </if>
+      <if test="gpsDeviceCount != null">
+        gpsDeviceCount,
+      </if>
+      <if test="videoDeviceCount != null">
+        videoDeviceCount,
+      </if>
+      <if test="dmsDeviceCount != null">
+        dmsDeviceCount,
+      </if>
+      <if test="ttsSendCount != null">
+        ttsSendCount,
+      </if>
+      <if test="smsSendCount != null">
+        smsSendCount,
+      </if>
+      <if test="voiceSendCount != null">
+        voiceSendCount,
+      </if>
+      <if test="appCount != null">
+        appCount,
+      </if>
+      <if test="invalidEventCount != null">
+        invalidEventCount,
+      </if>
+      <if test="platformHandledEventCount != null">
+        platformHandledEventCount,
+      </if>
+      <if test="manualHandledEventCount != null">
+        manualHandledEventCount,
+      </if>
+      <if test="eventCount != null">
+        eventCount,
+      </if>
+      <if test="eventHandledRate != null">
+        eventHandledRate,
+      </if>
+      <if test="orgCode != null">
+        orgCode,
+      </if>
+      <if test="analyzeDate != null">
+        analyzeDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="vehicleCount != null">
+        #{vehicleCount,jdbcType=INTEGER},
+      </if>
+      <if test="onlineVehicleCount != null">
+        #{onlineVehicleCount,jdbcType=INTEGER},
+      </if>
+      <if test="onlineVehicleRate != null">
+        #{onlineVehicleRate,jdbcType=REAL},
+      </if>
+      <if test="offlineVehicleCount != null">
+        #{offlineVehicleCount,jdbcType=INTEGER},
+      </if>
+      <if test="mileageCompleteRate != null">
+        #{mileageCompleteRate,jdbcType=REAL},
+      </if>
+      <if test="driftRate != null">
+        #{driftRate,jdbcType=REAL},
+      </if>
+      <if test="driverCount != null">
+        #{driverCount,jdbcType=INTEGER},
+      </if>
+      <if test="onlineDriverCount != null">
+        #{onlineDriverCount,jdbcType=INTEGER},
+      </if>
+      <if test="onlineDriverRate != null">
+        #{onlineDriverRate,jdbcType=REAL},
+      </if>
+      <if test="offlineDriverCount != null">
+        #{offlineDriverCount,jdbcType=INTEGER},
+      </if>
+      <if test="gpsDeviceCount != null">
+        #{gpsDeviceCount,jdbcType=INTEGER},
+      </if>
+      <if test="videoDeviceCount != null">
+        #{videoDeviceCount,jdbcType=INTEGER},
+      </if>
+      <if test="dmsDeviceCount != null">
+        #{dmsDeviceCount,jdbcType=INTEGER},
+      </if>
+      <if test="ttsSendCount != null">
+        #{ttsSendCount,jdbcType=INTEGER},
+      </if>
+      <if test="smsSendCount != null">
+        #{smsSendCount,jdbcType=INTEGER},
+      </if>
+      <if test="voiceSendCount != null">
+        #{voiceSendCount,jdbcType=INTEGER},
+      </if>
+      <if test="appCount != null">
+        #{appCount,jdbcType=INTEGER},
+      </if>
+      <if test="invalidEventCount != null">
+        #{invalidEventCount,jdbcType=INTEGER},
+      </if>
+      <if test="platformHandledEventCount != null">
+        #{platformHandledEventCount,jdbcType=INTEGER},
+      </if>
+      <if test="manualHandledEventCount != null">
+        #{manualHandledEventCount,jdbcType=INTEGER},
+      </if>
+      <if test="eventCount != null">
+        #{eventCount,jdbcType=INTEGER},
+      </if>
+      <if test="eventHandledRate != null">
+        #{eventHandledRate,jdbcType=REAL},
+      </if>
+      <if test="orgCode != null">
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="analyzeDate != null">
+        #{analyzeDate,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.stat.mapper.StatDailyCompanyExample" resultType="java.lang.Long">
+    select count(*) from stat_daily_company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update stat_daily_company
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.companyId != null">
+        companyId = #{record.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.vehicleCount != null">
+        vehicleCount = #{record.vehicleCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.onlineVehicleCount != null">
+        onlineVehicleCount = #{record.onlineVehicleCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.onlineVehicleRate != null">
+        onlineVehicleRate = #{record.onlineVehicleRate,jdbcType=REAL},
+      </if>
+      <if test="record.offlineVehicleCount != null">
+        offlineVehicleCount = #{record.offlineVehicleCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.mileageCompleteRate != null">
+        mileageCompleteRate = #{record.mileageCompleteRate,jdbcType=REAL},
+      </if>
+      <if test="record.driftRate != null">
+        driftRate = #{record.driftRate,jdbcType=REAL},
+      </if>
+      <if test="record.driverCount != null">
+        driverCount = #{record.driverCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.onlineDriverCount != null">
+        onlineDriverCount = #{record.onlineDriverCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.onlineDriverRate != null">
+        onlineDriverRate = #{record.onlineDriverRate,jdbcType=REAL},
+      </if>
+      <if test="record.offlineDriverCount != null">
+        offlineDriverCount = #{record.offlineDriverCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.gpsDeviceCount != null">
+        gpsDeviceCount = #{record.gpsDeviceCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.videoDeviceCount != null">
+        videoDeviceCount = #{record.videoDeviceCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.dmsDeviceCount != null">
+        dmsDeviceCount = #{record.dmsDeviceCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.ttsSendCount != null">
+        ttsSendCount = #{record.ttsSendCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.smsSendCount != null">
+        smsSendCount = #{record.smsSendCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.voiceSendCount != null">
+        voiceSendCount = #{record.voiceSendCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.appCount != null">
+        appCount = #{record.appCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.invalidEventCount != null">
+        invalidEventCount = #{record.invalidEventCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.platformHandledEventCount != null">
+        platformHandledEventCount = #{record.platformHandledEventCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.manualHandledEventCount != null">
+        manualHandledEventCount = #{record.manualHandledEventCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.eventCount != null">
+        eventCount = #{record.eventCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.eventHandledRate != null">
+        eventHandledRate = #{record.eventHandledRate,jdbcType=REAL},
+      </if>
+      <if test="record.orgCode != null">
+        orgCode = #{record.orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.analyzeDate != null">
+        analyzeDate = #{record.analyzeDate,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update stat_daily_company
+    set id = #{record.id,jdbcType=BIGINT},
+      companyId = #{record.companyId,jdbcType=BIGINT},
+      vehicleCount = #{record.vehicleCount,jdbcType=INTEGER},
+      onlineVehicleCount = #{record.onlineVehicleCount,jdbcType=INTEGER},
+      onlineVehicleRate = #{record.onlineVehicleRate,jdbcType=REAL},
+      offlineVehicleCount = #{record.offlineVehicleCount,jdbcType=INTEGER},
+      mileageCompleteRate = #{record.mileageCompleteRate,jdbcType=REAL},
+      driftRate = #{record.driftRate,jdbcType=REAL},
+      driverCount = #{record.driverCount,jdbcType=INTEGER},
+      onlineDriverCount = #{record.onlineDriverCount,jdbcType=INTEGER},
+      onlineDriverRate = #{record.onlineDriverRate,jdbcType=REAL},
+      offlineDriverCount = #{record.offlineDriverCount,jdbcType=INTEGER},
+      gpsDeviceCount = #{record.gpsDeviceCount,jdbcType=INTEGER},
+      videoDeviceCount = #{record.videoDeviceCount,jdbcType=INTEGER},
+      dmsDeviceCount = #{record.dmsDeviceCount,jdbcType=INTEGER},
+      ttsSendCount = #{record.ttsSendCount,jdbcType=INTEGER},
+      smsSendCount = #{record.smsSendCount,jdbcType=INTEGER},
+      voiceSendCount = #{record.voiceSendCount,jdbcType=INTEGER},
+      appCount = #{record.appCount,jdbcType=INTEGER},
+      invalidEventCount = #{record.invalidEventCount,jdbcType=INTEGER},
+      platformHandledEventCount = #{record.platformHandledEventCount,jdbcType=INTEGER},
+      manualHandledEventCount = #{record.manualHandledEventCount,jdbcType=INTEGER},
+      eventCount = #{record.eventCount,jdbcType=INTEGER},
+      eventHandledRate = #{record.eventHandledRate,jdbcType=REAL},
+      orgCode = #{record.orgCode,jdbcType=VARCHAR},
+      analyzeDate = #{record.analyzeDate,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.stat.model.StatDailyCompany">
+    update stat_daily_company
+    <set>
+      <if test="companyId != null">
+        companyId = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="vehicleCount != null">
+        vehicleCount = #{vehicleCount,jdbcType=INTEGER},
+      </if>
+      <if test="onlineVehicleCount != null">
+        onlineVehicleCount = #{onlineVehicleCount,jdbcType=INTEGER},
+      </if>
+      <if test="onlineVehicleRate != null">
+        onlineVehicleRate = #{onlineVehicleRate,jdbcType=REAL},
+      </if>
+      <if test="offlineVehicleCount != null">
+        offlineVehicleCount = #{offlineVehicleCount,jdbcType=INTEGER},
+      </if>
+      <if test="mileageCompleteRate != null">
+        mileageCompleteRate = #{mileageCompleteRate,jdbcType=REAL},
+      </if>
+      <if test="driftRate != null">
+        driftRate = #{driftRate,jdbcType=REAL},
+      </if>
+      <if test="driverCount != null">
+        driverCount = #{driverCount,jdbcType=INTEGER},
+      </if>
+      <if test="onlineDriverCount != null">
+        onlineDriverCount = #{onlineDriverCount,jdbcType=INTEGER},
+      </if>
+      <if test="onlineDriverRate != null">
+        onlineDriverRate = #{onlineDriverRate,jdbcType=REAL},
+      </if>
+      <if test="offlineDriverCount != null">
+        offlineDriverCount = #{offlineDriverCount,jdbcType=INTEGER},
+      </if>
+      <if test="gpsDeviceCount != null">
+        gpsDeviceCount = #{gpsDeviceCount,jdbcType=INTEGER},
+      </if>
+      <if test="videoDeviceCount != null">
+        videoDeviceCount = #{videoDeviceCount,jdbcType=INTEGER},
+      </if>
+      <if test="dmsDeviceCount != null">
+        dmsDeviceCount = #{dmsDeviceCount,jdbcType=INTEGER},
+      </if>
+      <if test="ttsSendCount != null">
+        ttsSendCount = #{ttsSendCount,jdbcType=INTEGER},
+      </if>
+      <if test="smsSendCount != null">
+        smsSendCount = #{smsSendCount,jdbcType=INTEGER},
+      </if>
+      <if test="voiceSendCount != null">
+        voiceSendCount = #{voiceSendCount,jdbcType=INTEGER},
+      </if>
+      <if test="appCount != null">
+        appCount = #{appCount,jdbcType=INTEGER},
+      </if>
+      <if test="invalidEventCount != null">
+        invalidEventCount = #{invalidEventCount,jdbcType=INTEGER},
+      </if>
+      <if test="platformHandledEventCount != null">
+        platformHandledEventCount = #{platformHandledEventCount,jdbcType=INTEGER},
+      </if>
+      <if test="manualHandledEventCount != null">
+        manualHandledEventCount = #{manualHandledEventCount,jdbcType=INTEGER},
+      </if>
+      <if test="eventCount != null">
+        eventCount = #{eventCount,jdbcType=INTEGER},
+      </if>
+      <if test="eventHandledRate != null">
+        eventHandledRate = #{eventHandledRate,jdbcType=REAL},
+      </if>
+      <if test="orgCode != null">
+        orgCode = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="analyzeDate != null">
+        analyzeDate = #{analyzeDate,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.stat.model.StatDailyCompany">
+    update stat_daily_company
+    set companyId = #{companyId,jdbcType=BIGINT},
+      vehicleCount = #{vehicleCount,jdbcType=INTEGER},
+      onlineVehicleCount = #{onlineVehicleCount,jdbcType=INTEGER},
+      onlineVehicleRate = #{onlineVehicleRate,jdbcType=REAL},
+      offlineVehicleCount = #{offlineVehicleCount,jdbcType=INTEGER},
+      mileageCompleteRate = #{mileageCompleteRate,jdbcType=REAL},
+      driftRate = #{driftRate,jdbcType=REAL},
+      driverCount = #{driverCount,jdbcType=INTEGER},
+      onlineDriverCount = #{onlineDriverCount,jdbcType=INTEGER},
+      onlineDriverRate = #{onlineDriverRate,jdbcType=REAL},
+      offlineDriverCount = #{offlineDriverCount,jdbcType=INTEGER},
+      gpsDeviceCount = #{gpsDeviceCount,jdbcType=INTEGER},
+      videoDeviceCount = #{videoDeviceCount,jdbcType=INTEGER},
+      dmsDeviceCount = #{dmsDeviceCount,jdbcType=INTEGER},
+      ttsSendCount = #{ttsSendCount,jdbcType=INTEGER},
+      smsSendCount = #{smsSendCount,jdbcType=INTEGER},
+      voiceSendCount = #{voiceSendCount,jdbcType=INTEGER},
+      appCount = #{appCount,jdbcType=INTEGER},
+      invalidEventCount = #{invalidEventCount,jdbcType=INTEGER},
+      platformHandledEventCount = #{platformHandledEventCount,jdbcType=INTEGER},
+      manualHandledEventCount = #{manualHandledEventCount,jdbcType=INTEGER},
+      eventCount = #{eventCount,jdbcType=INTEGER},
+      eventHandledRate = #{eventHandledRate,jdbcType=REAL},
+      orgCode = #{orgCode,jdbcType=VARCHAR},
+      analyzeDate = #{analyzeDate,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    insert into stat_daily_company
+    (id, companyId, vehicleCount, onlineVehicleCount, onlineVehicleRate, offlineVehicleCount, 
+      mileageCompleteRate, driftRate, driverCount, onlineDriverCount, onlineDriverRate, 
+      offlineDriverCount, gpsDeviceCount, videoDeviceCount, dmsDeviceCount, ttsSendCount, 
+      smsSendCount, voiceSendCount, appCount, invalidEventCount, platformHandledEventCount, 
+      manualHandledEventCount, eventCount, eventHandledRate, orgCode, analyzeDate)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.companyId,jdbcType=BIGINT}, #{item.vehicleCount,jdbcType=INTEGER}, 
+        #{item.onlineVehicleCount,jdbcType=INTEGER}, #{item.onlineVehicleRate,jdbcType=REAL}, 
+        #{item.offlineVehicleCount,jdbcType=INTEGER}, #{item.mileageCompleteRate,jdbcType=REAL}, 
+        #{item.driftRate,jdbcType=REAL}, #{item.driverCount,jdbcType=INTEGER}, #{item.onlineDriverCount,jdbcType=INTEGER}, 
+        #{item.onlineDriverRate,jdbcType=REAL}, #{item.offlineDriverCount,jdbcType=INTEGER}, 
+        #{item.gpsDeviceCount,jdbcType=INTEGER}, #{item.videoDeviceCount,jdbcType=INTEGER}, 
+        #{item.dmsDeviceCount,jdbcType=INTEGER}, #{item.ttsSendCount,jdbcType=INTEGER}, 
+        #{item.smsSendCount,jdbcType=INTEGER}, #{item.voiceSendCount,jdbcType=INTEGER}, 
+        #{item.appCount,jdbcType=INTEGER}, #{item.invalidEventCount,jdbcType=INTEGER}, 
+        #{item.platformHandledEventCount,jdbcType=INTEGER}, #{item.manualHandledEventCount,jdbcType=INTEGER}, 
+        #{item.eventCount,jdbcType=INTEGER}, #{item.eventHandledRate,jdbcType=REAL}, #{item.orgCode,jdbcType=VARCHAR}, 
+        #{item.analyzeDate,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" parameterType="map">
+    insert into stat_daily_company (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.value}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'id' == column.value">
+          #{item.id,jdbcType=BIGINT}
+        </if>
+        <if test="'companyId' == column.value">
+          #{item.companyId,jdbcType=BIGINT}
+        </if>
+        <if test="'vehicleCount' == column.value">
+          #{item.vehicleCount,jdbcType=INTEGER}
+        </if>
+        <if test="'onlineVehicleCount' == column.value">
+          #{item.onlineVehicleCount,jdbcType=INTEGER}
+        </if>
+        <if test="'onlineVehicleRate' == column.value">
+          #{item.onlineVehicleRate,jdbcType=REAL}
+        </if>
+        <if test="'offlineVehicleCount' == column.value">
+          #{item.offlineVehicleCount,jdbcType=INTEGER}
+        </if>
+        <if test="'mileageCompleteRate' == column.value">
+          #{item.mileageCompleteRate,jdbcType=REAL}
+        </if>
+        <if test="'driftRate' == column.value">
+          #{item.driftRate,jdbcType=REAL}
+        </if>
+        <if test="'driverCount' == column.value">
+          #{item.driverCount,jdbcType=INTEGER}
+        </if>
+        <if test="'onlineDriverCount' == column.value">
+          #{item.onlineDriverCount,jdbcType=INTEGER}
+        </if>
+        <if test="'onlineDriverRate' == column.value">
+          #{item.onlineDriverRate,jdbcType=REAL}
+        </if>
+        <if test="'offlineDriverCount' == column.value">
+          #{item.offlineDriverCount,jdbcType=INTEGER}
+        </if>
+        <if test="'gpsDeviceCount' == column.value">
+          #{item.gpsDeviceCount,jdbcType=INTEGER}
+        </if>
+        <if test="'videoDeviceCount' == column.value">
+          #{item.videoDeviceCount,jdbcType=INTEGER}
+        </if>
+        <if test="'dmsDeviceCount' == column.value">
+          #{item.dmsDeviceCount,jdbcType=INTEGER}
+        </if>
+        <if test="'ttsSendCount' == column.value">
+          #{item.ttsSendCount,jdbcType=INTEGER}
+        </if>
+        <if test="'smsSendCount' == column.value">
+          #{item.smsSendCount,jdbcType=INTEGER}
+        </if>
+        <if test="'voiceSendCount' == column.value">
+          #{item.voiceSendCount,jdbcType=INTEGER}
+        </if>
+        <if test="'appCount' == column.value">
+          #{item.appCount,jdbcType=INTEGER}
+        </if>
+        <if test="'invalidEventCount' == column.value">
+          #{item.invalidEventCount,jdbcType=INTEGER}
+        </if>
+        <if test="'platformHandledEventCount' == column.value">
+          #{item.platformHandledEventCount,jdbcType=INTEGER}
+        </if>
+        <if test="'manualHandledEventCount' == column.value">
+          #{item.manualHandledEventCount,jdbcType=INTEGER}
+        </if>
+        <if test="'eventCount' == column.value">
+          #{item.eventCount,jdbcType=INTEGER}
+        </if>
+        <if test="'eventHandledRate' == column.value">
+          #{item.eventHandledRate,jdbcType=REAL}
+        </if>
+        <if test="'orgCode' == column.value">
+          #{item.orgCode,jdbcType=VARCHAR}
+        </if>
+        <if test="'analyzeDate' == column.value">
+          #{item.analyzeDate,jdbcType=INTEGER}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
+</mapper>

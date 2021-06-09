@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.vehicle.mapper.VehicleDeviceSettingsMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.vehicle.model.VehicleDeviceSettings">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="deviceId" jdbcType="BIGINT" property="deviceId" />
+    <result column="deviceSn" jdbcType="VARCHAR" property="deviceSn" />
+    <result column="sim" jdbcType="VARCHAR" property="sim" />
+    <result column="maxSpeed" jdbcType="INTEGER" property="maxSpeed" />
+    <result column="overspeedDuration" jdbcType="INTEGER" property="overspeedDuration" />
+    <result column="overtimeDriveDuration" jdbcType="INTEGER" property="overtimeDriveDuration" />
+    <result column="audioEncoding" jdbcType="VARCHAR" property="audioEncoding" />
+    <result column="audioChannelCount" jdbcType="INTEGER" property="audioChannelCount" />
+    <result column="audioRate" jdbcType="INTEGER" property="audioRate" />
+    <result column="audioBitDeptch" jdbcType="INTEGER" property="audioBitDeptch" />
+    <result column="videoEncoding" jdbcType="VARCHAR" property="videoEncoding" />
+    <result column="last808CheckTime" jdbcType="TIMESTAMP" property="last808CheckTime" />
+    <result column="last1078CheckTime" jdbcType="TIMESTAMP" property="last1078CheckTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, deviceId, deviceSn, sim, maxSpeed, overspeedDuration, overtimeDriveDuration, 
+    audioEncoding, audioChannelCount, audioRate, audioBitDeptch, videoEncoding, last808CheckTime, 
+    last1078CheckTime
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.vehicle.mapper.VehicleDeviceSettingsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vehicle_device_setting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from vehicle_device_setting
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from vehicle_device_setting
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.vehicle.mapper.VehicleDeviceSettingsExample">
+    delete from vehicle_device_setting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.vehicle.model.VehicleDeviceSettings">
+    insert into vehicle_device_setting (id, deviceId, deviceSn, 
+      sim, maxSpeed, overspeedDuration, 
+      overtimeDriveDuration, audioEncoding, audioChannelCount, 
+      audioRate, audioBitDeptch, videoEncoding, 
+      last808CheckTime, last1078CheckTime
+      )
+    values (#{id,jdbcType=BIGINT}, #{deviceId,jdbcType=BIGINT}, #{deviceSn,jdbcType=VARCHAR}, 
+      #{sim,jdbcType=VARCHAR}, #{maxSpeed,jdbcType=INTEGER}, #{overspeedDuration,jdbcType=INTEGER}, 
+      #{overtimeDriveDuration,jdbcType=INTEGER}, #{audioEncoding,jdbcType=VARCHAR}, #{audioChannelCount,jdbcType=INTEGER}, 
+      #{audioRate,jdbcType=INTEGER}, #{audioBitDeptch,jdbcType=INTEGER}, #{videoEncoding,jdbcType=VARCHAR}, 
+      #{last808CheckTime,jdbcType=TIMESTAMP}, #{last1078CheckTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.vehicle.model.VehicleDeviceSettings">
+    insert into vehicle_device_setting
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="deviceId != null">
+        deviceId,
+      </if>
+      <if test="deviceSn != null">
+        deviceSn,
+      </if>
+      <if test="sim != null">
+        sim,
+      </if>
+      <if test="maxSpeed != null">
+        maxSpeed,
+      </if>
+      <if test="overspeedDuration != null">
+        overspeedDuration,
+      </if>
+      <if test="overtimeDriveDuration != null">
+        overtimeDriveDuration,
+      </if>
+      <if test="audioEncoding != null">
+        audioEncoding,
+      </if>
+      <if test="audioChannelCount != null">
+        audioChannelCount,
+      </if>
+      <if test="audioRate != null">
+        audioRate,
+      </if>
+      <if test="audioBitDeptch != null">
+        audioBitDeptch,
+      </if>
+      <if test="videoEncoding != null">
+        videoEncoding,
+      </if>
+      <if test="last808CheckTime != null">
+        last808CheckTime,
+      </if>
+      <if test="last1078CheckTime != null">
+        last1078CheckTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="deviceId != null">
+        #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="deviceSn != null">
+        #{deviceSn,jdbcType=VARCHAR},
+      </if>
+      <if test="sim != null">
+        #{sim,jdbcType=VARCHAR},
+      </if>
+      <if test="maxSpeed != null">
+        #{maxSpeed,jdbcType=INTEGER},
+      </if>
+      <if test="overspeedDuration != null">
+        #{overspeedDuration,jdbcType=INTEGER},
+      </if>
+      <if test="overtimeDriveDuration != null">
+        #{overtimeDriveDuration,jdbcType=INTEGER},
+      </if>
+      <if test="audioEncoding != null">
+        #{audioEncoding,jdbcType=VARCHAR},
+      </if>
+      <if test="audioChannelCount != null">
+        #{audioChannelCount,jdbcType=INTEGER},
+      </if>
+      <if test="audioRate != null">
+        #{audioRate,jdbcType=INTEGER},
+      </if>
+      <if test="audioBitDeptch != null">
+        #{audioBitDeptch,jdbcType=INTEGER},
+      </if>
+      <if test="videoEncoding != null">
+        #{videoEncoding,jdbcType=VARCHAR},
+      </if>
+      <if test="last808CheckTime != null">
+        #{last808CheckTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="last1078CheckTime != null">
+        #{last1078CheckTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.vehicle.mapper.VehicleDeviceSettingsExample" resultType="java.lang.Long">
+    select count(*) from vehicle_device_setting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update vehicle_device_setting
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.deviceId != null">
+        deviceId = #{record.deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="record.deviceSn != null">
+        deviceSn = #{record.deviceSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sim != null">
+        sim = #{record.sim,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxSpeed != null">
+        maxSpeed = #{record.maxSpeed,jdbcType=INTEGER},
+      </if>
+      <if test="record.overspeedDuration != null">
+        overspeedDuration = #{record.overspeedDuration,jdbcType=INTEGER},
+      </if>
+      <if test="record.overtimeDriveDuration != null">
+        overtimeDriveDuration = #{record.overtimeDriveDuration,jdbcType=INTEGER},
+      </if>
+      <if test="record.audioEncoding != null">
+        audioEncoding = #{record.audioEncoding,jdbcType=VARCHAR},
+      </if>
+      <if test="record.audioChannelCount != null">
+        audioChannelCount = #{record.audioChannelCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.audioRate != null">
+        audioRate = #{record.audioRate,jdbcType=INTEGER},
+      </if>
+      <if test="record.audioBitDeptch != null">
+        audioBitDeptch = #{record.audioBitDeptch,jdbcType=INTEGER},
+      </if>
+      <if test="record.videoEncoding != null">
+        videoEncoding = #{record.videoEncoding,jdbcType=VARCHAR},
+      </if>
+      <if test="record.last808CheckTime != null">
+        last808CheckTime = #{record.last808CheckTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.last1078CheckTime != null">
+        last1078CheckTime = #{record.last1078CheckTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update vehicle_device_setting
+    set id = #{record.id,jdbcType=BIGINT},
+      deviceId = #{record.deviceId,jdbcType=BIGINT},
+      deviceSn = #{record.deviceSn,jdbcType=VARCHAR},
+      sim = #{record.sim,jdbcType=VARCHAR},
+      maxSpeed = #{record.maxSpeed,jdbcType=INTEGER},
+      overspeedDuration = #{record.overspeedDuration,jdbcType=INTEGER},
+      overtimeDriveDuration = #{record.overtimeDriveDuration,jdbcType=INTEGER},
+      audioEncoding = #{record.audioEncoding,jdbcType=VARCHAR},
+      audioChannelCount = #{record.audioChannelCount,jdbcType=INTEGER},
+      audioRate = #{record.audioRate,jdbcType=INTEGER},
+      audioBitDeptch = #{record.audioBitDeptch,jdbcType=INTEGER},
+      videoEncoding = #{record.videoEncoding,jdbcType=VARCHAR},
+      last808CheckTime = #{record.last808CheckTime,jdbcType=TIMESTAMP},
+      last1078CheckTime = #{record.last1078CheckTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.vehicle.model.VehicleDeviceSettings">
+    update vehicle_device_setting
+    <set>
+      <if test="deviceId != null">
+        deviceId = #{deviceId,jdbcType=BIGINT},
+      </if>
+      <if test="deviceSn != null">
+        deviceSn = #{deviceSn,jdbcType=VARCHAR},
+      </if>
+      <if test="sim != null">
+        sim = #{sim,jdbcType=VARCHAR},
+      </if>
+      <if test="maxSpeed != null">
+        maxSpeed = #{maxSpeed,jdbcType=INTEGER},
+      </if>
+      <if test="overspeedDuration != null">
+        overspeedDuration = #{overspeedDuration,jdbcType=INTEGER},
+      </if>
+      <if test="overtimeDriveDuration != null">
+        overtimeDriveDuration = #{overtimeDriveDuration,jdbcType=INTEGER},
+      </if>
+      <if test="audioEncoding != null">
+        audioEncoding = #{audioEncoding,jdbcType=VARCHAR},
+      </if>
+      <if test="audioChannelCount != null">
+        audioChannelCount = #{audioChannelCount,jdbcType=INTEGER},
+      </if>
+      <if test="audioRate != null">
+        audioRate = #{audioRate,jdbcType=INTEGER},
+      </if>
+      <if test="audioBitDeptch != null">
+        audioBitDeptch = #{audioBitDeptch,jdbcType=INTEGER},
+      </if>
+      <if test="videoEncoding != null">
+        videoEncoding = #{videoEncoding,jdbcType=VARCHAR},
+      </if>
+      <if test="last808CheckTime != null">
+        last808CheckTime = #{last808CheckTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="last1078CheckTime != null">
+        last1078CheckTime = #{last1078CheckTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.vehicle.model.VehicleDeviceSettings">
+    update vehicle_device_setting
+    set deviceId = #{deviceId,jdbcType=BIGINT},
+      deviceSn = #{deviceSn,jdbcType=VARCHAR},
+      sim = #{sim,jdbcType=VARCHAR},
+      maxSpeed = #{maxSpeed,jdbcType=INTEGER},
+      overspeedDuration = #{overspeedDuration,jdbcType=INTEGER},
+      overtimeDriveDuration = #{overtimeDriveDuration,jdbcType=INTEGER},
+      audioEncoding = #{audioEncoding,jdbcType=VARCHAR},
+      audioChannelCount = #{audioChannelCount,jdbcType=INTEGER},
+      audioRate = #{audioRate,jdbcType=INTEGER},
+      audioBitDeptch = #{audioBitDeptch,jdbcType=INTEGER},
+      videoEncoding = #{videoEncoding,jdbcType=VARCHAR},
+      last808CheckTime = #{last808CheckTime,jdbcType=TIMESTAMP},
+      last1078CheckTime = #{last1078CheckTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

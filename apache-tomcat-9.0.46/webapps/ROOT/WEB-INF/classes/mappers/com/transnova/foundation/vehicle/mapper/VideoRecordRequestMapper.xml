@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.vehicle.mapper.VideoRecordRequestMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.vehicle.model.VideoRecordRequest">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="requestId" jdbcType="VARCHAR" property="requestId" />
+    <result column="bizId" jdbcType="VARCHAR" property="bizId" />
+    <result column="vehicleId" jdbcType="BIGINT" property="vehicleId" />
+    <result column="channel" jdbcType="VARCHAR" property="channel" />
+    <result column="startTime" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="endTime" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="sequence" jdbcType="INTEGER" property="sequence" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="finishTime" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="retryTimes" jdbcType="INTEGER" property="retryTimes" />
+    <result column="userId" jdbcType="BIGINT" property="userId" />
+    <result column="filePath" jdbcType="VARCHAR" property="filePath" />
+    <result column="fileSize" jdbcType="INTEGER" property="fileSize" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, requestId, bizId, vehicleId, channel, startTime, endTime, sequence, state, createTime,
+    updateTime, finishTime, retryTimes, userId, filePath, fileSize
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.vehicle.mapper.VideoRecordRequestExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from video_record_request
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from video_record_request
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from video_record_request
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.vehicle.mapper.VideoRecordRequestExample">
+    delete from video_record_request
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.vehicle.model.VideoRecordRequest">
+    insert into video_record_request (id, requestId, bizId,
+      vehicleId, channel, startTime,
+      endTime, sequence, state,
+      createTime, updateTime, finishTime,
+      retryTimes, userId, filePath,
+      fileSize)
+    values (#{id,jdbcType=BIGINT}, #{requestId,jdbcType=VARCHAR}, #{bizId,jdbcType=VARCHAR},
+      #{vehicleId,jdbcType=BIGINT}, #{channel,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP},
+      #{endTime,jdbcType=TIMESTAMP}, #{sequence,jdbcType=INTEGER}, #{state,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP},
+      #{retryTimes,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT}, #{filePath,jdbcType=VARCHAR},
+      #{fileSize,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.vehicle.model.VideoRecordRequest">
+    insert into video_record_request
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="requestId != null">
+        requestId,
+      </if>
+      <if test="bizId != null">
+        bizId,
+      </if>
+      <if test="vehicleId != null">
+        vehicleId,
+      </if>
+      <if test="channel != null">
+        channel,
+      </if>
+      <if test="startTime != null">
+        startTime,
+      </if>
+      <if test="endTime != null">
+        endTime,
+      </if>
+      <if test="sequence != null">
+        sequence,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="finishTime != null">
+        finishTime,
+      </if>
+      <if test="retryTimes != null">
+        retryTimes,
+      </if>
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="filePath != null">
+        filePath,
+      </if>
+      <if test="fileSize != null">
+        fileSize,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="requestId != null">
+        #{requestId,jdbcType=VARCHAR},
+      </if>
+      <if test="bizId != null">
+        #{bizId,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleId != null">
+        #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="channel != null">
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sequence != null">
+        #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null">
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="retryTimes != null">
+        #{retryTimes,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.vehicle.mapper.VideoRecordRequestExample" resultType="java.lang.Long">
+    select count(*) from video_record_request
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update video_record_request
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.requestId != null">
+        requestId = #{record.requestId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bizId != null">
+        bizId = #{record.bizId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicleId != null">
+        vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="record.channel != null">
+        channel = #{record.channel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null">
+        startTime = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        endTime = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sequence != null">
+        sequence = #{record.sequence,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.finishTime != null">
+        finishTime = #{record.finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.retryTimes != null">
+        retryTimes = #{record.retryTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        userId = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.filePath != null">
+        filePath = #{record.filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileSize != null">
+        fileSize = #{record.fileSize,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update video_record_request
+    set id = #{record.id,jdbcType=BIGINT},
+    requestId = #{record.requestId,jdbcType=VARCHAR},
+    bizId = #{record.bizId,jdbcType=VARCHAR},
+    vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+    channel = #{record.channel,jdbcType=VARCHAR},
+    startTime = #{record.startTime,jdbcType=TIMESTAMP},
+    endTime = #{record.endTime,jdbcType=TIMESTAMP},
+    sequence = #{record.sequence,jdbcType=INTEGER},
+    state = #{record.state,jdbcType=VARCHAR},
+    createTime = #{record.createTime,jdbcType=TIMESTAMP},
+    updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+    finishTime = #{record.finishTime,jdbcType=TIMESTAMP},
+    retryTimes = #{record.retryTimes,jdbcType=INTEGER},
+    userId = #{record.userId,jdbcType=BIGINT},
+    filePath = #{record.filePath,jdbcType=VARCHAR},
+    fileSize = #{record.fileSize,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.vehicle.model.VideoRecordRequest">
+    update video_record_request
+    <set>
+      <if test="requestId != null">
+        requestId = #{requestId,jdbcType=VARCHAR},
+      </if>
+      <if test="bizId != null">
+        bizId = #{bizId,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleId != null">
+        vehicleId = #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="channel != null">
+        channel = #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        startTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        endTime = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sequence != null">
+        sequence = #{sequence,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null">
+        finishTime = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="retryTimes != null">
+        retryTimes = #{retryTimes,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="filePath != null">
+        filePath = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        fileSize = #{fileSize,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.vehicle.model.VideoRecordRequest">
+    update video_record_request
+    set requestId = #{requestId,jdbcType=VARCHAR},
+      bizId = #{bizId,jdbcType=VARCHAR},
+      vehicleId = #{vehicleId,jdbcType=BIGINT},
+      channel = #{channel,jdbcType=VARCHAR},
+      startTime = #{startTime,jdbcType=TIMESTAMP},
+      endTime = #{endTime,jdbcType=TIMESTAMP},
+      sequence = #{sequence,jdbcType=INTEGER},
+      state = #{state,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP},
+      updateTime = #{updateTime,jdbcType=TIMESTAMP},
+      finishTime = #{finishTime,jdbcType=TIMESTAMP},
+      retryTimes = #{retryTimes,jdbcType=INTEGER},
+      userId = #{userId,jdbcType=BIGINT},
+      filePath = #{filePath,jdbcType=VARCHAR},
+      fileSize = #{fileSize,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <select id="listUploadingVehicleIds" resultType="java.lang.Long">
+      select DISTINCT vehicleId
+      from video_record_request
+      where updateTime >date_sub(curdate(),interval 30 day) and state in('idle','recording')
+    </select>
+
+  <insert id="batchInsert" parameterType="map">
+    insert into video_record_request
+    (id, requestId, bizId, vehicleId, channel, startTime, endTime, state, createTime, updateTime,
+    finishTime, retryTimes, userId)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.requestId,jdbcType=VARCHAR}, #{item.bizId,jdbcType=VARCHAR},
+      #{item.vehicleId,jdbcType=BIGINT}, #{item.channel,jdbcType=VARCHAR}, #{item.startTime,jdbcType=TIMESTAMP},
+      #{item.endTime,jdbcType=TIMESTAMP}, #{item.state,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP},
+      #{item.updateTime,jdbcType=TIMESTAMP},
+      #{item.finishTime,jdbcType=TIMESTAMP}, #{item.retryTimes,jdbcType=INTEGER}, #{item.userId,jdbcType=BIGINT}
+      )
+    </foreach>
+  </insert>
+</mapper>

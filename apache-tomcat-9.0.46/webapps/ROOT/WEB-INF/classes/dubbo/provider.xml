@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://code.alibabatech.com/schema/dubbo
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="transnova-foundation-impl" />
+
+    <dubbo:registry address="${dubbo.registry.address}" file="${catalina.home}/dubbo-registry/dubbo-registry-label.properties" />
+
+    <!-- 对于核心的服务中心，可以考虑去除dubbo超时重试机制，并重新评估设置超时时间。 -->
+    <!-- 延迟到Spring初始化完成后，再暴露服务delay="-1",服务调用超时设置为xx秒,超时不重试 -->
+
+
+    <dubbo:provider timeout="1000000" retries="0" filter="tracing" />
+
+
+
+    <!-- here we demonstrate both annotation-based and xml-based configs -->
+    <!-- use tomcat server -->
+    <dubbo:protocol name="hessian" port="${dubbo.protocol.hessian.port}" threads="200" accepts="3000" />
+    <dubbo:protocol name="dubbo" port="${dubbo.protocol.dubbo.port}" threads="200" accepts="3000" />
+    <!--<dubbo:service delay="-1" interface="com.transnova.foundation.util.io.DistributeFileSystem" ref="distributeFileSystem" protocol="hessian" />-->
+   <!-- <bean id="distributeFileSystem" class="com.transnova.util.io.AliyunOSSImpl" />-->
+    <!--<bean id="distributeFileSystem" class="com.transnova.foundation.util.io.DistributeFileSystemImpl"/>-->
+    <dubbo:service delay="-1" interface="com.transnova.foundation.common.cache.IRedisCacheService" ref="redisCacheServiceImpl" protocol="dubbo" />
+    <dubbo:service delay="-1" interface="com.transnova.foundation.common.cache.IRedisCacheHessianService" ref="redisCacheServiceImpl" protocol="hessian" />
+
+    <bean id="redisCacheServiceImpl" class="com.transnova.foundation.common.cache.RedisCacheServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.util.io.DistributeFileSystem" ref="awsDistributeFileSystemImpl" protocol="hessian" />
+    <bean id="awsDistributeFileSystemImpl" class="com.transnova.foundation.util.io.AWSClientImpl" />
+    <!--<bean id="awsDistributeFileSystemImpl" class="com.transnova.foundation.util.io.DistributeFileSystemImpl" />-->
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.vehicle.service.VehicleService" ref="vehicleServiceImpl" protocol="hessian"/>
+    <bean id="vehicleServiceImpl" class="com.transnova.foundation.vehicle.service.VehicleServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.vehicleBasic.service.VehicleDeviceService" ref="vehicleDeviceServiceImpl" protocol="hessian"   />
+    <bean id="vehicleDeviceServiceImpl" class="com.transnova.foundation.vehicleBasic.service.VehicleDeviceServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.organization.service.OrgModuleService" ref="orgModuleServiceImpl" protocol="hessian"/>
+    <bean id="orgModuleServiceImpl" class="com.transnova.foundation.organization.service.OrgModuleServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.organization.service.OrgRoleService" ref="orgRoleServiceImpl" protocol="hessian"/>
+    <bean id="orgRoleServiceImpl" class="com.transnova.foundation.organization.service.OrgRoleServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.organization.service.OrgRolePermissionService" ref="orgRolePermissionServiceImpl" protocol="hessian"/>
+    <bean id="orgRolePermissionServiceImpl" class="com.transnova.foundation.organization.service.OrgRolePermissionServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.organization.service.OrgPlatformService" ref="orgPlatformServiceImpl" protocol="hessian"/>
+    <bean id="orgPlatformServiceImpl" class="com.transnova.foundation.organization.service.OrgPlatformServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.organization.service.OrganizationService" ref="organizationServiceImpl" protocol="hessian" />
+    <bean id="organizationServiceImpl" class="com.transnova.foundation.organization.service.OrganizationServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.menu.service.MenuService" ref="menuServiceImpl" protocol="hessian"/>
+    <bean id="menuServiceImpl" class="com.transnova.foundation.menu.service.MenuServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.platform.service.PlatformService" ref="platformServiceImpl" protocol="hessian" />
+    <bean id="platformServiceImpl" class="com.transnova.foundation.platform.service.PlatformServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.product.service.ProductService" ref="productServiceImpl" protocol="hessian"/>
+    <bean id="productServiceImpl" class="com.transnova.foundation.product.service.ProductServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.product.service.ProductModuleService" ref="productModuleServiceImpl" protocol="hessian"/>
+    <bean id="productModuleServiceImpl" class="com.transnova.foundation.product.service.ProductModuleServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.module.service.ModuleService" ref="moduleServiceImpl" protocol="hessian"/>
+    <bean id="moduleServiceImpl" class="com.transnova.foundation.module.service.ModuleServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.module.service.ModuleGroupService" ref="moduleGroupServiceImpl" protocol="hessian"/>
+    <bean id="moduleGroupServiceImpl" class="com.transnova.foundation.module.service.ModuleGroupServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.user.service.UserService" ref="userServiceImpl" protocol="hessian"/>
+    <bean id="userServiceImpl" class="com.transnova.foundation.user.service.UserServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.user.service.UserRoleService" ref="userRoleServiceImpl" protocol="hessian"/>
+    <bean id="userRoleServiceImpl" class="com.transnova.foundation.user.service.UserRoleServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.driver.service.DriverService" ref="driverServiceFoundation" protocol="hessian" />
+    <bean id="driverServiceFoundation" class="com.transnova.foundation.driver.service.DriverServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.driver.service.DriverLicenseService" ref="driverLicenseServiceFoundation" protocol="hessian" />
+    <bean id="driverLicenseServiceFoundation" class="com.transnova.foundation.driver.service.DriverLicenseServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.driver.service.DriverQualificationService" ref="driverQualificationServiceImpl" protocol="hessian" />
+    <bean id="driverQualificationServiceImpl" class="com.transnova.foundation.driver.service.DriverQualificationServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.driver.service.DriverUserService" ref="driverUserServiceFoundation" protocol="hessian" />
+    <bean id="driverUserServiceFoundation" class="com.transnova.foundation.driver.service.DriverUserServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.driver.service.DriverVehicleRelevanceService" ref="driverVehicleRelevanceServiceImpl" protocol="hessian" />
+    <bean id="driverVehicleRelevanceServiceImpl" class="com.transnova.foundation.driver.service.DriverVehicleRelevanceServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.driver.service.DriverVehicleTaskService" ref="driverVehicleTaskServiceImpl" protocol="hessian" />
+    <bean id="driverVehicleTaskServiceImpl" class="com.transnova.foundation.driver.service.DriverVehicleTaskServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.company.service.CompanyService" ref="companyServiceFoundation" protocol="hessian" />
+    <bean id="companyServiceFoundation" class="com.transnova.foundation.company.service.CompanyServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.code.service.CodeService" ref="codeServiceImpl" protocol="hessian" />
+    <bean id="codeServiceImpl" class="com.transnova.foundation.code.service.CodeServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.code.service.CodeGroupService" ref="codeGroupServiceImpl" protocol="hessian" />
+    <bean id="codeGroupServiceImpl" class="com.transnova.foundation.code.service.CodeGroupServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.company.service.CompanyContactService" ref="companyContactServiceImpl" protocol="hessian" />
+    <bean id="companyContactServiceImpl" class="com.transnova.foundation.company.service.CompanyContactServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.company.service.CompanyCertificateExpirationService" ref="companyCertificateExpirationServiceImpl" protocol="hessian" />
+    <bean id="companyCertificateExpirationServiceImpl" class="com.transnova.foundation.company.service.CompanyCertificateExpirationServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.attachment.service.FoundationAttachmentService" ref="foundationAttachmentServiceImpl" protocol="hessian" />
+    <bean id="foundationAttachmentServiceImpl" class="com.transnova.foundation.attachment.service.FoundationAttachmentServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.util.MessageService" ref="messageServiceImpl" protocol="hessian"/>
+    <bean id="messageServiceImpl" class="com.transnova.foundation.util.ZTMessageServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.misc.service.MobileRandcodeService" ref="mobileRandcodeServiceImpl" protocol="hessian"/>
+    <bean id="mobileRandcodeServiceImpl" class="com.transnova.foundation.misc.service.MobileRandcodeServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.organization.service.HierarchyService" ref="hierarchyServiceImpl" protocol="hessian" />
+    <bean id="hierarchyServiceImpl" class="com.transnova.foundation.organization.service.HierarchyServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.task.service.TrackService" ref="trackServiceImpl" protocol="hessian" />
+    <bean id="trackServiceImpl" class="com.transnova.foundation.task.service.TrackServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.task.service.TaskService" ref="taskServiceImpl" protocol="hessian" />
+    <bean id="taskServiceImpl" class="com.transnova.foundation.task.service.TaskServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.code.service.RegionService" ref="regionServiceImpl" protocol="hessian" />
+    <bean id="regionServiceImpl" class="com.transnova.foundation.code.service.RegionServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.log.service.VehicleBizLogService" ref="vehicleBizLogServiceImpl" protocol="hessian" />
+    <bean id="vehicleBizLogServiceImpl" class="com.transnova.foundation.log.service.VehicleBizLogServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.company.service.CompanyManageRelevanceService" ref="companyManageRelevanceService" protocol="hessian" />
+    <bean id="companyManageRelevanceService" class="com.transnova.foundation.company.service.CompanyManageRelevanceServiceImpl" />
+
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.sms.service.SmsConsumerService" ref="smsConsumerService" protocol="hessian" />
+    <bean id="smsConsumerService" class="com.transnova.foundation.sms.service.SmsConsumerServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.company.service.CompanyWorkInspectionService" ref="companyWorkInspectionService" protocol="hessian" />
+    <bean id="companyWorkInspectionService" class="com.transnova.foundation.company.service.CompanyWorkInspectionServiceImpl" />
+
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.vehicleBasic.service.VehicleMaintainLogService" ref="vehicleMaintainLogServiceImpl" protocol="hessian" />
+    <bean id="vehicleMaintainLogServiceImpl" class="com.transnova.foundation.vehicleBasic.service.VehicleMaintainLogServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.vehicleBasic.service.VehicleRepairLogService" ref="vehicleRepairLogServiceImpl" protocol="hessian" />
+    <bean id="vehicleRepairLogServiceImpl" class="com.transnova.foundation.vehicleBasic.service.VehicleRepairLogServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.vehicleBasic.service.VehicleYearlyLogService" ref="vehicleYearlyLogServiceImpl" protocol="hessian" />
+    <bean id="vehicleYearlyLogServiceImpl" class="com.transnova.foundation.vehicleBasic.service.VehicleYearlyLogServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.vehicleBasic.service.VehicleRoutineLogService" ref="vehicleRoutineLogServiceImpl" protocol="hessian" />
+    <bean id="vehicleRoutineLogServiceImpl" class="com.transnova.foundation.vehicleBasic.service.VehicleRoutineLogServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.vehicleBasic.service.VehicleInsuranceService" ref="vehicleInsuranceServiceImpl" protocol="hessian" />
+    <bean id="vehicleInsuranceServiceImpl" class="com.transnova.foundation.vehicleBasic.service.VehicleInsuranceServiceImpl" />
+
+    <!-- 接口耗时不确定 有过 5 分钟的-->
+    <dubbo:service delay="-1" timeout="600000" interface="com.transnova.foundation.vehicleBasic.service.VehicleViolationLogService" ref="vehicleViolationLogServiceImpl" protocol="hessian" />
+    <bean id="vehicleViolationLogServiceImpl" class="com.transnova.foundation.vehicleBasic.service.VehicleViolationLogServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.vehicleBasic.service.VehicleDeviceRelevanceService" ref="vehicleDeviceRelevanceServiceImpl" protocol="hessian"  />
+    <bean id="vehicleDeviceRelevanceServiceImpl" class="com.transnova.foundation.vehicleBasic.service.VehicleDeviceRelevanceServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.vehicleBasic.service.VehicleDeviceCamerService" ref="vehicleDeviceCamerServiceImpl" protocol="hessian"   />
+    <bean id="vehicleDeviceCamerServiceImpl" class="com.transnova.foundation.vehicleBasic.service.VehicleDeviceCamerServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.company.service.CompanyOperateTypeService" ref="companyOperateTypeServiceImpl" protocol="hessian" />
+    <bean id="companyOperateTypeServiceImpl" class="com.transnova.foundation.company.service.CompanyOperateTypeServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.companyBasic.service.CompanyOrganizeService" ref="companyOrganizeServiceImpl" protocol="hessian" />
+    <bean id="companyOrganizeServiceImpl" class="com.transnova.foundation.companyBasic.service.CompanyOrganizeServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.companyBasic.service.CompanyOrganizeDepartmentService" ref="companyOrganizeDepartmentServiceImpl" protocol="hessian" />
+    <bean id="companyOrganizeDepartmentServiceImpl" class="com.transnova.foundation.companyBasic.service.CompanyOrganizeDepartmentServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.companyBasic.service.CompanyEmployeeInformationService" ref="companyEmployeeInformationServiceImpl" protocol="hessian" />
+    <bean id="companyEmployeeInformationServiceImpl" class="com.transnova.foundation.companyBasic.service.CompanyEmployeeInformationServiceImpl"  />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.vehicle.service.VehicleManageRelevanceService" ref="vehicleManageRelevanceServiceImpl" protocol="hessian" />
+    <bean id="vehicleManageRelevanceServiceImpl" class="com.transnova.foundation.vehicle.service.VehicleManageRelevanceServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.vehicleBasic.service.VehicleDeviceParameterSettingService" ref="vehicleDeviceParameterSettingServiceImpl" protocol="hessian" />
+    <bean id="vehicleDeviceParameterSettingServiceImpl" class="com.transnova.foundation.vehicleBasic.service.VehicleDeviceParameterSettingServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.driver.service.DriverManageRelevanceService" ref="driverManageRelevanceServiceImpl" protocol="hessian" />
+    <bean id="driverManageRelevanceServiceImpl" class="com.transnova.foundation.driver.service.DriverManageRelevanceServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.organization.service.OrgProductService" ref="orgProductServiceImpl" protocol="hessian"/>
+    <bean id="orgProductServiceImpl" class="com.transnova.foundation.organization.service.OrgProductServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.companyBasic.service.CompanyMeetingService" ref="companyMeetingServiceImpl" protocol="hessian" />
+    <bean id="companyMeetingServiceImpl" class="com.transnova.foundation.companyBasic.service.CompanyMeetingServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.companyBasic.service.CompanyMeetingParticipantService" ref="companyMeetingParticipantServiceImpl" protocol="hessian" />
+    <bean id="companyMeetingParticipantServiceImpl" class="com.transnova.foundation.companyBasic.service.CompanyMeetingParticipantServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.user.service.UserWechatService" ref="userWechatServiceImpl" protocol="hessian" />
+    <bean id="userWechatServiceImpl" class="com.transnova.foundation.user.service.UserWechatServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.companyBasic.service.CompanyInstitutionService" ref="companyInstitutionServiceImpl" protocol="hessian" />
+    <bean id="companyInstitutionServiceImpl" class="com.transnova.foundation.companyBasic.service.CompanyInstitutionServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.menu.service.MenuTemplateService" ref="menuTemplateServiceImpl" protocol="hessian"/>
+    <bean id="menuTemplateServiceImpl" class="com.transnova.foundation.menu.service.MenuTemplateServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.driver.service.DriverCertificateLogService" ref="driverCertificateLogServiceImpl" protocol="hessian"/>
+    <bean id="driverCertificateLogServiceImpl" class="com.transnova.foundation.driver.service.DriverCertificateLogServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.companyBasic.service.CompanyAccidentService" ref="companyAccidentServiceImpl" protocol="hessian"/>
+    <bean id="companyAccidentServiceImpl" class="com.transnova.foundation.companyBasic.service.CompanyAccidentServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.vehicle.service.VideoRecordRequestService" ref="videoRecordRequestServiceImpl" protocol="hessian"/>
+    <bean id="videoRecordRequestServiceImpl" class="com.transnova.foundation.vehicle.service.VideoRecordRequestServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.companyBasic.service.CompanySafetyInvestmentService" ref="companySafetyInvestmentServiceImpl" protocol="hessian"/>
+    <bean id="companySafetyInvestmentServiceImpl" class="com.transnova.foundation.companyBasic.service.CompanySafetyInvestmentServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.companyBasic.service.CompanyInvestmentClassService" ref="companyInvestmentClassServiceImpl" protocol="hessian"/>
+    <bean id="companyInvestmentClassServiceImpl" class="com.transnova.foundation.companyBasic.service.CompanyInvestmentClassServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.vehicle.service.VehicleMonitorRecordService" ref="vehicleMonitorRecordServiceImpl" protocol="hessian"/>
+    <bean id="vehicleMonitorRecordServiceImpl" class="com.transnova.foundation.vehicle.service.VehicleMonitorRecordServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.system.service.SysNotificationService" ref="notificationServiceImpl" protocol="hessian"/>
+    <bean id="notificationServiceImpl" class="com.transnova.foundation.system.service.SysNotificationServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.companyBasic.service.CompanyLegalNoticeService" ref="companyLegalNoticeServiceImpl" protocol="hessian"/>
+    <bean id="companyLegalNoticeServiceImpl" class="com.transnova.foundation.companyBasic.service.CompanyLegalNoticeServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.companyBasic.service.CompanyLegalClassService" ref="companyLegalClassServiceImpl" protocol="hessian"/>
+    <bean id="companyLegalClassServiceImpl" class="com.transnova.foundation.companyBasic.service.CompanyLegalClassServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.certificate.service.SysCertificateExpirationService" ref="sysCertificateExpirationServiceImpl" protocol="hessian"/>
+    <bean id="sysCertificateExpirationServiceImpl" class="com.transnova.foundation.certificate.service.SysCertificateExpirationServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.vehicle.service.VehicleDriveRestrictionService" ref="vehicleDriveRestrictionServiceImpl" protocol="hessian" />
+    <bean id="vehicleDriveRestrictionServiceImpl" class="com.transnova.foundation.vehicle.service.VehicleDriveRestrictionServiceImpl" />
+
+    <!-- 统计相关 -->
+    <dubbo:service delay="-1" interface="com.transnova.foundation.stat.service.StatDriverEventService" ref="statDriverEventServiceImpl" protocol="hessian" />
+    <bean id="statDriverEventServiceImpl" class="com.transnova.foundation.stat.service.StatDriverEventServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.stat.service.StatVehicleService" ref="statVehicleServiceImpl" protocol="hessian" />
+    <bean id="statVehicleServiceImpl" class="com.transnova.foundation.stat.service.StatVehicleServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.stat.service.StatVehicleEventService" ref="statVehicleEventServiceImpl" protocol="hessian" />
+    <bean id="statVehicleEventServiceImpl" class="com.transnova.foundation.stat.service.StatVehicleEventServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.stat.service.StatCompanyService" ref="statCompanyServiceImpl" protocol="hessian" />
+    <bean id="statCompanyServiceImpl" class="com.transnova.foundation.stat.service.StatCompanyServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.driver.service.DriverFrontVersionService" ref="driverFrontVersionServiceImpl" protocol="hessian" />
+    <bean id="driverFrontVersionServiceImpl" class="com.transnova.foundation.driver.service.DriverFrontVersionServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.vehicle.service.VehicleDeviceVersionService" ref="vehicleDeviceVersionServiceImpl" protocol="hessian" />
+    <bean id="vehicleDeviceVersionServiceImpl" class="com.transnova.foundation.vehicle.service.VehicleDeviceVersionServiceImpl" />
+    <dubbo:service delay="-1" interface="com.transnova.foundation.monitor.service.MonitorService" ref="monitorServiceImpl" protocol="hessian" />
+    <bean id="monitorServiceImpl" class="com.transnova.foundation.monitor.service.MonitorServiceImpl" />
+
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.sms.service.SmsLogsService" ref="smsLogsServiceImpl" protocol="hessian" />
+    <bean id="smsLogsServiceImpl" class="com.transnova.foundation.sms.service.SmsLogsServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.message.service.MessageService" ref="sysMessageServiceImpl" protocol="hessian"/>
+    <bean id="sysMessageServiceImpl" class="com.transnova.foundation.message.service.MessageServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.report.service.ReportService" ref="reportServiceImpl" protocol="hessian" />
+    <bean id="reportServiceImpl" class="com.transnova.foundation.report.service.ReportServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.report.service.ReportConfigService" ref="reportConfigServiceImpl" protocol="hessian" />
+    <bean id="reportConfigServiceImpl" class="com.transnova.foundation.report.service.ReportConfigServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.report.service.ReportOrgRelevanceService" ref="reportOrgRelevanceServiceImpl" protocol="hessian" />
+    <bean id="reportOrgRelevanceServiceImpl" class="com.transnova.foundation.report.service.ReportOrgRelevanceServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.report.service.ReportOrgCompanyService" ref="reportOrgCompanyServiceImpl" protocol="hessian" />
+    <bean id="reportOrgCompanyServiceImpl" class="com.transnova.foundation.report.service.ReportOrgCompanyServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.stat.service.StatDailyCompanyService" ref="statDailyCompanyServiceImpl" protocol="hessian" />
+    <bean id="statDailyCompanyServiceImpl" class="com.transnova.foundation.stat.service.StatDailyCompanyServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.stat.service.StatDailyVehicleService" ref="statDailyVehicleServiceImpl" protocol="hessian" />
+    <bean id="statDailyVehicleServiceImpl" class="com.transnova.foundation.stat.service.StatDailyVehicleServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.stat.service.VehicleRealtimeInfoService" ref="vehicleRealtimeInfoServiceImpl" protocol="hessian" />
+    <bean id="vehicleRealtimeInfoServiceImpl" class="com.transnova.foundation.stat.service.VehicleRealtimeInfoServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.pay.service.AlipayService" ref="alipayServiceImpl" protocol="hessian"/>
+    <bean id="alipayServiceImpl" class="com.transnova.foundation.pay.service.AlipayServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.order.service.OrderService" ref="orderServiceImpl" protocol="hessian"/>
+    <bean id="orderServiceImpl" class="com.transnova.foundation.order.service.OrderServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.order.service.OrderLogService" ref="orderLogServiceImpl" protocol="hessian"/>
+    <bean id="orderLogServiceImpl" class="com.transnova.foundation.order.service.OrderLogServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.mobile.service.MobileAppService" ref="mobileAppServiceImpl" protocol="hessian"/>
+    <bean id="mobileAppServiceImpl" class="com.transnova.foundation.mobile.service.MobileAppServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.mobile.service.MobileAppVersionService" ref="mobileAppVersionServiceImpl" protocol="hessian"/>
+    <bean id="mobileAppVersionServiceImpl" class="com.transnova.foundation.mobile.service.MobileAppVersionServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.table.service.TableColGlobalSettingService" ref="tableColGlobalSettingServiceImpl" protocol="hessian"/>
+    <bean id="tableColGlobalSettingServiceImpl" class="com.transnova.foundation.table.service.TableColGlobalSettingServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.table.service.TableColUserSettingService" ref="tableColUserSettingServiceImpl" protocol="hessian"/>
+    <bean id="tableColUserSettingServiceImpl" class="com.transnova.foundation.table.service.TableColUserSettingServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.table.service.TableGlobalSettingService" ref="tableGlobalSettingServiceImpl" protocol="hessian"/>
+    <bean id="tableGlobalSettingServiceImpl" class="com.transnova.foundation.table.service.TableGlobalSettingServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.facade.service.UserDriverService" ref="userDriverServiceImpl" protocol="hessian"/>
+    <bean id="userDriverServiceImpl" class="com.transnova.foundation.facade.service.UserDriverServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.user.service.SysUserDataPolicyService" ref="sysUserDataPolicyServiceImpl" protocol="hessian"/>
+    <bean id="sysUserDataPolicyServiceImpl" class="com.transnova.foundation.user.service.SysUserDataPolicyServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.stat.service.VehiclePatrolService" ref="vehiclePatrolServiceImpl" protocol="hessian" />
+    <bean id="vehiclePatrolServiceImpl" class="com.transnova.foundation.stat.service.VehiclePatrolServiceImpl" />
+    
+    <dubbo:service delay="-1" interface="com.transnova.foundation.stat.service.StatDailyVehicleOfflineService" ref="statDailyVehicleOfflineServiceImpl" protocol="hessian" />
+    <bean id="statDailyVehicleOfflineServiceImpl" class="com.transnova.foundation.stat.service.StatDailyVehicleOfflineServiceImpl" />
+
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.faceVerify.service.FaceVerifyLogService" ref="faceVerifyLogServiceImpl" protocol="hessian" retries="" />
+    <bean id="faceVerifyLogServiceImpl" class="com.transnova.foundation.faceVerify.service.FaceVerifyLogServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.stat.service.StatVehicleMileageService" ref="statVehicleMileageServiceImpl" protocol="hessian" />
+    <bean id="statVehicleMileageServiceImpl" class="com.transnova.foundation.stat.service.StatVehicleMileageServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.report.service.ReportCompanyRelevanceService" ref="reportCompanyRelevanceServiceImpl" protocol="hessian" />
+    <bean id="reportCompanyRelevanceServiceImpl" class="com.transnova.foundation.report.service.ReportCompanyRelevanceServiceImpl" />
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.attachment.service.BasedataAttachmentService" ref="basedataAttachmentServiceImpl" protocol="hessian"/>
+    <bean id="basedataAttachmentServiceImpl" class="com.transnova.foundation.attachment.service.BasedataAttachmentServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.account.service.AccountService" ref="accountServiceImpl" protocol="hessian"/>
+    <bean id="accountServiceImpl" class="com.transnova.foundation.account.service.AccountServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.member.service.MemberService" ref="memberServiceImpl" protocol="hessian"/>
+    <bean id="memberServiceImpl" class="com.transnova.foundation.member.service.MemberServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.employee.service.VEmployeeService" ref="vEmployeeServiceImpl" protocol="hessian"/>
+    <bean id="vEmployeeServiceImpl" class="com.transnova.foundation.employee.service.VEmployeeServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.system.service.SysTaskFileService" ref="sysTaskFileServiceImpl" protocol="hessian"/>
+    <bean id="sysTaskFileServiceImpl" class="com.transnova.foundation.system.service.SysTaskFileServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.member.service.MemberDistributeLogService" ref="memberDistributeLogServiceImpl" protocol="hessian"/>
+    <bean id="memberDistributeLogServiceImpl" class="com.transnova.foundation.member.service.MemberDistributuLogServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.contract.service.ContractService" ref="contractServiceImpl" protocol="hessian"/>
+    <bean id="contractServiceImpl" class="com.transnova.foundation.contract.service.ContractServiceImpl"/>
+
+    <dubbo:service delay="-1" interface="com.transnova.foundation.vehicle.service.VehicleOfflineRecordService" ref="vehicleOfflineRecordServiceImpl" protocol="hessian" />
+    <bean id="vehicleOfflineRecordServiceImpl" class="com.transnova.foundation.vehicle.service.VehicleOfflineRecordServiceImpl" />
+
+    <!--一日三检-->
+    <dubbo:service delay="-1" interface="com.transnova.foundation.companyBasic.service.CompanyVehicleEverydayCheckSettingService" ref="companyVehicleEverydayCheckSettingServiceImpl" protocol="hessian" />
+    <bean id="companyVehicleEverydayCheckSettingServiceImpl" class="com.transnova.foundation.companyBasic.service.CompanyVehicleEverydayCheckSettingServiceImpl" />
+    <dubbo:service delay="-1" interface="com.transnova.foundation.vehicleBasic.service.VehicleEverydayCheckLogService" ref="vehicleEverydayCheckLogServiceImpl" protocol="hessian" />
+    <bean id="vehicleEverydayCheckLogServiceImpl" class="com.transnova.foundation.vehicleBasic.service.VehicleEverydayCheckLogServiceImpl" />
+
+     <!--WeChat-->
+    <dubbo:service delay="-1" interface="com.transnova.foundation.wechat.service.WeChatService" ref="weChatServiceImpl" protocol="hessian" />
+    <bean id="weChatServiceImpl" class="com.transnova.foundation.wechat.service.WeChatServiceImpl" />
+    <dubbo:service delay="-1" interface="com.transnova.foundation.wechat.service.WeChatMessageService" ref="weChatMessageServiceImpl" protocol="hessian" />
+    <bean id="weChatMessageServiceImpl" class="com.transnova.foundation.wechat.service.WeChatMessageServiceImpl" />
+
+</beans>

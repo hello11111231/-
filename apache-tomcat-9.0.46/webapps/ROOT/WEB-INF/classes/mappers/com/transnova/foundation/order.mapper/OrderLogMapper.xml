@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.order.mapper.OrderLogMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.order.model.OrderLog">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 21 11:05:10 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="orderNo" jdbcType="VARCHAR" property="orderNo" />
+    <result column="orderState" jdbcType="INTEGER" property="orderState" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="logTime" jdbcType="TIMESTAMP" property="logTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 21 11:05:10 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 21 11:05:10 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 21 11:05:10 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    id, orderNo, orderState, remark, logTime
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.order.mapper.OrderLogExample" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 21 11:05:10 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from order_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 21 11:05:10 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from order_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 21 11:05:10 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from order_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.order.mapper.OrderLogExample">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 21 11:05:10 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from order_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.order.model.OrderLog">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 21 11:05:10 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into order_log (id, orderNo, orderState, 
+      remark, logTime)
+    values (#{id,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, #{orderState,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{logTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.order.model.OrderLog">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 21 11:05:10 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into order_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderNo != null">
+        orderNo,
+      </if>
+      <if test="orderState != null">
+        orderState,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="logTime != null">
+        logTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderState != null">
+        #{orderState,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="logTime != null">
+        #{logTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.order.mapper.OrderLogExample" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 21 11:05:10 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select count(*) from order_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 21 11:05:10 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update order_log
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderNo != null">
+        orderNo = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderState != null">
+        orderState = #{record.orderState,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logTime != null">
+        logTime = #{record.logTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 21 11:05:10 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update order_log
+    set id = #{record.id,jdbcType=BIGINT},
+      orderNo = #{record.orderNo,jdbcType=VARCHAR},
+      orderState = #{record.orderState,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      logTime = #{record.logTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.order.model.OrderLog">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 21 11:05:10 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update order_log
+    <set>
+      <if test="orderNo != null">
+        orderNo = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderState != null">
+        orderState = #{orderState,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="logTime != null">
+        logTime = #{logTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.order.model.OrderLog">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Jul 21 11:05:10 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update order_log
+    set orderNo = #{orderNo,jdbcType=VARCHAR},
+      orderState = #{orderState,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      logTime = #{logTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

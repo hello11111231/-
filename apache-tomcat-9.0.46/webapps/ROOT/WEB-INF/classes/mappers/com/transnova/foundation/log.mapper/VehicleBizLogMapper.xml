@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.log.mapper.VehicleBizLogMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.log.model.VehicleBizLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="userId" jdbcType="BIGINT" property="userId" />
+    <result column="companyId" jdbcType="BIGINT" property="companyId" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="vehicleId" jdbcType="BIGINT" property="vehicleId" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="record" jdbcType="VARCHAR" property="record" />
+    <result column="startTime" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="endTime" jdbcType="TIMESTAMP" property="endTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+
+                <!-- 新的数据权限控制 -->
+                <when test="criterion.governmentFiltering">
+                  and exists (select id from company_manage_relevance _x_ where vehicle_biz_log.companyId = _x_.companyId and _x_.govCode like #{criterion.governmentCode})
+                </when>
+
+                <when test="criterion.proxyFiltering">
+                  and companyId in (select companyId from vehicle_manage_relevance _x_ where _x_.orgCode = #{criterion.userOrganizationCode})
+                </when>
+
+                <when test="criterion.companyFiltering">
+                  and companyId in (select companyId from vehicle_manage_relevance _x_ where _x_.orgCode = #{criterion.userOrganizationCode})
+                </when>
+
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, userId, companyId, type, vehicleId, reason, record, startTime, endTime
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.log.mapper.VehicleBizLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vehicle_biz_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from vehicle_biz_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from vehicle_biz_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.log.mapper.VehicleBizLogExample">
+    delete from vehicle_biz_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.log.model.VehicleBizLog">
+    insert into vehicle_biz_log (id, userId, companyId, 
+      type, vehicleId, reason, 
+      record, startTime, endTime
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{companyId,jdbcType=BIGINT}, 
+      #{type,jdbcType=VARCHAR}, #{vehicleId,jdbcType=BIGINT}, #{reason,jdbcType=VARCHAR}, 
+      #{record,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.log.model.VehicleBizLog">
+    insert into vehicle_biz_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="companyId != null">
+        companyId,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="vehicleId != null">
+        vehicleId,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="record != null">
+        record,
+      </if>
+      <if test="startTime != null">
+        startTime,
+      </if>
+      <if test="endTime != null">
+        endTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleId != null">
+        #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record != null">
+        #{record,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.log.mapper.VehicleBizLogExample" resultType="java.lang.Long">
+    select count(*) from vehicle_biz_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update vehicle_biz_log
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null">
+        userId = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.companyId != null">
+        companyId = #{record.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicleId != null">
+        vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="record.reason != null">
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.record != null">
+        record = #{record.record,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null">
+        startTime = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        endTime = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update vehicle_biz_log
+    set id = #{record.id,jdbcType=BIGINT},
+      userId = #{record.userId,jdbcType=BIGINT},
+      companyId = #{record.companyId,jdbcType=BIGINT},
+      type = #{record.type,jdbcType=VARCHAR},
+      vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      record = #{record.record,jdbcType=VARCHAR},
+      startTime = #{record.startTime,jdbcType=TIMESTAMP},
+      endTime = #{record.endTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.log.model.VehicleBizLog">
+    update vehicle_biz_log
+    <set>
+      <if test="userId != null">
+        userId = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null">
+        companyId = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleId != null">
+        vehicleId = #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record != null">
+        record = #{record,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        startTime = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        endTime = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.log.model.VehicleBizLog">
+    update vehicle_biz_log
+    set userId = #{userId,jdbcType=BIGINT},
+      companyId = #{companyId,jdbcType=BIGINT},
+      type = #{type,jdbcType=VARCHAR},
+      vehicleId = #{vehicleId,jdbcType=BIGINT},
+      reason = #{reason,jdbcType=VARCHAR},
+      record = #{record,jdbcType=VARCHAR},
+      startTime = #{startTime,jdbcType=TIMESTAMP},
+      endTime = #{endTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    insert into vehicle_biz_log
+    (id, userId, companyId, type, vehicleId, reason, record, startTime, endTime)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.userId,jdbcType=BIGINT}, #{item.companyId,jdbcType=BIGINT}, 
+        #{item.type,jdbcType=VARCHAR}, #{item.vehicleId,jdbcType=BIGINT}, #{item.reason,jdbcType=VARCHAR}, 
+        #{item.record,jdbcType=VARCHAR}, #{item.startTime,jdbcType=TIMESTAMP}, #{item.endTime,jdbcType=TIMESTAMP}
+        )
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" parameterType="map">
+    insert into vehicle_biz_log (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.value}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'id' == column.value">
+          #{item.id,jdbcType=BIGINT}
+        </if>
+        <if test="'userId' == column.value">
+          #{item.userId,jdbcType=BIGINT}
+        </if>
+        <if test="'companyId' == column.value">
+          #{item.companyId,jdbcType=BIGINT}
+        </if>
+        <if test="'type' == column.value">
+          #{item.type,jdbcType=VARCHAR}
+        </if>
+        <if test="'vehicleId' == column.value">
+          #{item.vehicleId,jdbcType=BIGINT}
+        </if>
+        <if test="'reason' == column.value">
+          #{item.reason,jdbcType=VARCHAR}
+        </if>
+        <if test="'record' == column.value">
+          #{item.record,jdbcType=VARCHAR}
+        </if>
+        <if test="'startTime' == column.value">
+          #{item.startTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="'endTime' == column.value">
+          #{item.endTime,jdbcType=TIMESTAMP}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
+</mapper>

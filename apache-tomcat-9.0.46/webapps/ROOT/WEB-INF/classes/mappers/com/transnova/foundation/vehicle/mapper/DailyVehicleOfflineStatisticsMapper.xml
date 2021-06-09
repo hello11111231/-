@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.vehicle.mapper.DailyVehicleOfflineStatisticsMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.vehicle.model.DailyVehicleOfflineStatistics">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="vehicleId" jdbcType="BIGINT" property="vehicleId" />
+    <result column="companyId" jdbcType="BIGINT" property="companyId" />
+    <result column="lastReportTime" jdbcType="BIGINT" property="lastReportTime" />
+    <result column="lastReportLongitude" jdbcType="DOUBLE" property="lastReportLongitude" />
+    <result column="lastReportLatitude" jdbcType="DOUBLE" property="lastReportLatitude" />
+    <result column="analyzeDate" jdbcType="INTEGER" property="analyzeDate" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+
+  <resultMap id="VehicleOfflineMap" type="com.transnova.foundation.vehicle.model.VehicleOfflineVo">
+    <result column="vehicleId" jdbcType="BIGINT" property="vehicleId" />
+    <result column="companyId" jdbcType="BIGINT" property="companyId" />
+    <result column="vehicleName" jdbcType="VARCHAR" property="vehicleName" />
+    <result column="lastReportTime" jdbcType="BIGINT" property="lastReportTime" />
+    <result column="driveMinutes" jdbcType="INTEGER" property="driveMinutes" />
+    <result column="totalNumber" jdbcType="INTEGER" property="totalNumber" />
+    <result column="onlineNumber" jdbcType="INTEGER" property="onlineNumber" />
+    <result column="offlineNumber" jdbcType="INTEGER" property="offlineNumber" />
+    <result column="lastReportLongitude" jdbcType="DOUBLE" property="lastReportLongitude" />
+    <result column="lastReportLatitude" jdbcType="DOUBLE" property="lastReportLatitude" />
+  </resultMap>
+
+
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+
+                <!-- 新的数据权限控制 -->
+                <when test="criterion.governmentFiltering">
+                  and companyId in (select companyId from company_manage_relevance _x_ where daily_vehicle_offline_statistics.companyId = _x_.companyId and _x_.govCode like #{criterion.governmentCode})
+                </when>
+
+                <when test="criterion.proxyFiltering">
+                  and vehicleId in (select vehicleId from vehicle_manage_relevance _x_ where _x_.orgCode = #{criterion.userOrganizationCode})
+                </when>
+
+                <when test="criterion.companyFiltering">
+                  and vehicleId in (select vehicleId from vehicle_manage_relevance _x_ where _x_.orgCode = #{criterion.userOrganizationCode})
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, vehicleId, companyId, lastReportTime, lastReportLongitude, lastReportLatitude, 
+    analyzeDate, type
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.vehicle.mapper.DailyVehicleOfflineStatisticsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from daily_vehicle_offline_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from daily_vehicle_offline_statistics
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from daily_vehicle_offline_statistics
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.vehicle.mapper.DailyVehicleOfflineStatisticsExample">
+    delete from daily_vehicle_offline_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.vehicle.model.DailyVehicleOfflineStatistics">
+    insert into daily_vehicle_offline_statistics (id, vehicleId, companyId, 
+      lastReportTime, lastReportLongitude, lastReportLatitude, 
+      analyzeDate, type)
+    values (#{id,jdbcType=BIGINT}, #{vehicleId,jdbcType=BIGINT}, #{companyId,jdbcType=BIGINT}, 
+      #{lastReportTime,jdbcType=BIGINT}, #{lastReportLongitude,jdbcType=DOUBLE}, #{lastReportLatitude,jdbcType=DOUBLE}, 
+      #{analyzeDate,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.vehicle.model.DailyVehicleOfflineStatistics">
+    insert into daily_vehicle_offline_statistics
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="vehicleId != null">
+        vehicleId,
+      </if>
+      <if test="companyId != null">
+        companyId,
+      </if>
+      <if test="lastReportTime != null">
+        lastReportTime,
+      </if>
+      <if test="lastReportLongitude != null">
+        lastReportLongitude,
+      </if>
+      <if test="lastReportLatitude != null">
+        lastReportLatitude,
+      </if>
+      <if test="analyzeDate != null">
+        analyzeDate,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="vehicleId != null">
+        #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="lastReportTime != null">
+        #{lastReportTime,jdbcType=BIGINT},
+      </if>
+      <if test="lastReportLongitude != null">
+        #{lastReportLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="lastReportLatitude != null">
+        #{lastReportLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="analyzeDate != null">
+        #{analyzeDate,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.vehicle.mapper.DailyVehicleOfflineStatisticsExample" resultType="java.lang.Long">
+    select count(*) from daily_vehicle_offline_statistics
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update daily_vehicle_offline_statistics
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.vehicleId != null">
+        vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="record.companyId != null">
+        companyId = #{record.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.lastReportTime != null">
+        lastReportTime = #{record.lastReportTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.lastReportLongitude != null">
+        lastReportLongitude = #{record.lastReportLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="record.lastReportLatitude != null">
+        lastReportLatitude = #{record.lastReportLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="record.analyzeDate != null">
+        analyzeDate = #{record.analyzeDate,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update daily_vehicle_offline_statistics
+    set id = #{record.id,jdbcType=BIGINT},
+      vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      companyId = #{record.companyId,jdbcType=BIGINT},
+      lastReportTime = #{record.lastReportTime,jdbcType=BIGINT},
+      lastReportLongitude = #{record.lastReportLongitude,jdbcType=DOUBLE},
+      lastReportLatitude = #{record.lastReportLatitude,jdbcType=DOUBLE},
+      analyzeDate = #{record.analyzeDate,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.vehicle.model.DailyVehicleOfflineStatistics">
+    update daily_vehicle_offline_statistics
+    <set>
+      <if test="vehicleId != null">
+        vehicleId = #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null">
+        companyId = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="lastReportTime != null">
+        lastReportTime = #{lastReportTime,jdbcType=BIGINT},
+      </if>
+      <if test="lastReportLongitude != null">
+        lastReportLongitude = #{lastReportLongitude,jdbcType=DOUBLE},
+      </if>
+      <if test="lastReportLatitude != null">
+        lastReportLatitude = #{lastReportLatitude,jdbcType=DOUBLE},
+      </if>
+      <if test="analyzeDate != null">
+        analyzeDate = #{analyzeDate,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.vehicle.model.DailyVehicleOfflineStatistics">
+    update daily_vehicle_offline_statistics
+    set vehicleId = #{vehicleId,jdbcType=BIGINT},
+      companyId = #{companyId,jdbcType=BIGINT},
+      lastReportTime = #{lastReportTime,jdbcType=BIGINT},
+      lastReportLongitude = #{lastReportLongitude,jdbcType=DOUBLE},
+      lastReportLatitude = #{lastReportLatitude,jdbcType=DOUBLE},
+      analyzeDate = #{analyzeDate,jdbcType=INTEGER},
+      type = #{type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    insert into daily_vehicle_offline_statistics
+    (id, vehicleId, companyId, lastReportTime, lastReportLongitude, lastReportLatitude, 
+      analyzeDate, type)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.vehicleId,jdbcType=BIGINT}, #{item.companyId,jdbcType=BIGINT}, 
+        #{item.lastReportTime,jdbcType=BIGINT}, #{item.lastReportLongitude,jdbcType=DOUBLE}, 
+        #{item.lastReportLatitude,jdbcType=DOUBLE}, #{item.analyzeDate,jdbcType=INTEGER}, 
+        #{item.type,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" parameterType="map">
+    insert into daily_vehicle_offline_statistics (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.value}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'id' == column.value">
+          #{item.id,jdbcType=BIGINT}
+        </if>
+        <if test="'vehicleId' == column.value">
+          #{item.vehicleId,jdbcType=BIGINT}
+        </if>
+        <if test="'companyId' == column.value">
+          #{item.companyId,jdbcType=BIGINT}
+        </if>
+        <if test="'lastReportTime' == column.value">
+          #{item.lastReportTime,jdbcType=BIGINT}
+        </if>
+        <if test="'lastReportLongitude' == column.value">
+          #{item.lastReportLongitude,jdbcType=DOUBLE}
+        </if>
+        <if test="'lastReportLatitude' == column.value">
+          #{item.lastReportLatitude,jdbcType=DOUBLE}
+        </if>
+        <if test="'analyzeDate' == column.value">
+          #{item.analyzeDate,jdbcType=INTEGER}
+        </if>
+        <if test="'type' == column.value">
+          #{item.type,jdbcType=VARCHAR}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
+
+  <select id="selectVehicle" parameterType="map" resultMap="VehicleOfflineMap">
+    select
+    (select vin from vehicle where id = d.vehicleId) as vehicleName,
+    lastReportLongitude,
+    lastReportLatitude,
+    lastReportTime
+    from daily_vehicle_offline_statistics d
+    where 1 = 1
+    <if test="governmentFiltering">
+      and d.companyId in (select companyId from company_manage_relevance _x_ where vehicle.companyId = _x_.companyId and _x_.govCode like #{filteringGovernmentCode})
+    </if>
+
+    <!-- 平台运营商用户 -->
+    <if test="proxyFiltering">
+      and d.vehicleId in (select vehicleId from vehicle_manage_relevance _x_ where _x_.orgCode like #{filteringUserOrganizationCode})
+    </if>
+
+    <!-- 企业用户 -->
+    <if test="companyFiltering">
+      and d.vehicleId in (select vehicleId from vehicle_manage_relevance _x_ where _x_.orgCode like #{filteringUserOrganizationCode})
+    </if>
+
+    <if test="companyId != null">
+      and d.companyId = #{companyId}
+    </if>
+    <if test="analyzeDate != null">
+      and d.analyzeDate = #{analyzeDate}
+    </if>
+
+    <if test="type != null">
+      and d.type = #{type}
+    </if>
+
+    and d.vehicleId in(select id from vehicle where deleted = 0)
+      <if test="limit != null">
+          <if test="offset != null">
+              limit ${offset}, ${limit}
+          </if>
+          <if test="offset == null">
+              limit ${limit}
+          </if>
+      </if>
+
+  </select>
+
+  <select id="countVehicle" parameterType="map" resultType="long">
+    select
+        count(1)
+    from daily_vehicle_offline_statistics d
+    where 1 = 1
+    <if test="governmentFiltering">
+      and d.companyId in (select companyId from company_manage_relevance _x_ where vehicle.companyId = _x_.companyId and _x_.govCode like #{filteringGovernmentCode})
+    </if>
+
+    <!-- 平台运营商用户 -->
+    <if test="proxyFiltering">
+      and d.vehicleId in (select vehicleId from vehicle_manage_relevance _x_ where _x_.orgCode like #{filteringUserOrganizationCode})
+    </if>
+
+    <!-- 企业用户 -->
+    <if test="companyFiltering">
+      and d.vehicleId in (select vehicleId from vehicle_manage_relevance _x_ where _x_.orgCode like #{filteringUserOrganizationCode})
+    </if>
+
+    <if test="companyId != null">
+      and d.companyId = #{companyId}
+    </if>
+    <if test="analyzeDate != null">
+      and d.analyzeDate = #{analyzeDate}
+    </if>
+
+    <if test="type != null">
+      and d.type = #{type}
+    </if>
+
+    and d.vehicleId in(select id from vehicle where deleted = 0)
+
+
+  </select>
+
+  <insert id="cronInsertOfflineDate" parameterType="map">
+    insert into daily_vehicle_offline_statistics
+        (vehicleId, companyId, lastReportTime, lastReportLongitude, lastReportLatitude, analyzeDate, type)
+    select
+        vehicleId as vehicleId,
+        companyId as companyId,
+        lastReportTime as lastReportTime,
+        lastReportLongitude as lastReportLongitude,
+        lastReportLatitude as lastReportLatitude,
+        #{analyzeDate} as analyzeDate,
+        #{type} as type
+    from
+    vehicle_statistics
+    where
+    lastReportTime &lt; #{lastReportTime}
+    and vehicleId not in(select id from vehicle where deleted = 1)
+  </insert>
+
+  <insert id="cronInsertOnlineDate" parameterType="map">
+    insert into daily_vehicle_offline_statistics
+        (vehicleId, companyId, lastReportTime, lastReportLongitude, lastReportLatitude, analyzeDate, type)
+    select
+        vehicleId as vehicleId,
+        companyId as companyId,
+        lastReportTime as lastReportTime,
+        lastReportLongitude as lastReportLongitude,
+        lastReportLatitude as lastReportLatitude,
+        #{analyzeDate} as analyzeDate,
+        #{type} as type
+    from
+        vehicle_statistics
+    where
+         lastReportTime &gt;= #{lastReportTime}
+         and vehicleId not in(select id from vehicle where deleted = 1)
+  </insert>
+
+  <select id="selectVehicleNoPosition"  parameterType="map" resultMap="VehicleOfflineMap">
+    select vin as vehicleName from vehicle
+    where
+     1 = 1
+    <if test="governmentFiltering">
+      and companyId in (select companyId from company_manage_relevance _x_ where event_log_analyze.companyId = _x_.companyId and _x_.govCode like #{filteringGovernmentCode})
+    </if>
+
+    <!-- 平台运营商用户 -->
+    <if test="proxyFiltering">
+      and id in (select vehicleId from vehicle_manage_relevance _x_ where _x_.orgCode = #{filteringUserOrganizationCode})
+    </if>
+
+    <!-- 企业用户 -->
+    <if test="companyFiltering">
+      and id in (select vehicleId from vehicle_manage_relevance _x_ where _x_.orgCode = #{filteringUserOrganizationCode})
+    </if>
+
+    <if test="companyId != null">
+      and companyId = #{companyId}
+    </if>
+    and deleted = 0
+    and id not in(select vehicleId from daily_vehicle_offline_statistics)
+  </select>
+</mapper>

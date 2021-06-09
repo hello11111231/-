@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.vehicle.mapper.VehicleManageRelevanceMapper">
+    <resultMap id="BaseResultMap" type="com.transnova.foundation.vehicle.model.VehicleManageRelevance">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="hierarchyCode" jdbcType="VARCHAR" property="hierarchyCode"/>
+        <result column="vehicleId" jdbcType="BIGINT" property="vehicleId"/>
+        <result column="companyId" jdbcType="BIGINT" property="companyId"/>
+    </resultMap>
+
+    <resultMap id="GroupBaseResultMap" type="com.transnova.foundation.vehicle.model.GroupVehicleManageRelevance">
+<!--        <id column="id" jdbcType="BIGINT" property="id"/>-->
+        <result column="hierarchyCode" jdbcType="VARCHAR" property="hierarchyCode"/>
+        <result column="vehicleCount" jdbcType="INTEGER" property="vehicleCount"/>
+    </resultMap>
+
+    <select id="groupByHierarchyCode" parameterType="map" resultMap="GroupBaseResultMap">
+        select hierarchyCode,count(*) vehicleCount
+        from vehicle v inner join company c on v.companyid=c.id
+        where v.deleted = 0 and c.deleted = 0
+          and v.orgCode =#{orgCode}
+        <if test="hierarchyCode != null and hierarchyCode != ''">
+            and hierarchyCode LIKE '${hierarchyCode}%'
+        </if>
+        <if test="companyId != null">
+            and companyId = #{companyId,jdbcType=BIGINT}
+        </if>
+        group by hierarchyCode
+    </select>
+
+    <select id="groupByHierarchyCodeAndPrivileges" parameterType="map" resultMap="GroupBaseResultMap">
+        select hierarchyCode,count(*) vehicleCount
+        from vehicle v inner join company c on v.companyid=c.id
+        JOIN
+        (
+        SELECT
+        id AS _id_x_
+        FROM
+        vehicle v
+        JOIN ( SELECT srcHierarchyCode AS hierarchyCode FROM sys_user_data_policy WHERE userId=#{userId} AND dataType = 0 ) p
+        ON v.hierarchyCode LIKE CONCAT( p.hierarchyCode, '%' )
+        where v.orgCode= #{orgCode}
+        UNION ALL
+        ( SELECT refId AS _id_x_ FROM sys_user_data_policy WHERE userId=#{userId} AND dataType = 2 )
+        ) AS _x_b_ ON _x_b_._id_x_ = v.ID
+
+        where v.deleted = 0 and c.deleted = 0
+        and v.orgCode =#{orgCode}
+        <if test="hierarchyCode != null and hierarchyCode != ''">
+            and hierarchyCode LIKE '${hierarchyCode}%'
+        </if>
+        <if test="companyId != null">
+            and companyId = #{companyId,jdbcType=BIGINT}
+        </if>
+        group by hierarchyCode
+    </select>
+
+    <select id="countVehicleByHierarchyCodeLike" parameterType="map" resultType="java.lang.Integer">
+        select count(*)
+        from vehicle
+        where  orgCode =#{orgCode}
+        <if test="hierarchyCode != null and hierarchyCode != ''">
+            and hierarchyCode LIKE '${hierarchyCode}%'
+        </if>
+        <if test="companyId != null">
+            and companyId = #{companyId,jdbcType=BIGINT}
+        </if>
+    </select>
+
+    <select id="countVehicleByHierarchyCodeLikeAndPrivileges" parameterType="map" resultType="java.lang.Integer">
+        select count(*)
+        from vehicle v
+        JOIN
+        (
+        SELECT
+        id AS _id_x_
+        FROM
+        vehicle v
+        JOIN ( SELECT srcHierarchyCode AS hierarchyCode FROM sys_user_data_policy WHERE userId=#{userId} AND dataType = 0 ) p
+        ON v.hierarchyCode LIKE CONCAT( p.hierarchyCode, '%' )
+        where v.orgCode= #{orgCode}
+        UNION ALL
+        ( SELECT refId AS _id_x_ FROM sys_user_data_policy WHERE userId=#{userId} AND dataType = 2 )
+        ) AS _x_b_ ON _x_b_._id_x_ = v.ID
+        where  orgCode =#{orgCode}
+        <if test="hierarchyCode != null and hierarchyCode != ''">
+            and v.hierarchyCode LIKE '${hierarchyCode}%'
+        </if>
+        <if test="companyId != null">
+            and v.companyId = #{companyId,jdbcType=BIGINT}
+        </if>
+    </select>
+
+    <select id="findCountByHierarchyCode" parameterType="map" resultType="long">
+        select COUNT(*)
+        from vehicle
+        where orgCode=#{orgCode}
+        <if test="hierarchyCode != null and hierarchyCode != ''">
+            and hierarchyCode LIKE '${hierarchyCode}%'
+        </if>
+        <if test="companyId != null">
+            and companyId = #{companyId,jdbcType=BIGINT}
+        </if>
+        and deleted=false
+    </select>
+    <select id="searchVehicleHieCodeLike" parameterType="map" resultMap="BaseResultMap">
+        select a.id,a.hierarchyCode,a.id as vehicleId,a.companyId
+        from vehicle as a INNER JOIN sys_hierarchy as b on a.hierarchyCode=b.code
+        where a.deleted=0 and a.orgCode =#{orgCode}
+        <if test="hierarchyCode != null and hierarchyCode != ''">
+            and hierarchyCode like '${hierarchyCode}%'
+        </if>
+        and a.vehicleNumber like '%${vehicleNumber}%'
+        order by b.code,b.showIndex,a.id asc limit ${index},1
+    </select>
+</mapper>

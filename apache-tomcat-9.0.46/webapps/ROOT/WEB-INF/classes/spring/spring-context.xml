@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:c="http://www.springframework.org/schema/c"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:cache="http://www.springframework.org/schema/cache"
+	   xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	   xmlns:jee="http://www.springframework.org/schema/jee"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xmlns:task="http://www.springframework.org/schema/task"
+
+	   xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.1.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.1.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
+	   default-lazy-init="true">
+
+	<description>Spring Configuration</description>
+	    <!-- 加载配置属性文件 -->
+	<context:property-placeholder ignore-unresolvable="true" location="classpath:/dubbo/dubbo.properties" />
+	<import resource="classpath*:/dubbo/*.xml" />
+
+    <!-- 加载配置属性文件 -->
+	<context:property-placeholder ignore-unresolvable="true" location="classpath:/config/*.properties" />
+	
+	<!-- 加载应用属性实例，可通过  @Value("#{APP_PROP['jdbc.driver']}") String jdbcDriver 方式引用 -->
+    <util:properties id="APP_PROP" location="classpath:/config/*.properties" local-override="true"/>
+
+	<context:component-scan base-package="com.transnova.foundation"/>
+	
+ 	<!-- MyBatis begin -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--<property name="typeAliasesPackage" value="com.transnova"/>-->
+        <!--<property name="typeAliasesSuperType" value="com.transnova.common.model.BaseModel" />-->
+        <property name="mapperLocations" value="classpath*:/mappers/com/transnova/foundation/**/*.xml"/>
+		<property name="configLocation" value="classpath:/spring/mybatis-config.xml"></property>
+    </bean>
+    
+    <!-- 扫描basePackage下所有以@MyBatisDao注解的接口 -->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+        <property name="basePackage" value="com.transnova.foundation"/>
+        <property name="annotationClass" value="com.transnova.foundation.common.annotation.Mapper"/>
+    </bean>
+    
+    <!-- 定义事务 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- 配置 Annotation 驱动，扫描@Transactional注解的类定义事务  -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+    <!-- MyBatis end -->
+    
+	<!-- 配置 JSR303 Bean Validator 定义 -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+
+	<!-- 缓存配置 -->
+	<!--
+	<bean id="cacheManager" class="org.springframework.cache.jcache.JCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:${ehcache.configFile}" />
+	</bean>
+	-->
+	
+	<!-- 计划任务配置，用 @Service @Lazy(false)标注类，用@Scheduled(cron = "0 0 2 * * ?")标注方法 -->
+    <task:executor id="executor" pool-size="10"/>
+	<task:scheduler id="scheduler" pool-size="10"/>
+    <task:annotation-driven scheduler="scheduler" executor="executor" proxy-target-class="true"/>
+    
+	<!-- 数据源配置, 使用 BoneCP 数据库连接池 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
+	    <!-- 数据源驱动类可不写，Druid默认会自动根据URL识别DriverClass -->
+	    <property name="driverClassName" value="${jdbc.driver}" />
+	    
+		<!-- 基本属性 url、user、password -->
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		
+		<!-- 配置初始化大小、最小、最大 -->
+		<property name="initialSize" value="10" />
+		<property name="minIdle" value="60" />
+		<property name="maxActive" value="120" />
+		
+		<!-- 配置获取连接等待超时的时间 -->
+		<property name="maxWait" value="60000" />
+		
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		
+		<property name="validationQuery" value="SELECT 1;" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		
+		<!-- 打开PSCache，并且指定每个连接上PSCache的大小（Oracle使用）
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="20" /> -->
+		
+		<!-- 配置监控统计拦截的filters -->
+	    <property name="filters" value="stat" /> 
+	</bean>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+	<bean id="namedParameterJdbcTemplate"
+		  class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+		<constructor-arg ref="dataSource" />
+	</bean>
+
+	<bean id="tdConfig" class="com.transnova.foundation.util.td.TDConfig">
+		<property name="jdbcUrl" value="${td.jdbcUrl}"/>
+		<property name="jdbcUrlSlave" value="${td.jdbcUrlSlave}"/>
+		<property name="user" value="${td.user}"/>
+		<property name="password" value="${td.password}"/>
+		<property name="patch" value="100"/>
+		<property name="threads" value="200"/>
+		<property name="days" value="31"/>
+	</bean>
+
+	<!-- Hikari Datasource -->
+	<bean id="dataSourceHikari" class="com.zaxxer.hikari.HikariDataSource">
+		<property name="driverClassName" value="com.taosdata.jdbc.TSDBDriver" />
+		<property name="jdbcUrl" value="${td.jdbcUrl}" />
+		<property name="username" value="${td.user}" />
+		<property name="password" value="${td.password}" />
+		<!-- 连接只读数据库时配置为true， 保证安全 -->
+		<property name="readOnly" value="false" />
+		<!-- 等待连接池分配连接的最大时长（毫秒），超过这个时长还没可用的连接则发生SQLException， 缺省:30秒 -->
+		<property name="connectionTimeout" value="30000" />
+		<!-- 一个连接idle状态的最大时长（毫秒），超时则被释放（retired），缺省:10分钟 -->
+		<property name="idleTimeout" value="600000" />
+		<!-- 一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），缺省:30分钟，建议设置比数据库超时时长少30秒，参考MySQL
+            wait_timeout参数（show variables like '%timeout%';） -->
+		<property name="maxLifetime" value="1800000" />
+		<!-- 连接池中允许的最大连接数。缺省值：10；推荐的公式：((core_count * 2) + effective_spindle_count) -->
+		<property name="maximumPoolSize" value="60" />
+		<property name="minimumIdle" value="10" />
+	</bean>
+
+	<bean id="jdbcTemplateTd"
+		  class="org.springframework.jdbc.core.JdbcTemplate">
+		<!-- 默认必须使用数据源 -->
+		<property name="dataSource" ref="dataSourceHikari"></property>
+	</bean>
+
+	<!--计划任务-->
+
+	<!-- redis -->
+   <!-- <cache:annotation-driven />
+	&lt;!&ndash; Jedis ConnectionFactory &ndash;&gt;
+	-->
+
+</beans>

@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.foundation.vehicle.mapper.VehicleDataReportingMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.vehicle.model.VehicleDataReporting">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Jul 01 09:47:17 CST 2019. by MyBatis Generator, do not modify.
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="vin" jdbcType="VARCHAR" property="vin" />
+    <result column="deviceSn" jdbcType="VARCHAR" property="deviceSn" />
+    <result column="cameraLeftMargin" jdbcType="DECIMAL" property="cameraLeftMargin" />
+    <result column="cameraRightMargin" jdbcType="DECIMAL" property="cameraRightMargin" />
+    <result column="vehicleWidth" jdbcType="DECIMAL" property="vehicleWidth" />
+    <result column="cameraGroundHeight" jdbcType="DECIMAL" property="cameraGroundHeight" />
+    <result column="cameraDistanceToBumper" jdbcType="DECIMAL" property="cameraDistanceToBumper" />
+    <result column="frontCameraPhoto" jdbcType="VARCHAR" property="frontCameraPhoto" />
+    <result column="adasCameraPhoto" jdbcType="VARCHAR" property="adasCameraPhoto" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Jul 01 09:47:17 CST 2019. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Jul 01 09:47:17 CST 2019. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Jul 01 09:47:17 CST 2019. by MyBatis Generator, do not modify.
+    -->
+    id, vin, deviceSn, cameraLeftMargin, cameraRightMargin, vehicleWidth, cameraGroundHeight, 
+    cameraDistanceToBumper, frontCameraPhoto, adasCameraPhoto, createTime
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.vehicle.mapper.VehicleDataReportingExample" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Jul 01 09:47:17 CST 2019. by MyBatis Generator, do not modify.
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vehicle_data_reporting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Jul 01 09:47:17 CST 2019. by MyBatis Generator, do not modify.
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from vehicle_data_reporting
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Jul 01 09:47:17 CST 2019. by MyBatis Generator, do not modify.
+    -->
+    delete from vehicle_data_reporting
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.vehicle.mapper.VehicleDataReportingExample">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Jul 01 09:47:17 CST 2019. by MyBatis Generator, do not modify.
+    -->
+    delete from vehicle_data_reporting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.vehicle.model.VehicleDataReporting" useGeneratedKeys="true" keyProperty="id">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Jul 01 09:47:17 CST 2019. by MyBatis Generator, do not modify.
+    -->
+    insert into vehicle_data_reporting (id, vin, deviceSn, 
+      cameraLeftMargin, cameraRightMargin, vehicleWidth, 
+      cameraGroundHeight, cameraDistanceToBumper, 
+      frontCameraPhoto, adasCameraPhoto, createTime)
+    values (#{id,jdbcType=BIGINT}, #{vin,jdbcType=VARCHAR}, #{deviceSn,jdbcType=VARCHAR}, 
+      #{cameraLeftMargin,jdbcType=DECIMAL}, #{cameraRightMargin,jdbcType=DECIMAL}, #{vehicleWidth,jdbcType=DECIMAL}, 
+      #{cameraGroundHeight,jdbcType=DECIMAL}, #{cameraDistanceToBumper,jdbcType=DECIMAL}, 
+      #{frontCameraPhoto,jdbcType=VARCHAR}, #{adasCameraPhoto,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.vehicle.model.VehicleDataReporting">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Jul 01 09:47:17 CST 2019. by MyBatis Generator, do not modify.
+    -->
+    insert into vehicle_data_reporting
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="vin != null">
+        vin,
+      </if>
+      <if test="deviceSn != null">
+        deviceSn,
+      </if>
+      <if test="cameraLeftMargin != null">
+        cameraLeftMargin,
+      </if>
+      <if test="cameraRightMargin != null">
+        cameraRightMargin,
+      </if>
+      <if test="vehicleWidth != null">
+        vehicleWidth,
+      </if>
+      <if test="cameraGroundHeight != null">
+        cameraGroundHeight,
+      </if>
+      <if test="cameraDistanceToBumper != null">
+        cameraDistanceToBumper,
+      </if>
+      <if test="frontCameraPhoto != null">
+        frontCameraPhoto,
+      </if>
+      <if test="adasCameraPhoto != null">
+        adasCameraPhoto,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="vin != null">
+        #{vin,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceSn != null">
+        #{deviceSn,jdbcType=VARCHAR},
+      </if>
+      <if test="cameraLeftMargin != null">
+        #{cameraLeftMargin,jdbcType=DECIMAL},
+      </if>
+      <if test="cameraRightMargin != null">
+        #{cameraRightMargin,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleWidth != null">
+        #{vehicleWidth,jdbcType=DECIMAL},
+      </if>
+      <if test="cameraGroundHeight != null">
+        #{cameraGroundHeight,jdbcType=DECIMAL},
+      </if>
+      <if test="cameraDistanceToBumper != null">
+        #{cameraDistanceToBumper,jdbcType=DECIMAL},
+      </if>
+      <if test="frontCameraPhoto != null">
+        #{frontCameraPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="adasCameraPhoto != null">
+        #{adasCameraPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.vehicle.mapper.VehicleDataReportingExample" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Jul 01 09:47:17 CST 2019. by MyBatis Generator, do not modify.
+    -->
+    select count(*) from vehicle_data_reporting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Jul 01 09:47:17 CST 2019. by MyBatis Generator, do not modify.
+    -->
+    update vehicle_data_reporting
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.vin != null">
+        vin = #{record.vin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceSn != null">
+        deviceSn = #{record.deviceSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cameraLeftMargin != null">
+        cameraLeftMargin = #{record.cameraLeftMargin,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cameraRightMargin != null">
+        cameraRightMargin = #{record.cameraRightMargin,jdbcType=DECIMAL},
+      </if>
+      <if test="record.vehicleWidth != null">
+        vehicleWidth = #{record.vehicleWidth,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cameraGroundHeight != null">
+        cameraGroundHeight = #{record.cameraGroundHeight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cameraDistanceToBumper != null">
+        cameraDistanceToBumper = #{record.cameraDistanceToBumper,jdbcType=DECIMAL},
+      </if>
+      <if test="record.frontCameraPhoto != null">
+        frontCameraPhoto = #{record.frontCameraPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adasCameraPhoto != null">
+        adasCameraPhoto = #{record.adasCameraPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        createTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Jul 01 09:47:17 CST 2019. by MyBatis Generator, do not modify.
+    -->
+    update vehicle_data_reporting
+    set id = #{record.id,jdbcType=BIGINT},
+      vin = #{record.vin,jdbcType=VARCHAR},
+      deviceSn = #{record.deviceSn,jdbcType=VARCHAR},
+      cameraLeftMargin = #{record.cameraLeftMargin,jdbcType=DECIMAL},
+      cameraRightMargin = #{record.cameraRightMargin,jdbcType=DECIMAL},
+      vehicleWidth = #{record.vehicleWidth,jdbcType=DECIMAL},
+      cameraGroundHeight = #{record.cameraGroundHeight,jdbcType=DECIMAL},
+      cameraDistanceToBumper = #{record.cameraDistanceToBumper,jdbcType=DECIMAL},
+      frontCameraPhoto = #{record.frontCameraPhoto,jdbcType=VARCHAR},
+      adasCameraPhoto = #{record.adasCameraPhoto,jdbcType=VARCHAR},
+      createTime = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.vehicle.model.VehicleDataReporting">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Jul 01 09:47:17 CST 2019. by MyBatis Generator, do not modify.
+    -->
+    update vehicle_data_reporting
+    <set>
+      <if test="vin != null">
+        vin = #{vin,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceSn != null">
+        deviceSn = #{deviceSn,jdbcType=VARCHAR},
+      </if>
+      <if test="cameraLeftMargin != null">
+        cameraLeftMargin = #{cameraLeftMargin,jdbcType=DECIMAL},
+      </if>
+      <if test="cameraRightMargin != null">
+        cameraRightMargin = #{cameraRightMargin,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleWidth != null">
+        vehicleWidth = #{vehicleWidth,jdbcType=DECIMAL},
+      </if>
+      <if test="cameraGroundHeight != null">
+        cameraGroundHeight = #{cameraGroundHeight,jdbcType=DECIMAL},
+      </if>
+      <if test="cameraDistanceToBumper != null">
+        cameraDistanceToBumper = #{cameraDistanceToBumper,jdbcType=DECIMAL},
+      </if>
+      <if test="frontCameraPhoto != null">
+        frontCameraPhoto = #{frontCameraPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="adasCameraPhoto != null">
+        adasCameraPhoto = #{adasCameraPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.vehicle.model.VehicleDataReporting">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Mon Jul 01 09:47:17 CST 2019. by MyBatis Generator, do not modify.
+    -->
+    update vehicle_data_reporting
+    set vin = #{vin,jdbcType=VARCHAR},
+      deviceSn = #{deviceSn,jdbcType=VARCHAR},
+      cameraLeftMargin = #{cameraLeftMargin,jdbcType=DECIMAL},
+      cameraRightMargin = #{cameraRightMargin,jdbcType=DECIMAL},
+      vehicleWidth = #{vehicleWidth,jdbcType=DECIMAL},
+      cameraGroundHeight = #{cameraGroundHeight,jdbcType=DECIMAL},
+      cameraDistanceToBumper = #{cameraDistanceToBumper,jdbcType=DECIMAL},
+      frontCameraPhoto = #{frontCameraPhoto,jdbcType=VARCHAR},
+      adasCameraPhoto = #{adasCameraPhoto,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateCameraPhoto" parameterType="String">
+    update vehicle_data_reporting
+    <set>
+      <if test="frontCameraPhoto != null and frontCameraPhoto != ''">
+        frontCameraPhoto = #{frontCameraPhoto,jdbcType=VARCHAR}
+      </if>
+      <if test="adasCameraPhoto != null and adasCameraPhoto != ''">
+        adasCameraPhoto = #{adasCameraPhoto,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

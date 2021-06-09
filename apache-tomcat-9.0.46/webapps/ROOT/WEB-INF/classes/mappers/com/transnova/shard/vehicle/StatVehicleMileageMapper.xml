@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.transnova.shard.vehicle.StatVehicleMileageMapper">
+  <resultMap id="BaseResultMap" type="com.transnova.foundation.stat.model.StatVehicleMileage">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Nov 03 15:53:17 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="vehicleId"  property="vehicleId" />
+    <result column="companyId"  property="companyId" />
+    <result column="driveMileages"  property="driveMileages" />
+    <result column="analyzeDate"  property="analyzeDate" />
+    <result column="analyzeHour"  property="analyzeHour" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Nov 03 15:53:17 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Nov 03 15:53:17 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Nov 03 15:53:17 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    id, vehicleId, companyId, driveMileages, analyzeDate, analyzeHour
+  </sql>
+  <select id="selectByExample" parameterType="com.transnova.foundation.stat.mapper.StatVehicleMileageExample" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Nov 03 15:53:17 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from stat_vehicle_mileage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Nov 03 15:53:17 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from stat_vehicle_mileage
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Nov 03 15:53:17 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from stat_vehicle_mileage
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.transnova.foundation.stat.mapper.StatVehicleMileageExample">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Nov 03 15:53:17 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    delete from stat_vehicle_mileage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.transnova.foundation.stat.model.StatVehicleMileage">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Nov 03 15:53:17 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into stat_vehicle_mileage (id, vehicleId, companyId, 
+      driveMileages, analyzeDate, analyzeHour
+      )
+    values (#{id,jdbcType=BIGINT}, #{vehicleId,jdbcType=BIGINT}, #{companyId,jdbcType=BIGINT}, 
+      #{driveMileages,jdbcType=INTEGER}, #{analyzeDate,jdbcType=BIGINT}, #{analyzeHour,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.transnova.foundation.stat.model.StatVehicleMileage">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Nov 03 15:53:17 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    insert into stat_vehicle_mileage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="vehicleId != null">
+        vehicleId,
+      </if>
+      <if test="companyId != null">
+        companyId,
+      </if>
+      <if test="driveMileages != null">
+        driveMileages,
+      </if>
+      <if test="analyzeDate != null">
+        analyzeDate,
+      </if>
+      <if test="analyzeHour != null">
+        analyzeHour,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="vehicleId != null">
+        #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="driveMileages != null">
+        #{driveMileages},
+      </if>
+      <if test="analyzeDate != null">
+        #{analyzeDate},
+      </if>
+      <if test="analyzeHour != null">
+        #{analyzeHour},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.transnova.foundation.stat.mapper.StatVehicleMileageExample" resultType="java.lang.Long">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Nov 03 15:53:17 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    select count(*) from stat_vehicle_mileage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Nov 03 15:53:17 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update stat_vehicle_mileage
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.vehicleId != null">
+        vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="record.companyId != null">
+        companyId = #{record.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.driveMileages != null">
+        driveMileages = #{record.driveMileages},
+      </if>
+      <if test="record.analyzeDate != null">
+        analyzeDate = #{record.analyzeDate},
+      </if>
+      <if test="record.analyzeHour != null">
+        analyzeHour = #{record.analyzeHour},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Nov 03 15:53:17 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update stat_vehicle_mileage
+    set id = #{record.id,jdbcType=BIGINT},
+      vehicleId = #{record.vehicleId,jdbcType=BIGINT},
+      companyId = #{record.companyId,jdbcType=BIGINT},
+      driveMileages = #{record.driveMileages},
+      analyzeDate = #{record.analyzeDate},
+      analyzeHour = #{record.analyzeHour}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.transnova.foundation.stat.model.StatVehicleMileage">
+    <!--
+      WARNING - @mbg.generated  This element was generated on Tue Nov 03 15:53:17 CST 2020. by MyBatis Generator, do not modify.
+    -->
+    update stat_vehicle_mileage
+    <set>
+      <if test="vehicleId != null">
+        vehicleId = #{vehicleId,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null">
+        companyId = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="driveMileages != null">
+        driveMileages = #{driveMileages},
+      </if>
+      <if test="analyzeDate != null">
+        analyzeDate = #{analyzeDate},
+      </if>
+      <if test="analyzeHour != null">
+        analyzeHour = #{analyzeHour},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.transnova.foundation.stat.model.StatVehicleMileage">
+    update stat_vehicle_mileage
+    set
+      driveMileages = #{driveMileages}
+
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="findDrivingSituation" parameterType="map" resultType="com.transnova.foundation.stat.model.StatVehicleMileageEx">
+    select vehicleId,vehicleNumber,driveMileages,analyzeDate,analyzeHour
+    from stat_vehicle_mileage st LEFT JOIN vehicle v on st.vehicleId=v.id
+    where 1=1
+    <if test="orgCode != null and orgCode != ''">
+      and v.orgCode = #{orgCode}
+    </if>
+    <if test="hieCode != null and hieCode != ''">
+      and v.hierarchyCode like '${hieCode}%'
+    </if>
+    <if test="analyzeDate != null and analyzeDate != ''">
+      <![CDATA[  and st.analyzeDate >= #{analyzeDate} and st.analyzeDate <= #{analyzeDateEnd} ]]>
+    </if>
+    <if test="companyId != null and companyId != ''">
+      and st.companyId = #{companyId}
+    </if>
+    <if test="vehicleId != null and vehicleId != ''">
+      and st.vehicleId = #{vehicleId}
+    </if>
+   <!-- order by st.analyzeDate,st.analyzeHour ASC-->
+  </select>
+
+  <select id="findDrivingByCompanyId" parameterType="map" resultType="com.transnova.foundation.stat.model.StatCompanyMileageVo">
+    select max(name) companyName,sum(driveMileages) driveMileages
+    from stat_vehicle_mileage st INNER JOIN company c on st.companyId=c.id
+    where 1=1
+    <if test="orgCode != null and orgCode != ''">
+      and orgCode = #{orgCode}
+    </if>
+    <if test="analyzeDate != null and analyzeDate != ''">
+      <![CDATA[  and analyzeDate >= #{analyzeDate} and st.analyzeDate <= #{analyzeDate} ]]>
+    </if>
+    <if test="companyId != null and companyId != ''">
+      and st.companyId = #{companyId}
+    </if>
+    GROUP BY st.companyId
+    order by driveMileages desc
+    limit 5
+  </select>
+
+  <select id="findVehicleMileageRank" parameterType="map" resultType="com.transnova.foundation.stat.model.StatVehicleMileageEx">
+    select vehicleNumber,sum(driveMileages) driveMileages
+    from stat_vehicle_mileage st LEFT JOIN vehicle v on st.vehicleId=v.id
+    where 1=1
+    <if test="orgCode != null and orgCode != ''">
+      and orgCode = #{orgCode}
+    </if>
+    <if test="hieCode != null and hieCode != ''">
+      and hierarchyCode like '${hieCode}%'
+    </if>
+    <if test="analyzeDate != null and analyzeDate != ''">
+      and analyzeDate = #{analyzeDate}
+    </if>
+    <if test="companyId != null and companyId != ''">
+      and st.companyId = #{companyId}
+    </if>
+    GROUP BY vehicleNumber
+    order by driveMileages DESC
+    limit 5
+  </select>
+
+  <select id="getTotalVehicleMileage" parameterType="map" resultType="java.lang.Long">
+    select sum(driveMileages)
+    from stat_vehicle_mileage st LEFT JOIN vehicle v on st.vehicleId=v.id
+    GROUP BY vehicleId
+    where 1=1
+    <if test="orgCode != null and orgCode != ''">
+      and orgCode = #{orgCode}
+    </if>
+    <if test="hieCode != null and hieCode != ''">
+      and hierarchyCode like '${hieCode}%'
+    </if>
+    <if test="analyzeDate != null and analyzeDate != ''">
+      and analyzeDate = #{analyzeDate}
+    </if>
+    <if test="companyId != null and companyId != ''">
+      and st.companyId = #{companyId}
+    </if>
+  </select>
+
+  <update id="increaseMileage" parameterType="map">
+      update stat_vehicle_mileage set driveMileages = driveMileages + #{driveMileages}
+      where
+          vehicleId = #{vehicleId}
+      and
+        analyzeDate = #{analyzeDate}
+      and
+        analyzeHour = #{analyzeHour}
+  </update>
+
+  <update id="resetMileage" parameterType="map">
+    update stat_vehicle_mileage set driveMileages = #{driveMileages}
+    where
+    vehicleId = #{vehicleId}
+    and
+    analyzeDate = #{analyzeDate}
+    and
+    analyzeHour = #{analyzeHour}
+  </update>
+
+  <select id="avgMileage" parameterType="map" resultType="com.transnova.foundation.stat.model.StatVehicleMileage">
+      select
+        svm.analyzeHour,
+        avg(svm.driveMileages) as driveMileages
+      from
+        stat_vehicle_mileage svm
+        where 1 = 1
+        <if test="companyId != null">
+          and  svm.companyId = #{companyId}
+        </if>
+        <if test="startDate != null">
+          and svm.analyzeDate &gt;= #{startDate}
+        </if>
+        <if test="endDate != null">
+          and svm.analyzeDate &lt; #{endDate}
+        </if>
+        group by svm.analyzeHour
+        order by svm.analyzeHour asc
+  </select>
+  <select id="sumMileage" parameterType="map" resultType="com.transnova.foundation.stat.model.StatVehicleMileage">
+      select svm.analyzeHour,
+      sum(svm.driveMileages) as driveMileages
+      from
+        stat_vehicle_mileage svm
+        where  1 = 1
+        <if test="companyId != null">
+          and svm.companyId  = #{companyId}
+        </if>
+        <if test="startDate != null">
+          and svm.analyzeDate &gt;= #{startDate}
+        </if>
+        <if test="endDate != null">
+          and svm.analyzeDate &lt;= #{endDate}
+        </if>
+        group by svm.analyzeHour
+        order by svm.analyzeHour asc
+
+  </select>
+
+  <select id="findVehicleMileageByDate" parameterType="map" resultMap="BaseResultMap">
+    select vehicleId,analyzeDate,companyId,driveMileages,analyzeHour
+    from stat_vehicle_mileage
+      where analyzeDate = #{analyzeDate}
+    order by analyzeDate
+  </select>
+
+  <select id="findVehicleMileage" parameterType="map" resultMap="BaseResultMap">
+    select vehicleId,analyzeDate,sum(driveMileages) driveMileages
+    from stat_vehicle_mileage
+    where 1=1
+    <if test="companyIds != null and companyIds != ''">
+      <foreach collection="companyIds" open="and companyId in ( " close=")" item="companyId" separator=",">
+        #{companyId}
+      </foreach>
+    </if>
+    <if test="vehicleIds != null and vehicleIds != ''">
+      <foreach collection="vehicleIds" open="and vehicleId in ( " close=")" item="vehicleId" separator=",">
+        #{vehicleId}
+      </foreach>
+    </if>
+    <if test="analyzeDate != null and analyzeDate != ''">
+      and analyzeDate = #{analyzeDate}
+    </if>
+    GROUP BY vehicleId,analyzeDate
+    order by analyzeDate
+
+  </select>
+
+  <select id="queryTotalDriveMileages" parameterType="map" resultType="java.lang.Long">
+    select sum(driveMileages)
+    from stat_vehicle_mileage
+    where 1=1
+    <if test="companyId != null and companyId != ''">
+      and companyId = #{companyId}
+    </if>
+    <if test="vehicleId != null and vehicleId != ''">
+      and vehicleId = #{vehicleId}
+    </if>
+    <if test="startDate != null and startDate != ''">
+      and analyzeDate &gt;= #{startDate}
+    </if>
+    <if test="endDate != null and endDate != ''">
+      and analyzeDate &lt;= #{endDate}
+    </if>
+  </select>
+
+  <select id="selectByVehiAndDate" parameterType="map" resultMap="BaseResultMap">
+    select id,vehicleId,companyId,driveMileages,analyzeDate,analyzeHour from  stat_vehicle_mileage
+    where
+    vehicleId = #{vehicleId}
+    and
+    analyzeDate = #{analyzeDate}
+    and
+    analyzeHour = #{analyzeHour}
+    order by id desc limit 0,1
+  </select>
+
+
+</mapper>
